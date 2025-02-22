@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
 
 const UserScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>User Preferences and Info</Text>
+      <Text variant="titleLarge">User Preferences and Info</Text>
       {/* Add components to manage user preferences and info */}
     </View>
   );
@@ -13,7 +14,6 @@ const UserScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

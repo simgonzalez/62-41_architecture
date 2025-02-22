@@ -1,19 +1,21 @@
-import React from 'react';
-import { ScrollView, Text, StyleSheet } from 'react-native';
-import { Card } from '@rneui/themed';
+import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import { Card, Text } from "react-native-paper";
 
 const FoodManagement = () => {
   return (
     <ScrollView horizontal style={styles.scrollView}>
-      <Card containerStyle={styles.card}>
-        <Card.Title>Milk</Card.Title>
-        <Card.Divider />
-        <Text>Details about Milk...</Text>
+      <Card style={styles.card}>
+        <Card.Title title="Milk" />
+        <Card.Content>
+          <Text>Details about Milk...</Text>
+        </Card.Content>
       </Card>
-      <Card containerStyle={styles.card}>
-        <Card.Title>Eggs</Card.Title>
-        <Card.Divider />
-        <Text>Details about Eggs...</Text>
+      <Card style={styles.card}>
+        <Card.Title title="Eggs" />
+        <Card.Content>
+          <Text>Details about Eggs...</Text>
+        </Card.Content>
       </Card>
       {/* Add more food items as needed */}
     </ScrollView>
@@ -22,7 +24,7 @@ const FoodManagement = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   card: {
     width: 200,

@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { Card } from '@rneui/themed';
-import { getMealsByIngredient } from '@src/services/api';
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import { Card, Text } from "react-native-paper";
+import { getMealsByIngredient } from "@src/services/api";
 
 const Recommendations = () => {
-  const [meals, setMeals] = useState<{ id: string; name: string; category: string; area: string; }[]>([]);
+  const [meals, setMeals] = useState<
+    { id: string; name: string; category: string; area: string }[]
+  >([]);
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const result = await getMealsByIngredient('chicken');
+      const result = await getMealsByIngredient("chicken");
       setMeals(result);
     };
     fetchMeals();
@@ -17,11 +19,12 @@ const Recommendations = () => {
   return (
     <ScrollView horizontal style={styles.scrollView}>
       {meals.map((meal) => (
-        <Card key={meal.id} containerStyle={styles.card}>
-          <Card.Title>{meal.name}</Card.Title>
-          <Card.Divider />
-          <Text>Category: {meal.category}</Text>
-          <Text>Area: {meal.area}</Text>
+        <Card key={meal.id} style={styles.card}>
+          <Card.Title title={meal.name} />
+          <Card.Content>
+            <Text>Category: {meal.category}</Text>
+            <Text>Area: {meal.area}</Text>
+          </Card.Content>
         </Card>
       ))}
     </ScrollView>
@@ -30,7 +33,7 @@ const Recommendations = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   card: {
     width: 200,

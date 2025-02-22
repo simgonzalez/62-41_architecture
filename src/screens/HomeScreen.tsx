@@ -1,28 +1,19 @@
-import React from 'react';
-import { ScrollView, View, StyleSheet, Dimensions } from 'react-native';
-import { Divider, Text } from '@rneui/themed';
-import UserManagement from '@components/UserManagement';
-import FoodManagement from '@components/FoodManagement';
-import Recommendations from '@components/Recommendations';
-
-const { width } = Dimensions.get('window');
+import React from "react";
+import { ScrollView, View, StyleSheet } from "react-native";
+import { Text } from "react-native-paper";
+import FoodManagement from "@components/FoodManagement";
+import Recommendations from "@components/Recommendations";
 
 const HomeScreen = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.section}>
-        <Text h4>User Management</Text>
-        <UserManagement />
-      </View>
-      <Divider />
-      <View style={styles.section}>
-        <Text h4>Food Management</Text>
-        <FoodManagement />
-      </View>
-      <Divider />
-      <View style={styles.section}>
-        <Text h4>Recommendations</Text>
+        <Text variant="titleLarge">Recommendations</Text>
         <Recommendations />
+      </View>
+      <View style={styles.section}>
+        <Text variant="titleLarge">Food Management</Text>
+        <FoodManagement />
       </View>
     </ScrollView>
   );
@@ -31,25 +22,12 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     padding: 20,
   },
   section: {
+    flex: 1,
     marginBottom: 20,
-    width: '100%',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  card: {
-    width: width - 40, // Adjust the card width to be adaptive
-    margin: 10,
-    padding: 10,
-    borderRadius: 10,
+    width: "100%",
   },
 });
 

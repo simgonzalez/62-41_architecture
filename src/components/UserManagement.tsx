@@ -1,24 +1,27 @@
-import React from 'react';
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
-import { Card } from '@rneui/themed';
+import React from "react";
+import { ScrollView, StyleSheet } from "react-native";
+import { Card, Text } from "react-native-paper";
 
 const UserManagement = () => {
   return (
     <ScrollView horizontal style={styles.scrollView}>
-      <Card containerStyle={styles.card}>
-        <Card.Title>Admin</Card.Title>
-        <Card.Divider />
-        <Text>Admin user details...</Text>
+      <Card style={styles.card}>
+        <Card.Title title="Admin" />
+        <Card.Content>
+          <Text>Admin user details...</Text>
+        </Card.Content>
       </Card>
-      <Card containerStyle={styles.card}>
-        <Card.Title>Normal User</Card.Title>
-        <Card.Divider />
-        <Text>Normal user details...</Text>
+      <Card style={styles.card}>
+        <Card.Title title="Normal User" />
+        <Card.Content>
+          <Text>Normal user details...</Text>
+        </Card.Content>
       </Card>
-      <Card containerStyle={styles.card}>
-        <Card.Title>Normal User</Card.Title>
-        <Card.Divider />
-        <Text>Normal user details...</Text>
+      <Card style={styles.card}>
+        <Card.Title title="Normal User" />
+        <Card.Content>
+          <Text>Normal user details...</Text>
+        </Card.Content>
       </Card>
     </ScrollView>
   );
@@ -26,7 +29,7 @@ const UserManagement = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   card: {
     width: 200,

@@ -4,19 +4,29 @@
     "jsx": "react",
     "strict": true,
     "esModuleInterop": true,
+    "baseUrl": "./src/",
     "paths": {
       "@src/*": [
-        "./src/*"
+        "./*"
       ],
       "@components/*": [
-        "./src/components/*"
+        "./components/*"
+      ],
+      "@navigations/*": [
+        "./navigations/*"
       ],
       "@screens/*": [
-        "./src/screens/*"
+        "./screens/*"
       ],
       "@services/*": [
-        "./src/services/*"
+        "./services/*"
       ],
+      "@config/*": [
+        "./assets/config/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ]
     }
   }
 }
