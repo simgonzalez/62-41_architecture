@@ -3,17 +3,34 @@ import { FridgeItem } from "@src/types/FridgeItem";
 let fridgeItems: FridgeItem[] = [];
 
 export const FridgeItemService = {
-  getAll: (): FridgeItem[] => {
+  getAll(): FridgeItem[] {
     return fridgeItems;
   },
 
-  getByFridgeId: (fridgeId: number): FridgeItem | undefined => {
-    return fridgeItems.find((item) => item.fridgeId === fridgeId);
+  getByFridgeId: (fridgeId: number): FridgeItem[] | undefined => {
+    return fridgeItems.filter((item) => item.fridgeId === fridgeId);
   },
 
-  create: (fridgeItem: FridgeItem): FridgeItem => {
-    fridgeItems.push(fridgeItem);
-    return fridgeItem;
+  getByClosestExpirationDate: (): FridgeItem | undefined => {
+    if (fridgeItems.length === 0) {
+      return undefined;
+    }
+
+    const today = new Date();
+    return fridgeItems.reduce((closestItem, currentItem) => {
+      const closestDate = new Date(closestItem.expirationDate);
+      const currentDate = new Date(currentItem.expirationDate);
+
+      return currentDate < closestDate && currentDate >= today
+        ? currentItem
+        : closestItem;
+    }, fridgeItems[0]);
+  },
+
+  addItem: (fridgeItem: FridgeItem): FridgeItem => {
+    const newItem = { ...fridgeItem, id: fridgeItems.length + 1 };
+    fridgeItems.push(newItem);
+    return newItem;
   },
 
   update: (

@@ -55,3 +55,13 @@ export const addFridge = async (fridge: Fridge): Promise<boolean> => {
     return false;
   }
 };
+
+export const FridgeService = {
+  getById: async (id: number): Promise<Fridge> => {
+    const fridge = mockedFridges.find((fridge) => fridge.id === id);
+    if (!fridge) {
+      throw new Error(`Fridge with id ${id} not found`);
+    }
+    return fridge;
+  },
+};

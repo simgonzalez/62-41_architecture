@@ -72,8 +72,6 @@ const FridgesList: React.FC<FridgesListProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
-    paddingHorizontal: 10,
   },
   listContent: {
     paddingVertical: 10,

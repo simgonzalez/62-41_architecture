@@ -1,78 +1,65 @@
-import React, { useEffect } from "react";
-import {
-  NavigationContainer,
-  NavigationIndependentTree,
-} from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
+import { Appbar, BottomNavigation } from "react-native-paper";
 import HomeScreen from "@screens/HomeScreen";
 import FridgeStack from "@navigations/FridgeStack";
 import UserScreen from "@screens/UserScreen";
-import Icon from "react-native-vector-icons/Ionicons";
-import { Keyboard } from "react-native";
-
-const Tab = createBottomTabNavigator();
-
-const tabIcon = ({ route }: { route: { name: string } }) => ({
-  tabBarIcon: ({ color, size }: { color: string; size: number }) => {
-    let iconName = "";
-
-    if (route.name === "Home") {
-      iconName = "home-outline";
-    } else if (route.name === "FridgesScreen") {
-      iconName = "snow-outline";
-    } else if (route.name === "User") {
-      iconName = "person-outline";
-    }
-
-    return <Icon name={iconName} color={color} size={size} />;
-  },
-});
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Navigation = () => {
-  const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: "home", title: "Home", icon: "home-outline" },
+    { key: "fridges", title: "Fridges", icon: "snowflake" },
+    { key: "user", title: "User", icon: "account-outline" },
+  ]);
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      () => {
-        setKeyboardVisible(true);
-      }
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardVisible(false);
-      }
-    );
+  const renderScene = BottomNavigation.SceneMap({
+    home: HomeScreen,
+    fridges: FridgeStack,
+    user: UserScreen,
+  });
 
-    return () => {
-      keyboardDidHideListener.remove();
-      keyboardDidShowListener.remove();
-    };
-  }, []);
+  const renderIcon = ({
+    route,
+    focused,
+    color,
+  }: {
+    route: any;
+    focused: boolean;
+    color: string;
+  }) => {
+    return <Icon name={route.icon} size={24} color={color} />;
+  };
+
+  const getTitle = () => {
+    switch (routes[index].key) {
+      case "home":
+        return "Home";
+      case "fridges":
+        return "Fridges";
+      case "user":
+        return "User";
+      default:
+        return "Smart Fridge";
+    }
+  };
 
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        ...tabIcon({ route }),
-        headerShown: route.name !== "FridgesScreen",
-        headerTitleStyle: { fontWeight: "bold" },
-        tabBarStyle: {
-          display: isKeyboardVisible ? "none" : "flex",
-          height: 75,
-        },
-        tabBarIconStyle: { marginTop: 10 },
-        tabBarLabelStyle: { fontSize: 12 },
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen
-        name="FridgesScreen"
-        component={FridgeStack}
-        options={{ tabBarLabel: "Fridges" }}
+    <>
+      {routes[index].key !== "fridges" && (
+        <Appbar.Header>
+          <Appbar.Content title={getTitle()} />
+        </Appbar.Header>
+      )}
+      <BottomNavigation
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+        renderIcon={renderIcon}
+        keyboardHidesNavigationBar={true}
+        barStyle={{ height: 75 }}
       />
-      <Tab.Screen name="User" component={UserScreen} />
-    </Tab.Navigator>
+    </>
   );
 };
 

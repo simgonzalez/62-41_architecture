@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Card, Text } from "react-native-paper";
-import { getMealsByIngredient } from "@src/services/api";
+import { getMealsByIngredient } from "@src/services/TheMealDbService";
 
-const Recommendations = () => {
+interface MealRecommendationsProps {
+  ingredientName: string;
+}
+
+const MealRecommendations: React.FC<MealRecommendationsProps> = ({
+  ingredientName,
+}) => {
   const [meals, setMeals] = useState<
-    { id: string; name: string; category: string; area: string }[]
+    { idMeal: string; strMeal: string; strCategory: string; strArea: string }[]
   >([]);
 
   useEffect(() => {
     const fetchMeals = async () => {
-      const result = await getMealsByIngredient("chicken");
+      const result = await getMealsByIngredient(ingredientName);
       setMeals(result);
     };
     fetchMeals();
-  }, []);
+  }, [ingredientName]);
 
   return (
     <ScrollView horizontal style={styles.scrollView}>
       {meals.map((meal) => (
-        <Card key={meal.id} style={styles.card}>
-          <Card.Title title={meal.name} />
+        <Card key={meal.idMeal} style={styles.card}>
+          <Card.Title title={meal.strMeal} />
           <Card.Content>
-            <Text>Category: {meal.category}</Text>
-            <Text>Area: {meal.area}</Text>
+            <Text>Category: {meal.strCategory}</Text>
+            <Text>Area: {meal.strArea}</Text>
           </Card.Content>
         </Card>
       ))}
@@ -43,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Recommendations;
+export default MealRecommendations;

@@ -23,7 +23,7 @@ const LoginNavigation: React.FC = () => {
         />
         <Stack.Screen
           name="Register"
-          component={RegisterScreen} // Add the RegisterScreen route
+          component={RegisterScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
