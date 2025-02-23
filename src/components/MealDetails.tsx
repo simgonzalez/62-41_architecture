@@ -1,7 +1,7 @@
-import React from "react";
-import { ScrollView, StyleSheet, Linking } from "react-native";
-import { Dialog, Text, Button, Divider } from "react-native-paper";
 import { HydratedMeal } from "@src/types/Meal";
+import React from "react";
+import { Linking, ScrollView } from "react-native";
+import { Button, Dialog, Divider, Text } from "react-native-paper";
 
 interface MealDetailsProps {
   meal: HydratedMeal;

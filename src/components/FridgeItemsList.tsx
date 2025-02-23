@@ -48,7 +48,7 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
               <Text>{item.fridgeName}</Text>
               <Text>Quantity {item.quantity}</Text>
               <Text style={getPerishableDateStyle(item.expirationDate)}>
-                Expire in
+                Expire
                 {formatDistanceToNow(parseISO(item.expirationDate), {
                   addSuffix: true,
                 })}
