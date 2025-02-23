@@ -5,7 +5,6 @@ import { View } from "react-native";
 import { Appbar } from "react-native-paper";
 import FridgesScreen from "@screens/FridgesScreen";
 import FridgeDetails from "@screens/FridgeDetails";
-import FridgeCreate from "@screens/FridgeCreate";
 import FridgeDetailsMenu from "@src/components/FridgeDetailsMenu";
 import { Fridge } from "@src/types/Fridge";
 
@@ -30,7 +29,7 @@ const CustomAppbar: React.FC<CustomAppbarProps> = ({
   title,
   rightComponent,
 }) => (
-  <Appbar.Header>
+  <Appbar.Header elevated={true}>
     {previous ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
     <Appbar.Content title={title} />
     {rightComponent}
@@ -77,13 +76,6 @@ const FridgeStack = () => (
           </View>
         ),
       })}
-    />
-    <Stack.Screen
-      name="CreateFridge"
-      component={FridgeCreate}
-      options={{
-        title: "Create New Fridge",
-      }}
     />
   </Stack.Navigator>
 );

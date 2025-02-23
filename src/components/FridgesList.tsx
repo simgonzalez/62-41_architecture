@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View, FlatList } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { Fridge } from "@src/types/Fridge";
 import { FridgeStackParamList } from "@navigations/FridgeStack";
-import { Text, IconButton } from "react-native-paper";
+import { Text, IconButton, useTheme } from "react-native-paper";
 import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 interface FridgesListProps {
@@ -16,6 +16,7 @@ const FridgesList: React.FC<FridgesListProps> = ({
   onDeleteFridge,
 }) => {
   const navigation = useNavigation<NavigationProp<FridgeStackParamList>>();
+  const { colors } = useTheme();
 
   const handlePress = (fridge: Fridge) => {
     navigation.navigate("FridgeDetails", { fridge });
@@ -29,7 +30,7 @@ const FridgesList: React.FC<FridgesListProps> = ({
     <View>
       <TouchableOpacity onPress={() => handleDelete(fridge)}>
         <IconButton
-          style={styles.rightAction}
+          style={[styles.rightAction, { backgroundColor: colors.error }]}
           icon="delete"
           size={24}
           iconColor="white"
@@ -49,11 +50,18 @@ const FridgesList: React.FC<FridgesListProps> = ({
             overshootRight={false}
           >
             <TouchableOpacity onPress={() => handlePress(fridge)}>
-              <View style={styles.item}>
+              <View style={[styles.item, { backgroundColor: colors.surface }]}>
                 <IconButton icon={"fridge-outline"} size={24} />
                 <View style={styles.itemText}>
-                  <Text variant="titleMedium">{fridge.name}</Text>
-                  <Text>{fridge.location.name}</Text>
+                  <Text
+                    variant="titleMedium"
+                    style={{ color: colors.onSurface }}
+                  >
+                    {fridge.name}
+                  </Text>
+                  <Text style={{ color: colors.onSurface }}>
+                    {fridge.location.name}
+                  </Text>
                 </View>
                 <IconButton icon="chevron-right" size={24} />
               </View>
@@ -61,7 +69,9 @@ const FridgesList: React.FC<FridgesListProps> = ({
           </ReanimatedSwipeable>
         )}
         ListEmptyComponent={
-          <Text style={styles.emptyMessage}>No fridges found</Text>
+          <Text style={[styles.emptyMessage, { color: colors.onSurface }]}>
+            No fridges found
+          </Text>
         }
         contentContainerStyle={styles.listContent}
       />
@@ -81,7 +91,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     marginVertical: 5,
-    backgroundColor: "#ffffff",
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -98,10 +107,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontSize: 16,
-    color: "#888",
   },
   rightAction: {
-    backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,

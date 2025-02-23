@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Text } from "react-native-paper";
+import { TextInput, Button, Text, useTheme } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { colors } = useTheme();
 
   const handleLogin = () => {
     console.log("Email:", email);
@@ -20,11 +21,17 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text variant="headlineLarge" style={styles.title}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text
+        variant="headlineLarge"
+        style={[styles.title, { color: colors.primary }]}
+      >
         Welcome to Smart Fridge
       </Text>
-      <Text variant="titleMedium" style={styles.subtitle}>
+      <Text
+        variant="titleMedium"
+        style={[styles.subtitle, { color: colors.onSurface }]}
+      >
         Your smart way to manage groceries
       </Text>
       <TextInput
@@ -34,6 +41,9 @@ const LoginScreen = () => {
         style={styles.input}
         keyboardType="email-address"
         autoCapitalize="none"
+        theme={{
+          colors: { text: colors.onSurface, placeholder: colors.onSurface },
+        }}
       />
       <TextInput
         label="Password"
@@ -41,6 +51,9 @@ const LoginScreen = () => {
         onChangeText={(text) => setPassword(text)}
         style={styles.input}
         secureTextEntry
+        theme={{
+          colors: { text: colors.onSurface, placeholder: colors.onSurface },
+        }}
       />
       <Button mode="contained" onPress={handleLogin} style={styles.button}>
         Login
@@ -65,7 +78,6 @@ const styles = StyleSheet.create({
   subtitle: {
     marginBottom: 20,
     textAlign: "center",
-    color: "gray",
   },
   input: {
     marginBottom: 16,

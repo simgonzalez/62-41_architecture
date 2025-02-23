@@ -47,7 +47,7 @@ const Navigation = () => {
   return (
     <>
       {routes[index].key !== "fridges" && (
-        <Appbar.Header>
+        <Appbar.Header elevated={true}>
           <Appbar.Content title={getTitle()} />
         </Appbar.Header>
       )}

@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { Fridge } from "@src/types/Fridge";
 import { FridgeItem } from "@src/types/FridgeItem";
-import { Text, Button } from "react-native-paper";
+import { Text, FAB, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FridgeItemsList from "@components/FridgeItemsList";
 import AddItemModal from "@components/AddItemModal";
@@ -14,6 +14,7 @@ const FridgeDetails = () => {
   const { fridge } = route.params as { fridge: Fridge };
   const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const { colors } = useTheme();
 
   const fetchFridgeItems = async () => {
     const items = await FridgeItemService.getByFridgeId(fridge.id);
@@ -36,21 +37,24 @@ const FridgeDetails = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.locationContainer}>
-        <Icon name="location-on" size={24} color="black" />
-        <Text variant="bodyLarge" style={styles.locationText}>
+        <Icon name="location-on" size={24} color={colors.primary} />
+        <Text
+          variant="bodyLarge"
+          style={[styles.locationText, { color: colors.onBackground }]}
+        >
           {fridge.location.name}
         </Text>
       </View>
       {fridgeItems.length > 0 ? (
         <FridgeItemsList items={fridgeItems} />
       ) : (
-        <Text style={styles.noItemsText}>No items in this fridge</Text>
+        <Text style={[styles.noItemsText, { color: colors.onSurface }]}>
+          No items in this fridge
+        </Text>
       )}
-      <Button mode="contained" onPress={handleAddItem}>
-        Add Item
-      </Button>
+      <FAB style={styles.fab} icon="plus" onPress={handleAddItem} />
       <AddItemModal
         visible={modalVisible}
         onDismiss={() => setModalVisible(false)}
@@ -78,7 +82,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontSize: 16,
-    color: "gray",
+  },
+  fab: {
+    position: "absolute",
+    right: 16,
+    bottom: 16,
   },
 });
 

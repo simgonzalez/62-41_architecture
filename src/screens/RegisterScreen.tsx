@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Text } from "react-native-paper";
+import { TextInput, Button, Text, useTheme } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 const RegisterScreen = () => {
@@ -8,6 +8,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { colors } = useTheme();
 
   const handleRegister = () => {
     console.log("Email:", email);
@@ -20,11 +21,17 @@ const RegisterScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text variant="headlineLarge" style={styles.title}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text
+        variant="headlineLarge"
+        style={[styles.title, { color: colors.primary }]}
+      >
         Register for Smart Fridge
       </Text>
-      <Text variant="titleMedium" style={styles.subtitle}>
+      <Text
+        variant="titleMedium"
+        style={[styles.subtitle, { color: colors.onSurface }]}
+      >
         Create your account to manage groceries
       </Text>
       <TextInput
@@ -34,6 +41,9 @@ const RegisterScreen = () => {
         style={styles.input}
         keyboardType="email-address"
         autoCapitalize="none"
+        theme={{
+          colors: { text: colors.onSurface, placeholder: colors.onSurface },
+        }}
       />
       <TextInput
         label="Password"
@@ -41,6 +51,9 @@ const RegisterScreen = () => {
         onChangeText={(text) => setPassword(text)}
         style={styles.input}
         secureTextEntry
+        theme={{
+          colors: { text: colors.onSurface, placeholder: colors.onSurface },
+        }}
       />
       <TextInput
         label="Confirm Password"
@@ -48,6 +61,9 @@ const RegisterScreen = () => {
         onChangeText={(text) => setConfirmPassword(text)}
         style={styles.input}
         secureTextEntry
+        theme={{
+          colors: { text: colors.onSurface, placeholder: colors.onSurface },
+        }}
       />
       <Button mode="contained" onPress={handleRegister} style={styles.button}>
         Register
@@ -69,7 +85,6 @@ const styles = StyleSheet.create({
   subtitle: {
     marginBottom: 20,
     textAlign: "center",
-    color: "gray",
   },
   input: {
     marginBottom: 16,

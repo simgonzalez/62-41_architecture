@@ -6,7 +6,9 @@ import {
   Text,
   TextInput,
   Button,
-  Menu,
+  useTheme,
+  Dialog,
+  List,
 } from "react-native-paper";
 import { FridgeItemService } from "@services/FridgeItemService";
 import { UnitService } from "@services/UnitService";
@@ -26,19 +28,19 @@ interface AddItemModalProps {
 
 const AddItemModal: React.FC<AddItemModalProps> = React.memo(
   ({ visible, onDismiss, fridge, onItemAdded }) => {
-    const [newItemName, setNewItemName] = useState("");
+    const theme = useTheme();
     const [newItemFood, setNewItemFood] = useState<Food>({
       id: 0,
       name: "",
       ingredientOpenMealDbName: "",
     });
-    const [newItemQuantity, setNewItemQuantity] = useState(500);
+    const [newItemQuantity, setNewItemQuantity] = useState("500");
     const [newItemUnit, setNewItemUnit] = useState("gr");
     const [newItemExpirationDate, setNewItemExpirationDate] = useState(
       addDays(new Date(), 7)
     );
-    const [menuVisible, setMenuVisible] = useState(false);
     const [units, setUnits] = useState<string[]>([]);
+    const [unitDialogVisible, setUnitDialogVisible] = useState(false);
 
     useEffect(() => {
       const fetchUnits = async () => {
@@ -50,25 +52,28 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
     }, []);
 
     const handleSaveItem = useCallback(async () => {
+      const quantity = parseInt(newItemQuantity);
+      if (isNaN(quantity)) {
+        alert("Please enter a valid quantity.");
+        return;
+      }
+
       const newItem = {
         id: 0,
-        name: newItemName,
         food: newItemFood,
-        quantity: newItemQuantity,
+        quantity: quantity,
         unit: newItemUnit,
-        expirationDate: newItemExpirationDate,
+        expirationDate: newItemExpirationDate.toISOString(),
         fridgeId: fridge.id,
       };
       FridgeItemService.addItem(newItem);
-      setNewItemName("");
       setNewItemFood({ id: 0, name: "", ingredientOpenMealDbName: "" });
-      setNewItemQuantity(1);
+      setNewItemQuantity("1");
       setNewItemUnit("gr");
       setNewItemExpirationDate(addDays(new Date(), 7));
       onDismiss();
       onItemAdded();
     }, [
-      newItemName,
       newItemFood,
       newItemQuantity,
       newItemUnit,
@@ -89,15 +94,23 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
       []
     );
 
+    const handleSelectUnit = (unit: string) => {
+      setNewItemUnit(unit);
+      setUnitDialogVisible(false);
+    };
+
     return (
       <Portal>
         <Modal
           visible={visible}
           onDismiss={onDismiss}
-          contentContainerStyle={styles.modalContainer}
+          contentContainerStyle={[
+            styles.modalContainer,
+            { backgroundColor: theme.colors.background },
+          ]}
         >
           <ScrollView>
-            <Text variant="titleLarge" style={styles.title}>
+            <Text variant="titleLarge" style={[styles.title]}>
               Add New Item
             </Text>
             <TextInput
@@ -106,43 +119,49 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
               disabled
               style={styles.input}
             />
-            <TextInput
-              label="Item Name"
-              value={newItemName}
-              onChangeText={setNewItemName}
-              style={styles.input}
-            />
             <TheMealDbIngredientSelector
               onSelectIngredient={handleSelectIngredient}
             />
-            <View style={styles.quantityContainer}>
+            <View>
               <TextInput
                 label="Quantity"
-                value={newItemQuantity.toString()}
-                onChangeText={(text) => setNewItemQuantity(parseInt(text))}
+                value={newItemQuantity}
+                onChangeText={setNewItemQuantity}
                 keyboardType="numeric"
                 style={[styles.input, styles.quantityInput]}
-              />
-              <Menu
-                visible={menuVisible}
-                onDismiss={() => setMenuVisible(false)}
-                anchor={
-                  <Button onPress={() => setMenuVisible(true)}>
-                    {newItemUnit}
-                  </Button>
-                }
-              >
-                {units.map((unit) => (
-                  <Menu.Item
-                    key={unit}
-                    onPress={() => {
-                      setNewItemUnit(unit);
-                      setMenuVisible(false);
-                    }}
-                    title={unit}
+                right={
+                  <TextInput.Icon
+                    icon="chevron-down"
+                    onPress={() => setUnitDialogVisible(true)}
                   />
-                ))}
-              </Menu>
+                }
+              />
+              <Portal>
+                <Dialog
+                  visible={unitDialogVisible}
+                  onDismiss={() => setUnitDialogVisible(false)}
+                >
+                  <Dialog.Title>Select Unit</Dialog.Title>
+                  <Dialog.Content>
+                    <ScrollView>
+                      <List.Section>
+                        {units.map((unit) => (
+                          <List.Item
+                            key={unit}
+                            title={unit}
+                            onPress={() => handleSelectUnit(unit)}
+                          />
+                        ))}
+                      </List.Section>
+                    </ScrollView>
+                  </Dialog.Content>
+                  <Dialog.Actions>
+                    <Button onPress={() => setUnitDialogVisible(false)}>
+                      Cancel
+                    </Button>
+                  </Dialog.Actions>
+                </Dialog>
+              </Portal>
             </View>
 
             <DatePickerInput
@@ -170,7 +189,6 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: "white",
     padding: 20,
     margin: 20,
     borderRadius: 8,
@@ -180,11 +198,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    marginBottom: 10,
-  },
-  quantityContainer: {
-    flexDirection: "row",
-    alignItems: "center",
     marginBottom: 10,
   },
   quantityInput: {

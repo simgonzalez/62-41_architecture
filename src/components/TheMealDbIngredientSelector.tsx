@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { TextInput, List, TouchableRipple } from "react-native-paper";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
-  AutocompleteDropdown,
-  AutocompleteDropdownContextProvider,
-} from "react-native-autocomplete-dropdown";
+  TextInput,
+  Button,
+  useTheme,
+  Dialog,
+  Portal,
+  List,
+  IconButton,
+} from "react-native-paper";
 import { fetchIngredients } from "@src/services/IngredientService";
 import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
 
@@ -15,17 +19,22 @@ interface TheMealDbIngredientSelectorProps {
 const TheMealDbIngredientSelector: React.FC<
   TheMealDbIngredientSelectorProps
 > = ({ onSelectIngredient }) => {
+  const theme = useTheme();
   const [ingredients, setIngredients] = useState<IngredientOpenMealDb[]>([]);
   const [filteredIngredients, setFilteredIngredients] = useState<
     IngredientOpenMealDb[]
   >([]);
-  const [query, setQuery] = useState<string>("");
+  const [selectedIngredient, setSelectedIngredient] =
+    useState<IngredientOpenMealDb | null>(null);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const loadIngredients = async () => {
       try {
         const fetchedIngredients = await fetchIngredients();
         setIngredients(fetchedIngredients);
+        setFilteredIngredients(fetchedIngredients.slice(0, 30));
       } catch (error) {
         console.error("Error loading ingredients:", error);
       }
@@ -33,87 +42,72 @@ const TheMealDbIngredientSelector: React.FC<
     loadIngredients();
   }, []);
 
-  const findIngredient = (query: string) => {
+  const handleSelectIngredient = (ingredient: IngredientOpenMealDb) => {
+    onSelectIngredient(ingredient);
+    setSelectedIngredient(ingredient);
+    setSearchQuery(ingredient.strIngredient);
+    setDialogVisible(false);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
     if (query) {
-      const regex = new RegExp(`${query.trim()}`, "i");
-      setFilteredIngredients(
-        ingredients.filter(
-          (ingredient) => ingredient.strIngredient.search(regex) >= 0
-        )
+      const filtered = ingredients.filter((ingredient) =>
+        ingredient.strIngredient.toLowerCase().includes(query.toLowerCase())
       );
+      setFilteredIngredients(filtered.slice(0, 30));
     } else {
-      setFilteredIngredients([]);
+      setFilteredIngredients(ingredients.slice(0, 30));
     }
-  };
-
-  const handleSelectIngredient = (
-    item: { id: string; title: string } | null
-  ) => {
-    if (!item) return;
-    const ingredient = ingredients.find(
-      (ing) => ing.idIngredient.toString() === item.id
-    );
-    if (ingredient) {
-      onSelectIngredient(ingredient);
-      setQuery(ingredient.strIngredient);
-      setFilteredIngredients([]);
-    }
-  };
-
-  const handleInputChange = (text: string) => {
-    setQuery(text);
-    findIngredient(text);
   };
 
   return (
     <View style={styles.container}>
-      <AutocompleteDropdownContextProvider>
-        <AutocompleteDropdown
-          dataSet={filteredIngredients.map((ingredient) => ({
-            id: ingredient.idIngredient.toString(),
-            title: ingredient.strIngredient,
-          }))}
-          onChangeText={handleInputChange}
-          onSelectItem={handleSelectIngredient}
-          debounce={300}
-          inputContainerStyle={styles.inputContainer}
-          suggestionsListContainerStyle={styles.list}
-          textInputProps={{
-            placeholder: "Enter ingredient",
-            value: query,
-            style: styles.input,
-            placeholderTextColor: "#6200ee", // React Native Paper default placeholder color
-          }}
-          renderItem={(item) => (
-            <TouchableRipple onPress={() => handleSelectIngredient(item)}>
-              <List.Item title={item.title} />
-            </TouchableRipple>
-          )}
-        />
-      </AutocompleteDropdownContextProvider>
+      <TextInput
+        label="Select an ingredient"
+        value={searchQuery}
+        onChangeText={handleSearch}
+        right={
+          <TextInput.Icon
+            icon="magnify"
+            onPress={() => setDialogVisible(true)}
+          />
+        }
+      />
+      <Portal>
+        <Dialog
+          visible={dialogVisible}
+          onDismiss={() => setDialogVisible(false)}
+        >
+          <Dialog.Title>Select Ingredient</Dialog.Title>
+          <Dialog.Content style={styles.dialogContent}>
+            <ScrollView>
+              <List.Section>
+                {filteredIngredients.map((ingredient) => (
+                  <List.Item
+                    key={ingredient.idIngredient}
+                    title={ingredient.strIngredient}
+                    onPress={() => handleSelectIngredient(ingredient)}
+                  />
+                ))}
+              </List.Section>
+            </ScrollView>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={() => setDialogVisible(false)}>Cancel</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    zIndex: 1,
+    marginBottom: 10,
   },
-  input: {
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "#6200ee", // React Native Paper default border color
-    padding: 10,
-    borderRadius: 5,
-    color: "#6200ee", // React Native Paper default text color
-  },
-  inputContainer: {
-    borderWidth: 0,
-  },
-  list: {
-    maxHeight: 200,
-    zIndex: 3,
+  dialogContent: {
+    maxHeight: "80%",
   },
 });
 

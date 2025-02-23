@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, useColorScheme } from "react-native";
-import { Text, Switch } from "react-native-paper";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { Text, Button, useTheme } from "react-native-paper";
 
 const UserScreen = () => {
-  const colorScheme = useColorScheme();
-  const [isDarkMode, setIsDarkMode] = useState(colorScheme === "dark");
+  const { colors } = useTheme();
 
-  useEffect(() => {
-    setIsDarkMode(colorScheme === "dark");
-  }, [colorScheme]);
+  const handleLogout = () => {
+    // Implement logout functionality here
+  };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode((prevMode) => !prevMode);
+  const handleDeleteAccount = () => {
+    // Implement delete account functionality here
   };
 
   return (
-    <View style={styles.container}>
-      <Text variant="titleLarge">User Preferences and Info</Text>
-      <View style={styles.preferenceContainer}>
-        <Text>Dark Mode</Text>
-        <Switch value={isDarkMode} onValueChange={toggleDarkMode} />
-      </View>
-      {/* Add more components to manage user preferences and info */}
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Button
+        mode="contained"
+        onPress={handleLogout}
+        style={[styles.button, { backgroundColor: colors.primary }]}
+      >
+        Logout
+      </Button>
+      <Button
+        mode="contained-tonal"
+        onPress={handleDeleteAccount}
+        style={[styles.button]}
+      >
+        Delete Account
+      </Button>
     </View>
   );
 };
@@ -31,13 +38,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
   },
-  preferenceContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "80%",
-    marginTop: 20,
+  title: {
+    marginBottom: 20,
+  },
+  button: {
+    width: "100%",
+    marginTop: 10,
   },
 });
 
