@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import React from "react";
+import { StyleSheet, ScrollView } from "react-native";
 import {
   Modal,
   Portal,
@@ -7,17 +7,13 @@ import {
   TextInput,
   Button,
   useTheme,
-  Dialog,
-  List,
 } from "react-native-paper";
-import { FridgeItemService } from "@services/FridgeItemService";
-import { UnitService } from "@services/UnitService";
 import { Fridge } from "@src/types/Fridge";
-import { Food } from "@src/types/Food";
 import TheMealDbIngredientSelector from "@components/TheMealDbIngredientSelector";
-import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
-import { addDays } from "date-fns";
 import { DatePickerInput } from "react-native-paper-dates";
+import useIngredientSelection from "@hooks/useIngredientSelection";
+import useCreateItem from "@hooks/useCreateItem";
+import UnitQuantitySelector from "@components/UnitQuantitySelector";
 
 interface AddItemModalProps {
   visible: boolean;
@@ -29,75 +25,16 @@ interface AddItemModalProps {
 const AddItemModal: React.FC<AddItemModalProps> = React.memo(
   ({ visible, onDismiss, fridge, onItemAdded }) => {
     const theme = useTheme();
-    const [newItemFood, setNewItemFood] = useState<Food>({
-      id: 0,
-      name: "",
-      ingredientOpenMealDbName: "",
-    });
-    const [newItemQuantity, setNewItemQuantity] = useState("500");
-    const [newItemUnit, setNewItemUnit] = useState("gr");
-    const [newItemExpirationDate, setNewItemExpirationDate] = useState(
-      addDays(new Date(), 7)
-    );
-    const [units, setUnits] = useState<string[]>([]);
-    const [unitDialogVisible, setUnitDialogVisible] = useState(false);
-
-    useEffect(() => {
-      const fetchUnits = async () => {
-        const availableUnits = await UnitService.getUnits();
-        setUnits(availableUnits);
-      };
-
-      fetchUnits();
-    }, []);
-
-    const handleSaveItem = useCallback(async () => {
-      const quantity = parseInt(newItemQuantity);
-      if (isNaN(quantity)) {
-        alert("Please enter a valid quantity.");
-        return;
-      }
-
-      const newItem = {
-        id: 0,
-        food: newItemFood,
-        quantity: quantity,
-        unit: newItemUnit,
-        expirationDate: newItemExpirationDate.toISOString(),
-        fridgeId: fridge.id,
-      };
-      FridgeItemService.addItem(newItem);
-      setNewItemFood({ id: 0, name: "", ingredientOpenMealDbName: "" });
-      setNewItemQuantity("1");
-      setNewItemUnit("gr");
-      setNewItemExpirationDate(addDays(new Date(), 7));
-      onDismiss();
-      onItemAdded();
-    }, [
-      newItemFood,
+    const { newItemFood, handleSelectIngredient } = useIngredientSelection();
+    const {
       newItemQuantity,
+      setNewItemQuantity,
       newItemUnit,
+      setNewItemUnit,
       newItemExpirationDate,
-      fridge.id,
-      onDismiss,
-      onItemAdded,
-    ]);
-
-    const handleSelectIngredient = useCallback(
-      (ingredient: IngredientOpenMealDb) => {
-        setNewItemFood({
-          id: ingredient.idIngredient,
-          name: ingredient.strIngredient,
-          ingredientOpenMealDbName: ingredient.strIngredient,
-        });
-      },
-      []
-    );
-
-    const handleSelectUnit = (unit: string) => {
-      setNewItemUnit(unit);
-      setUnitDialogVisible(false);
-    };
+      setNewItemExpirationDate,
+      handleSaveItem,
+    } = useCreateItem(fridge, onDismiss, onItemAdded);
 
     return (
       <Portal>
@@ -122,48 +59,12 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
             <TheMealDbIngredientSelector
               onSelectIngredient={handleSelectIngredient}
             />
-            <View>
-              <TextInput
-                label="Quantity"
-                value={newItemQuantity}
-                onChangeText={setNewItemQuantity}
-                keyboardType="numeric"
-                style={[styles.input, styles.quantityInput]}
-                right={
-                  <TextInput.Icon
-                    icon="chevron-down"
-                    onPress={() => setUnitDialogVisible(true)}
-                  />
-                }
-              />
-              <Portal>
-                <Dialog
-                  visible={unitDialogVisible}
-                  onDismiss={() => setUnitDialogVisible(false)}
-                >
-                  <Dialog.Title>Select Unit</Dialog.Title>
-                  <Dialog.Content>
-                    <ScrollView>
-                      <List.Section>
-                        {units.map((unit) => (
-                          <List.Item
-                            key={unit}
-                            title={unit}
-                            onPress={() => handleSelectUnit(unit)}
-                          />
-                        ))}
-                      </List.Section>
-                    </ScrollView>
-                  </Dialog.Content>
-                  <Dialog.Actions>
-                    <Button onPress={() => setUnitDialogVisible(false)}>
-                      Cancel
-                    </Button>
-                  </Dialog.Actions>
-                </Dialog>
-              </Portal>
-            </View>
-
+            <UnitQuantitySelector
+              quantity={newItemQuantity}
+              setQuantity={setNewItemQuantity}
+              unit={newItemUnit}
+              setUnit={setNewItemUnit}
+            />
             <DatePickerInput
               locale="en-GB"
               label="Expiration Date"
@@ -175,7 +76,7 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
             />
             <Button
               mode="contained"
-              onPress={handleSaveItem}
+              onPress={() => handleSaveItem(newItemFood)}
               style={styles.saveButton}
             >
               Save
@@ -199,9 +100,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
-  },
-  quantityInput: {
-    flex: 1,
   },
   saveButton: {
     marginTop: 20,

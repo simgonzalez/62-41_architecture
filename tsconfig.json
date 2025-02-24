@@ -12,6 +12,9 @@
       "@components/*": [
         "./components/*"
       ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
       "@navigations/*": [
         "./navigations/*"
       ],

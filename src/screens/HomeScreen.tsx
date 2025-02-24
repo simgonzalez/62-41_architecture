@@ -1,37 +1,21 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { Divider, Text, useTheme, IconButton } from "react-native-paper";
 import MealRecommendations from "@src/components/MealRecommendations";
 import FridgeItemsList from "@components/FridgeItemsList";
-import { FridgeItemService } from "@services/FridgeItemService";
-import { FridgeItem } from "@src/types/FridgeItem";
+import useClosestExpiringItem from "@hooks/useClosestExpiringItem";
+import useAllFridgeItems from "@hooks/useAllFridgeItems";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
-  const [closestExpiringItem, setClosestExpiringItem] = useState<
-    FridgeItem | undefined
-  >(undefined);
-  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
-
-  const fetchClosestExpiringItem = useCallback(async () => {
-    const item = await FridgeItemService.getByClosestExpirationDate();
-    setClosestExpiringItem(item);
-  }, []);
-
-  const fetchFridgeItems = useCallback(async () => {
-    const items = await FridgeItemService.getAll();
-    setFridgeItems(items);
-  }, []);
+  const { closestExpiringItem, fetchClosestExpiringItem } =
+    useClosestExpiringItem();
+  const { fridgeItems, fetchFridgeItems } = useAllFridgeItems();
 
   const handleRefresh = () => {
     fetchClosestExpiringItem();
     fetchFridgeItems();
   };
-
-  useEffect(() => {
-    fetchClosestExpiringItem();
-    fetchFridgeItems();
-  }, [fetchClosestExpiringItem, fetchFridgeItems]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

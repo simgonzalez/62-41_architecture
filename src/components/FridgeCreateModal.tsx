@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { Fridge } from "@src/types/Fridge";
-import { addFridge } from "@src/services/FridgeService";
-import { useSnackbar } from "@components/SnackbarProvider";
 import {
   TextInput,
   Text,
@@ -13,7 +10,8 @@ import {
   Dialog,
   List,
 } from "react-native-paper";
-import { getLocations } from "@src/services/FridgeLocationService";
+import useLocations from "@src/hooks/useLocations";
+import useCreateFridge from "@hooks/useCreateFridge";
 import { FridgeLocation } from "@src/types/FridgeLocation";
 
 interface FridgeCreateModalProps {
@@ -27,44 +25,13 @@ const FridgeCreateModal: React.FC<FridgeCreateModalProps> = ({
   onDismiss,
   onFridgeCreated,
 }) => {
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState<FridgeLocation | null>(null);
-  const [locations, setLocations] = useState<FridgeLocation[]>([]);
-  const [locationDialogVisible, setLocationDialogVisible] = useState(false);
-  const { showSnackbar } = useSnackbar();
   const { colors } = useTheme();
-
-  useEffect(() => {
-    const fetchLocations = async () => {
-      const userLocations = await getLocations();
-      setLocations(userLocations);
-      setLocation(userLocations[0]);
-    };
-
-    fetchLocations();
-  }, []);
-
-  const handleCreateFridge = async () => {
-    if (!location) {
-      showSnackbar("Please select a location.");
-      return;
-    }
-
-    const newFridge: Fridge = {
-      id: Math.random(),
-      name,
-      location,
-    };
-
-    const success = await addFridge(newFridge);
-    if (success) {
-      showSnackbar("The fridge has been successfully created.");
-      onFridgeCreated();
-      onDismiss();
-    } else {
-      showSnackbar("Error creating fridge");
-    }
-  };
+  const { locations, location, setLocation } = useLocations();
+  const { name, setName, handleCreateFridge } = useCreateFridge(
+    onFridgeCreated,
+    onDismiss
+  );
+  const [locationDialogVisible, setLocationDialogVisible] = useState(false);
 
   const handleSelectLocation = (selectedLocation: FridgeLocation) => {
     setLocation(selectedLocation);
@@ -126,7 +93,10 @@ const FridgeCreateModal: React.FC<FridgeCreateModalProps> = ({
           </TouchableOpacity>
 
           <View style={styles.buttonContainer}>
-            <Button onPress={handleCreateFridge} mode="contained">
+            <Button
+              onPress={() => handleCreateFridge(location)}
+              mode="contained"
+            >
               Create fridge
             </Button>
           </View>

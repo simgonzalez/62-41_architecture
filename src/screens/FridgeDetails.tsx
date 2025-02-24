@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { Fridge } from "@src/types/Fridge";
-import { FridgeItem } from "@src/types/FridgeItem";
 import { Text, FAB, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FridgeItemsList from "@components/FridgeItemsList";
 import AddItemModal from "@components/AddItemModal";
-import { FridgeItemService } from "@services/FridgeItemService";
+import useFridgeItems from "@hooks/useFridgeItems";
 
 const FridgeDetails = () => {
   const route = useRoute();
   const { fridge } = route.params as { fridge: Fridge };
-  const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
+  const { fridgeItems, fetchFridgeItems } = useFridgeItems(fridge.id);
   const [modalVisible, setModalVisible] = useState(false);
   const { colors } = useTheme();
-
-  const fetchFridgeItems = async () => {
-    const items = await FridgeItemService.getByFridgeId(fridge.id);
-    if (items) {
-      setFridgeItems(items);
-    }
-  };
-
-  useEffect(() => {
-    fetchFridgeItems();
-  }, [fridge.id]);
 
   const handleAddItem = () => {
     setModalVisible(true);

@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import FridgesList from "@src/components/FridgesList";
 import { Fridge } from "@src/types/Fridge";
 import { useIsFocused } from "@react-navigation/native";
-import {
-  addFridge,
-  deleteFridge,
-  fetchFridges,
-} from "@src/services/FridgeService";
+import { addFridge, deleteFridge } from "@src/services/FridgeService";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme, FAB } from "react-native-paper";
 import { useSnackbar } from "@src/components/SnackbarProvider";
 import FridgeCreateModal from "@components/FridgeCreateModal";
+import useFridges from "@hooks/useFridges";
 
 const FridgesScreen = () => {
-  const [fridges, setFridges] = useState<Fridge[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const { fridges, error, loadFridges } = useFridges();
   const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
   const { showSnackbar } = useSnackbar();
@@ -34,16 +30,6 @@ const FridgesScreen = () => {
       });
     } else {
       showSnackbar("There was an error deleting the fridge.");
-    }
-  };
-
-  const loadFridges = async () => {
-    try {
-      const fetchedFridges = await fetchFridges();
-      setFridges(fetchedFridges);
-      setError(null);
-    } catch (err) {
-      setError("Error loading fridges");
     }
   };
 

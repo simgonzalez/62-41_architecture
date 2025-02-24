@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { Text, Button, useTheme } from "react-native-paper";
+import { Button, useTheme } from "react-native-paper";
 
 const UserScreen = () => {
   const { colors } = useTheme();

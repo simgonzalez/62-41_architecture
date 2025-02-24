@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Avatar, List, Text, useTheme } from "react-native-paper";
 import { FridgeItem } from "@src/types/FridgeItem";
-import { HydratedFridgeItem } from "@src/types/HydratedFridgeItem";
 import { getIngredientImageUrl } from "@services/TheMealDbService";
-import { FridgeService } from "@services/FridgeService";
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import { parseISO } from "date-fns/parseISO";
+import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import useHydratedFridgeItems from "@hooks/useHydratedFridgeItems";
+import { HydratedFridgeItem } from "@src/types/HydratedFridgeItem";
 
 interface FridgeItemsListProps {
   items: FridgeItem[];
@@ -14,21 +14,7 @@ interface FridgeItemsListProps {
 
 const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
   const { colors } = useTheme();
-  const [hydratedItems, setHydratedItems] = useState<HydratedFridgeItem[]>([]);
-
-  useEffect(() => {
-    const hydrateItems = async () => {
-      const itemsWithFridgeNames = await Promise.all(
-        items.map(async (item) => {
-          const fridge = await FridgeService.getById(item.fridgeId);
-          return { ...item, fridgeName: fridge.name };
-        })
-      );
-      setHydratedItems(itemsWithFridgeNames);
-    };
-
-    hydrateItems();
-  }, [items]);
+  const hydratedItems = useHydratedFridgeItems(items);
 
   const getPerishableDateStyle = (perishableDate: string) => {
     const date = parseISO(perishableDate);
@@ -39,16 +25,18 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
 
   return (
     <View style={styles.container}>
-      {hydratedItems.map((item) => (
+      {hydratedItems.map((item: HydratedFridgeItem) => (
         <List.Item
           key={item.id}
           title={item.food.name}
           description={() => (
             <View>
               <Text>{item.fridgeName}</Text>
-              <Text>Quantity {item.quantity}</Text>
+              <Text>
+                {item.quantity.value} {item.quantity.unit}
+              </Text>
               <Text style={getPerishableDateStyle(item.expirationDate)}>
-                Expire
+                Expires{" "}
                 {formatDistanceToNow(parseISO(item.expirationDate), {
                   addSuffix: true,
                 })}

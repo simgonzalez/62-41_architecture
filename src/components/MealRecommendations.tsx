@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, Text, Avatar, Portal, Surface } from "react-native-paper";
-import {
-  getMealsByIngredient,
-  getMealById,
-  getIngredientImageUrl,
-} from "@src/services/TheMealDbService";
-import { DehydratedMeal, HydratedMeal } from "@src/types/Meal";
+import { Card, Text, Avatar, Portal } from "react-native-paper";
+import { getIngredientImageUrl } from "@src/services/TheMealDbService";
 import MealDetails from "@src/components/MealDetails";
+import useMealsByIngredient from "@hooks/useMealsByIngredient";
+import useSelectedMeal from "@hooks/useSelectedMeal";
 
 interface MealRecommendationsProps {
   ingredientName: string;
@@ -16,34 +13,9 @@ interface MealRecommendationsProps {
 const MealRecommendations: React.FC<MealRecommendationsProps> = ({
   ingredientName,
 }) => {
-  const [meals, setMeals] = useState<DehydratedMeal[]>([]);
-  const [hydratedMeals, setHydratedMeals] = useState<HydratedMeal[]>([]);
-  const [selectedMeal, setSelectedMeal] = useState<HydratedMeal | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const fetchMeals = async () => {
-      const dehydratedMeals = await getMealsByIngredient(ingredientName);
-      setMeals(dehydratedMeals);
-
-      const hydratedMealsPromises = dehydratedMeals.map((meal) =>
-        getMealById(meal.idMeal)
-      );
-      const hydratedMealsResults = await Promise.all(hydratedMealsPromises);
-      setHydratedMeals(hydratedMealsResults.filter((meal) => meal !== null));
-    };
-    fetchMeals();
-  }, [ingredientName]);
-
-  const handleMealPress = (meal: HydratedMeal) => {
-    setSelectedMeal(meal);
-    setVisible(true);
-  };
-
-  const handleClose = () => {
-    setVisible(false);
-    setSelectedMeal(null);
-  };
+  const { hydratedMeals } = useMealsByIngredient(ingredientName);
+  const { selectedMeal, visible, handleMealPress, handleClose } =
+    useSelectedMeal();
 
   return (
     <ScrollView>

@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
-import {
-  TextInput,
-  Button,
-  useTheme,
-  Dialog,
-  Portal,
-  List,
-  IconButton,
-} from "react-native-paper";
-import { fetchIngredients } from "@src/services/IngredientService";
+import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
+import useIngredients from "@hooks/useIngredients";
+import useIngredientSearch from "@hooks/useIngredientSearch";
 
 interface TheMealDbIngredientSelectorProps {
   onSelectIngredient: (ingredient: IngredientOpenMealDb) => void;
@@ -19,46 +12,21 @@ interface TheMealDbIngredientSelectorProps {
 const TheMealDbIngredientSelector: React.FC<
   TheMealDbIngredientSelectorProps
 > = ({ onSelectIngredient }) => {
-  const theme = useTheme();
-  const [ingredients, setIngredients] = useState<IngredientOpenMealDb[]>([]);
-  const [filteredIngredients, setFilteredIngredients] = useState<
-    IngredientOpenMealDb[]
-  >([]);
+  const { ingredients, filteredIngredients, setFilteredIngredients } =
+    useIngredients();
+  const { searchQuery, handleSearch } = useIngredientSearch(
+    ingredients,
+    setFilteredIngredients
+  );
   const [selectedIngredient, setSelectedIngredient] =
     useState<IngredientOpenMealDb | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    const loadIngredients = async () => {
-      try {
-        const fetchedIngredients = await fetchIngredients();
-        setIngredients(fetchedIngredients);
-        setFilteredIngredients(fetchedIngredients.slice(0, 30));
-      } catch (error) {
-        console.error("Error loading ingredients:", error);
-      }
-    };
-    loadIngredients();
-  }, []);
 
   const handleSelectIngredient = (ingredient: IngredientOpenMealDb) => {
     onSelectIngredient(ingredient);
     setSelectedIngredient(ingredient);
-    setSearchQuery(ingredient.strIngredient);
+    handleSearch(ingredient.strIngredient);
     setDialogVisible(false);
-  };
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    if (query) {
-      const filtered = ingredients.filter((ingredient) =>
-        ingredient.strIngredient.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredIngredients(filtered.slice(0, 30));
-    } else {
-      setFilteredIngredients(ingredients.slice(0, 30));
-    }
   };
 
   return (
