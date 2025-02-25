@@ -2,26 +2,23 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { TextInput, Dialog, Portal, Button, List } from "react-native-paper";
 import useUnits from "@hooks/useUnits";
+import { Quantity } from "@src/types/Quantity";
 
 interface UnitQuantitySelectorProps {
-  quantity: string;
-  setQuantity: (quantity: string) => void;
-  unit: string;
-  setUnit: (unit: string) => void;
+  quantity: Quantity;
+  setQuantity: (quantity: Quantity) => void;
 }
 
 const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   quantity,
   setQuantity,
-  unit,
-  setUnit,
 }) => {
   const { units } = useUnits();
-  const [localQuantity, setLocalQuantity] = useState(quantity);
+  const [localQuantity, setLocalQuantity] = useState(quantity.value.toString());
   const [unitDialogVisible, setUnitDialogVisible] = useState(false);
 
   useEffect(() => {
-    setLocalQuantity(quantity);
+    setLocalQuantity(quantity.value.toString());
   }, [quantity]);
 
   const handleQuantityChange = (text: string) => {
@@ -29,11 +26,11 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   };
 
   const handleQuantityBlur = () => {
-    setQuantity(localQuantity || "");
+    setQuantity({ ...quantity, value: parseFloat(localQuantity) || 0 });
   };
 
   const handleSelectUnit = (selectedUnit: string) => {
-    setUnit(selectedUnit);
+    setQuantity({ ...quantity, unit: selectedUnit });
     setUnitDialogVisible(false);
   };
 
@@ -53,7 +50,7 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
       >
         <TextInput
           label="Unit"
-          value={unit}
+          value={quantity.unit}
           editable={false}
           style={[styles.input, styles.unitInput]}
           right={

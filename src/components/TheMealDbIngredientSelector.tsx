@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
 import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
+import { Food } from "@src/types/Food";
 import useIngredients from "@hooks/useIngredients";
 import useIngredientSearch from "@hooks/useIngredientSearch";
 
 interface TheMealDbIngredientSelectorProps {
   onSelectIngredient: (ingredient: IngredientOpenMealDb) => void;
+  initialFood?: Food | null;
 }
 
 const TheMealDbIngredientSelector: React.FC<
   TheMealDbIngredientSelectorProps
-> = ({ onSelectIngredient }) => {
+> = ({ onSelectIngredient, initialFood = null }) => {
   const { ingredients, filteredIngredients, setFilteredIngredients } =
     useIngredients();
   const { searchQuery, handleSearch } = useIngredientSearch(
@@ -21,6 +23,25 @@ const TheMealDbIngredientSelector: React.FC<
   const [selectedIngredient, setSelectedIngredient] =
     useState<IngredientOpenMealDb | null>(null);
   const [dialogVisible, setDialogVisible] = useState(false);
+
+  useEffect(() => {
+    if (initialFood && ingredients.length > 0) {
+      // Find the ingredient that matches the initialFood name
+      const matchingIngredient = ingredients.find(
+        (ingredient) =>
+          ingredient.strIngredient.toLowerCase() ===
+          initialFood.name.toLowerCase()
+      );
+
+      if (matchingIngredient) {
+        setSelectedIngredient(matchingIngredient);
+        handleSearch(matchingIngredient.strIngredient);
+      } else {
+        // If no exact match, try to find a partial match
+        handleSearch(initialFood.name);
+      }
+    }
+  }, [initialFood, ingredients]);
 
   const handleSelectIngredient = (ingredient: IngredientOpenMealDb) => {
     onSelectIngredient(ingredient);

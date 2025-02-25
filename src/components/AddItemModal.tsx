@@ -29,8 +29,6 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
     const {
       newItemQuantity,
       setNewItemQuantity,
-      newItemUnit,
-      setNewItemUnit,
       newItemExpirationDate,
       setNewItemExpirationDate,
       handleSaveItem,
@@ -57,13 +55,12 @@ const AddItemModal: React.FC<AddItemModalProps> = React.memo(
               style={styles.input}
             />
             <TheMealDbIngredientSelector
+              initialFood={newItemFood}
               onSelectIngredient={handleSelectIngredient}
             />
             <UnitQuantitySelector
               quantity={newItemQuantity}
               setQuantity={setNewItemQuantity}
-              unit={newItemUnit}
-              setUnit={setNewItemUnit}
             />
             <DatePickerInput
               locale="en-GB"

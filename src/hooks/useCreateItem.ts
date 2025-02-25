@@ -3,30 +3,27 @@ import { FridgeItemService } from "@services/FridgeItemService";
 import { Food } from "@src/types/Food";
 import { Fridge } from "@src/types/Fridge";
 import { addDays } from "date-fns";
+import { Quantity } from "@src/types/Quantity";
 
 const useCreateItem = (
   fridge: Fridge,
   onDismiss: () => void,
   onItemAdded: () => void
 ) => {
-  const [newItemQuantity, setNewItemQuantity] = useState("500");
-  const [newItemUnit, setNewItemUnit] = useState("gr");
+  const [newItemQuantity, setNewItemQuantity] = useState({
+    value: 500,
+    unit: "gr",
+  } as Quantity);
   const [newItemExpirationDate, setNewItemExpirationDate] = useState(
     addDays(new Date(), 7)
   );
 
   const handleSaveItem = useCallback(
     async (newItemFood: Food) => {
-      const quantityValue = parseInt(newItemQuantity);
-      if (isNaN(quantityValue)) {
-        alert("Please enter a valid quantity.");
-        return;
-      }
-
       const newItem = {
         id: 0,
         food: newItemFood,
-        quantity: { value: quantityValue, unit: newItemUnit },
+        quantity: newItemQuantity,
         expirationDate: newItemExpirationDate.toISOString(),
         fridgeId: fridge.id,
       };
@@ -34,21 +31,12 @@ const useCreateItem = (
       onDismiss();
       onItemAdded();
     },
-    [
-      newItemQuantity,
-      newItemUnit,
-      newItemExpirationDate,
-      fridge.id,
-      onDismiss,
-      onItemAdded,
-    ]
+    [newItemQuantity, newItemExpirationDate, fridge.id, onDismiss, onItemAdded]
   );
 
   return {
     newItemQuantity,
     setNewItemQuantity,
-    newItemUnit,
-    setNewItemUnit,
     newItemExpirationDate,
     setNewItemExpirationDate,
     handleSaveItem,
