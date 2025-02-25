@@ -1,26 +1,21 @@
-import { useState, useCallback } from "react";
-import { Food } from "@src/types/Food";
+import { useState } from "react";
 import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
+import { Food } from "@src/types/Food";
 
-const useIngredientSelection = () => {
-  const [newItemFood, setNewItemFood] = useState<Food>({
-    id: 0,
-    name: "",
-    ingredientOpenMealDbName: "",
-  });
-
-  const handleSelectIngredient = useCallback(
-    (ingredient: IngredientOpenMealDb) => {
-      setNewItemFood({
-        id: ingredient.idIngredient,
-        name: ingredient.strIngredient,
-        ingredientOpenMealDbName: ingredient.strIngredient,
-      });
-    },
-    []
+const useIngredientSelection = (initialFood?: Food) => {
+  const [newItemFood, setNewItemFood] = useState<Food | null>(
+    initialFood || null
   );
 
-  return { newItemFood, handleSelectIngredient };
+  const handleSelectIngredient = (ingredient: IngredientOpenMealDb) => {
+    setNewItemFood({
+      id: ingredient.idIngredient,
+      name: ingredient.strIngredient,
+      ingredientOpenMealDbName: ingredient.strIngredient,
+    });
+  };
+
+  return { newItemFood, setNewItemFood, handleSelectIngredient };
 };
 
 export default useIngredientSelection;

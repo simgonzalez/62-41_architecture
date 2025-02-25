@@ -8,11 +8,15 @@ import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import useHydratedFridgeItems from "@hooks/useHydratedFridgeItems";
 import { HydratedFridgeItem } from "@src/types/HydratedFridgeItem";
 
-interface FridgeItemsListProps {
+type FridgeItemsListProps = {
   items: FridgeItem[];
-}
+  onItemPress: (item: FridgeItem) => void;
+};
 
-const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
+const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
+  items,
+  onItemPress,
+}) => {
   const { colors } = useTheme();
   const hydratedItems = useHydratedFridgeItems(items);
 
@@ -43,6 +47,7 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
               </Text>
             </View>
           )}
+          onPress={() => onItemPress(item)}
           left={() => (
             <Avatar.Image
               size={40}

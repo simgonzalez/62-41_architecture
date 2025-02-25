@@ -5,23 +5,44 @@ import { Fridge } from "@src/types/Fridge";
 import { Text, FAB, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import FridgeItemsList from "@components/FridgeItemsList";
-import AddItemModal from "@components/AddItemModal";
+import AddEditFridgeItemModal from "@components/AddEditFridgeItemModal";
 import useFridgeItems from "@hooks/useFridgeItems";
+import { FridgeItem } from "@src/types/FridgeItem";
+import { addDays } from "date-fns/addDays";
 
 const FridgeDetails = () => {
   const route = useRoute();
   const { fridge } = route.params as { fridge: Fridge };
   const { fridgeItems, fetchFridgeItems } = useFridgeItems(fridge.id);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<FridgeItem | undefined>(
+    undefined
+  );
   const { colors } = useTheme();
 
   const handleAddItem = () => {
+    setSelectedItem(undefined);
     setModalVisible(true);
   };
 
-  const handleItemAdded = () => {
+  const handleEditItem = (item: FridgeItem) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
+
+  const handleItemSaved = () => {
+    console.log("saved item");
     setModalVisible(false);
     fetchFridgeItems();
+  };
+
+  // Create a dummy item with just the fridgeId for add mode
+  const newItem = selectedItem || {
+    id: null,
+    fridgeId: fridge.id,
+    food: { id: 0, name: "", image: "", ingredientOpenMealDbName: "" },
+    quantity: { value: 0, unit: "g" },
+    expirationDate: addDays(new Date(), 7).toISOString(),
   };
 
   return (
@@ -36,18 +57,18 @@ const FridgeDetails = () => {
         </Text>
       </View>
       {fridgeItems.length > 0 ? (
-        <FridgeItemsList items={fridgeItems} />
+        <FridgeItemsList items={fridgeItems} onItemPress={handleEditItem} />
       ) : (
         <Text style={[styles.noItemsText, { color: colors.onSurface }]}>
           No items in this fridge
         </Text>
       )}
       <FAB style={styles.fab} icon="plus" onPress={handleAddItem} />
-      <AddItemModal
+      <AddEditFridgeItemModal
         visible={modalVisible}
         onDismiss={() => setModalVisible(false)}
-        fridge={fridge}
-        onItemAdded={handleItemAdded}
+        fridgeItem={newItem}
+        onItemSaved={handleItemSaved}
       />
     </View>
   );
