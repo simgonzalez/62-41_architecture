@@ -6,11 +6,11 @@ const UserScreen = () => {
   const { colors } = useTheme();
 
   const handleLogout = () => {
-    // Implement logout functionality here
+    // TODO Implement logout functionality here
   };
 
   const handleDeleteAccount = () => {
-    // Implement delete account functionality here
+    // TODO Implement delete account functionality here
   };
 
   return (

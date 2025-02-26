@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Avatar, List, Text, useTheme } from "react-native-paper";
 import { FridgeItem } from "@src/types/FridgeItem";
@@ -7,18 +7,17 @@ import { parseISO } from "date-fns/parseISO";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
 import useHydratedFridgeItems from "@hooks/useHydratedFridgeItems";
 import { HydratedFridgeItem } from "@src/types/HydratedFridgeItem";
+import AddEditFridgeItemModal from "./AddEditFridgeItemModal";
 
 type FridgeItemsListProps = {
   items: FridgeItem[];
-  onItemPress: (item: FridgeItem) => void;
 };
 
-const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
-  items,
-  onItemPress,
-}) => {
+const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
   const { colors } = useTheme();
   const hydratedItems = useHydratedFridgeItems(items);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [pressedItem, setPressedItem] = useState<FridgeItem>();
 
   const getPerishableDateStyle = (perishableDate: string) => {
     const date = parseISO(perishableDate);
@@ -47,7 +46,10 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
               </Text>
             </View>
           )}
-          onPress={() => onItemPress(item)}
+          onPress={() => {
+            setPressedItem(item);
+            setModalVisible(true);
+          }}
           left={() => (
             <Avatar.Image
               size={40}
@@ -58,6 +60,13 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
           )}
         />
       ))}
+      <AddEditFridgeItemModal
+        visible={modalVisible}
+        onModalClose={() => {
+          setModalVisible(false);
+        }}
+        fridgeItem={pressedItem!}
+      />
     </View>
   );
 };

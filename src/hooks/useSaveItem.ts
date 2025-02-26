@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { FridgeItemService } from "@services/FridgeItemService";
 import { Food } from "@src/types/Food";
 import { Fridge } from "@src/types/Fridge";
@@ -8,7 +8,6 @@ import { Quantity } from "@src/types/Quantity";
 
 const useSaveItem = (
   fridge: Fridge | null,
-  onDismiss: () => void,
   onItemSaved: () => void,
   existingItem?: FridgeItem
 ) => {
@@ -52,17 +51,9 @@ const useSaveItem = (
         await FridgeItemService.addItem(item);
       }
 
-      onDismiss();
       onItemSaved();
     },
-    [
-      newItemQuantity,
-      newItemExpirationDate,
-      fridge,
-      existingItem,
-      onDismiss,
-      onItemSaved,
-    ]
+    [newItemQuantity, newItemExpirationDate, fridge, existingItem, onItemSaved]
   );
 
   return {

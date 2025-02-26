@@ -20,31 +20,27 @@ import { FridgeItemService } from "@services/FridgeItemService";
 
 interface AddEditFridgeItemModalProps {
   visible: boolean;
-  onDismiss: () => void;
-  fridgeItem?: FridgeItem;
-  onItemSaved: () => void;
+  fridgeItem: FridgeItem;
+  onModalClose: () => void;
 }
 
 const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
-  React.memo(({ visible, onDismiss, fridgeItem, onItemSaved }) => {
+  React.memo(({ visible, fridgeItem, onModalClose }) => {
     const theme = useTheme();
     const [fridge, setFridge] = useState<Fridge | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Initialize with existing food if in edit mode
     const { newItemFood, setNewItemFood, handleSelectIngredient } =
       useIngredientSelection(fridgeItem?.food);
 
-    // Initialize with existing values if in edit mode
     const {
       newItemQuantity,
       setNewItemQuantity,
       newItemExpirationDate,
       setNewItemExpirationDate,
       handleSaveItem,
-    } = useSaveItem(fridge, onDismiss, onItemSaved, fridgeItem);
+    } = useSaveItem(fridge, onModalClose, fridgeItem);
 
-    // Load fridge data if in edit mode
     useEffect(() => {
       const loadFridge = async () => {
         if (fridgeItem) {
@@ -63,15 +59,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
 
       setIsSubmitting(true);
       try {
-        console.log("Saving item:", {
-          food: newItemFood,
-          itemId: fridgeItem?.id,
-          quantity: newItemQuantity,
-          expirationDate: newItemExpirationDate,
-        });
-
-        if (fridgeItem?.id) {
-          // Handle update case directly
+        if (fridgeItem.id > 0) {
           const updatedItem = {
             id: fridgeItem.id,
             fridgeId: fridgeItem.fridgeId,
@@ -85,7 +73,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
           await handleSaveItem(newItemFood);
         }
 
-        onItemSaved();
+        onModalClose();
       } catch (error) {
         console.error("Error saving item:", error);
       } finally {
@@ -97,7 +85,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
       <Portal>
         <Modal
           visible={visible}
-          onDismiss={onDismiss}
+          onDismiss={onModalClose}
           contentContainerStyle={[
             styles.modalContainer,
             { backgroundColor: theme.colors.background },

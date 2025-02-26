@@ -15,7 +15,7 @@ const RegisterScreen = () => {
     console.log("Password:", password);
     console.log("Confirm Password:", confirmPassword);
 
-    // Add your registration logic here
+    // TODO Add your registration logic here
 
     navigation.navigate("Main");
   };

@@ -26,18 +26,16 @@ const TheMealDbIngredientSelector: React.FC<
 
   useEffect(() => {
     if (initialFood && ingredients.length > 0) {
-      // Find the ingredient that matches the initialFood name
       const matchingIngredient = ingredients.find(
         (ingredient) =>
           ingredient.strIngredient.toLowerCase() ===
-          initialFood.name.toLowerCase()
+          initialFood.name?.toLowerCase()
       );
 
       if (matchingIngredient) {
         setSelectedIngredient(matchingIngredient);
         handleSearch(matchingIngredient.strIngredient);
       } else {
-        // If no exact match, try to find a partial match
         handleSearch(initialFood.name);
       }
     }

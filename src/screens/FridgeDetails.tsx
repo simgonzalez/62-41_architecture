@@ -7,43 +7,15 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import FridgeItemsList from "@components/FridgeItemsList";
 import AddEditFridgeItemModal from "@components/AddEditFridgeItemModal";
 import useFridgeItems from "@hooks/useFridgeItems";
-import { FridgeItem } from "@src/types/FridgeItem";
 import { addDays } from "date-fns/addDays";
+import { Food } from "@src/types/Food";
 
 const FridgeDetails = () => {
   const route = useRoute();
   const { fridge } = route.params as { fridge: Fridge };
   const { fridgeItems, fetchFridgeItems } = useFridgeItems(fridge.id);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<FridgeItem | undefined>(
-    undefined
-  );
   const { colors } = useTheme();
-
-  const handleAddItem = () => {
-    setSelectedItem(undefined);
-    setModalVisible(true);
-  };
-
-  const handleEditItem = (item: FridgeItem) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
-
-  const handleItemSaved = () => {
-    console.log("saved item");
-    setModalVisible(false);
-    fetchFridgeItems();
-  };
-
-  // Create a dummy item with just the fridgeId for add mode
-  const newItem = selectedItem || {
-    id: null,
-    fridgeId: fridge.id,
-    food: { id: 0, name: "", image: "", ingredientOpenMealDbName: "" },
-    quantity: { value: 0, unit: "g" },
-    expirationDate: addDays(new Date(), 7).toISOString(),
-  };
+  const [addItemVisible, setAddItemVisible] = useState(false);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -57,18 +29,32 @@ const FridgeDetails = () => {
         </Text>
       </View>
       {fridgeItems.length > 0 ? (
-        <FridgeItemsList items={fridgeItems} onItemPress={handleEditItem} />
+        <FridgeItemsList items={fridgeItems} />
       ) : (
         <Text style={[styles.noItemsText, { color: colors.onSurface }]}>
           No items in this fridge
         </Text>
       )}
-      <FAB style={styles.fab} icon="plus" onPress={handleAddItem} />
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        onPress={() => {
+          setAddItemVisible(true);
+        }}
+      />
       <AddEditFridgeItemModal
-        visible={modalVisible}
-        onDismiss={() => setModalVisible(false)}
-        fridgeItem={newItem}
-        onItemSaved={handleItemSaved}
+        visible={addItemVisible}
+        onModalClose={() => {
+          setAddItemVisible(false);
+          fetchFridgeItems();
+        }}
+        fridgeItem={{
+          id: -1,
+          food: {} as Food,
+          quantity: { value: 500, unit: "piece" },
+          expirationDate: addDays(Date.now(), 5).toISOString(),
+          fridgeId: fridge.id,
+        }}
       />
     </View>
   );
