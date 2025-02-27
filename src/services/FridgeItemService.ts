@@ -8,7 +8,7 @@ export const FridgeItemService = {
   },
 
   getByFridgeId: (fridgeId: number): FridgeItem[] | undefined => {
-    return fridgeItems.filter((item) => item.fridgeId === fridgeId);
+    return fridgeItems.filter((item) => item.fridge.id === fridgeId);
   },
 
   getByClosestExpirationDate: (): FridgeItem | undefined => {

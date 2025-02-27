@@ -5,6 +5,7 @@ import { Fridge } from "@src/types/Fridge";
 import { FridgeItem } from "@src/types/FridgeItem";
 import { addDays } from "date-fns";
 import { Quantity } from "@src/types/Quantity";
+import { DEFAULT_QUANTITY } from "@src/utils/constants";
 
 const useSaveItem = (
   fridge: Fridge | null,
@@ -12,7 +13,7 @@ const useSaveItem = (
   existingItem?: FridgeItem
 ) => {
   const [newItemQuantity, setNewItemQuantity] = useState<Quantity>(
-    existingItem?.quantity || { value: 500, unit: "gr" }
+    existingItem?.quantity || DEFAULT_QUANTITY
   );
 
   const [newItemExpirationDate, setNewItemExpirationDate] = useState<Date>(
@@ -28,27 +29,25 @@ const useSaveItem = (
         return;
       }
 
-      const fridgeId = fridge?.id || existingItem?.fridgeId;
+      const fridgeForItem = fridge ?? existingItem?.fridge;
 
-      if (!fridgeId) {
+      if (!fridgeForItem) {
         console.error("No fridge ID available");
         return;
       }
 
       const item: FridgeItem = {
-        id: itemId || 0, // Use 0 for new items, existing ID for updates
+        id: itemId ?? -1,
         food: newItemFood,
         quantity: newItemQuantity,
         expirationDate: newItemExpirationDate.toISOString(),
-        fridgeId: fridgeId,
+        fridge: fridgeForItem,
       };
 
       if (itemId) {
-        // Update existing item
-        await FridgeItemService.updateItem(item);
+        await FridgeItemService.update(item.id, item);
       } else {
-        // Create new item
-        await FridgeItemService.addItem(item);
+        FridgeItemService.addItem(item);
       }
 
       onItemSaved();

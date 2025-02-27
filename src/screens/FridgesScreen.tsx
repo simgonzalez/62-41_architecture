@@ -5,7 +5,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { addFridge, deleteFridge } from "@src/services/FridgeService";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme, FAB } from "react-native-paper";
-import { useSnackbar } from "@src/components/SnackbarProvider";
+import { useSnackbar } from "@src/contexts/SnackbarProvider";
 import FridgeCreateModal from "@components/FridgeCreateModal";
 import useFridges from "@hooks/useFridges";
 

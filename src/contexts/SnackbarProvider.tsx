@@ -6,7 +6,7 @@ import React, {
   useMemo,
 } from "react";
 import { Snackbar } from "react-native-paper";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 interface SnackbarContextType {
   showSnackbar: (message: string, action?: () => void) => void;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View, Alert } from "react-native";
 import {
   Modal,
   Portal,
@@ -17,6 +17,7 @@ import useSaveItem from "@hooks/useSaveItem";
 import UnitQuantitySelector from "@components/UnitQuantitySelector";
 import { FridgeService } from "@services/FridgeService";
 import { FridgeItemService } from "@services/FridgeItemService";
+import { useFridgeItems } from "@contexts/FridgeItemsContext";
 
 interface AddEditFridgeItemModalProps {
   visible: boolean;
@@ -32,6 +33,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
 
     const { newItemFood, setNewItemFood, handleSelectIngredient } =
       useIngredientSelection(fridgeItem?.food);
+    const { markAsDirty } = useFridgeItems();
 
     const {
       newItemQuantity,
@@ -44,7 +46,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
     useEffect(() => {
       const loadFridge = async () => {
         if (fridgeItem) {
-          const fridgeData = await FridgeService.getById(fridgeItem.fridgeId);
+          const fridgeData = await FridgeService.getById(fridgeItem.fridge.id);
           setFridge(fridgeData);
           setNewItemFood(fridgeItem.food);
           setNewItemQuantity(fridgeItem.quantity);
@@ -62,7 +64,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
         if (fridgeItem.id > 0) {
           const updatedItem = {
             id: fridgeItem.id,
-            fridgeId: fridgeItem.fridgeId,
+            fridge: fridgeItem.fridge,
             food: newItemFood,
             quantity: newItemQuantity,
             expirationDate: newItemExpirationDate.toISOString(),
@@ -73,12 +75,42 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
           await handleSaveItem(newItemFood);
         }
 
+        markAsDirty();
         onModalClose();
       } catch (error) {
         console.error("Error saving item:", error);
       } finally {
         setIsSubmitting(false);
       }
+    };
+
+    const handleDelete = () => {
+      if (!fridgeItem || fridgeItem.id <= 0) return;
+
+      Alert.alert(
+        "Delete Item",
+        `Are you sure you want to delete ${fridgeItem.food.name}?`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Delete",
+            onPress: async () => {
+              try {
+                await FridgeItemService.delete(fridgeItem.id);
+                markAsDirty();
+                onModalClose();
+              } catch (error) {
+                console.error("Error deleting item:", error);
+                Alert.alert("Error", "Could not delete item");
+              }
+            },
+            style: "destructive",
+          },
+        ]
+      );
     };
 
     return (
@@ -93,11 +125,11 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
         >
           <ScrollView>
             <Text variant="titleLarge" style={[styles.title]}>
-              {fridgeItem?.id ? "Edit" : "Add"} Fridge Item
+              {fridgeItem?.id > 0 ? "Edit" : "Add"} Fridge Item
             </Text>
             <TextInput
               label="Fridge"
-              value={fridge?.name || ""}
+              value={fridge?.name ?? ""}
               disabled
               style={styles.input}
             />
@@ -118,15 +150,27 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
               style={styles.input}
               validRange={{ startDate: new Date() }}
             />
-            <Button
-              mode="contained"
-              onPress={onSave}
-              style={styles.saveButton}
-              loading={isSubmitting}
-              disabled={isSubmitting || !newItemFood}
-            >
-              Save
-            </Button>
+            <View style={styles.buttonContainer}>
+              {fridgeItem?.id > 0 && (
+                <Button
+                  mode="text"
+                  onPress={handleDelete}
+                  style={styles.deleteButton}
+                  disabled={isSubmitting}
+                >
+                  Delete
+                </Button>
+              )}
+              <Button
+                mode="contained"
+                onPress={onSave}
+                style={styles.saveButton}
+                loading={isSubmitting}
+                disabled={isSubmitting || !newItemFood}
+              >
+                Save
+              </Button>
+            </View>
           </ScrollView>
         </Modal>
       </Portal>
@@ -146,8 +190,18 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 10,
   },
-  saveButton: {
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
+  },
+  saveButton: {
+    flex: 1,
+    marginLeft: 8,
+  },
+  deleteButton: {
+    flex: 1,
+    marginRight: 8,
   },
 });
 

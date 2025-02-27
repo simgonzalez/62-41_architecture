@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Avatar, List, Text, useTheme } from "react-native-paper";
 import { FridgeItem } from "@src/types/FridgeItem";
 import { getIngredientImageUrl } from "@services/TheMealDbService";
 import { parseISO } from "date-fns/parseISO";
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
-import useHydratedFridgeItems from "@hooks/useHydratedFridgeItems";
-import { HydratedFridgeItem } from "@src/types/HydratedFridgeItem";
 import AddEditFridgeItemModal from "./AddEditFridgeItemModal";
 
 type FridgeItemsListProps = {
   items: FridgeItem[];
+  onItemsUpdate?: () => void;
 };
 
-const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
+const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
+  items,
+  onItemsUpdate,
+}) => {
   const { colors } = useTheme();
-  const hydratedItems = useHydratedFridgeItems(items);
   const [modalVisible, setModalVisible] = useState(false);
   const [pressedItem, setPressedItem] = useState<FridgeItem>();
 
@@ -28,13 +29,13 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
 
   return (
     <View style={styles.container}>
-      {hydratedItems.map((item: HydratedFridgeItem) => (
+      {items.map((item: FridgeItem) => (
         <List.Item
           key={item.id}
           title={item.food.name}
           description={() => (
             <View>
-              <Text>{item.fridgeName}</Text>
+              <Text>{item.fridge.name}</Text>
               <Text>
                 {item.quantity.value} {item.quantity.unit}
               </Text>
@@ -64,6 +65,7 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({ items }) => {
         visible={modalVisible}
         onModalClose={() => {
           setModalVisible(false);
+          if (onItemsUpdate) onItemsUpdate();
         }}
         fridgeItem={pressedItem!}
       />

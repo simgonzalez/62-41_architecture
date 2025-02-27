@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Fridge } from "@src/types/Fridge";
 import { IconButton, Menu } from "react-native-paper";
-import { useSnackbar } from "./SnackbarProvider";
+import { useSnackbar } from "../contexts/SnackbarProvider";
 import { addFridge, deleteFridge } from "@src/services/FridgeService";
 
 const FridgeDetailsMenu = () => {

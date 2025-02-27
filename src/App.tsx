@@ -4,10 +4,11 @@ import {
   MD3LightTheme,
   Provider as PaperProvider,
 } from "react-native-paper";
-import { SnackbarProvider } from "@components/SnackbarProvider";
-import LoginNavigation from "./navigations/LoginNavigation";
+import { SnackbarProvider } from "@contexts/SnackbarProvider";
+import LoginNavigation from "@navigations/LoginNavigation";
 import { useColorScheme } from "react-native";
 import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
+import { FridgeItemsProvider } from "@contexts/FridgeItemsContext";
 
 const App = () => {
   const colorScheme = useColorScheme();
@@ -21,7 +22,9 @@ const App = () => {
   return (
     <PaperProvider theme={paperTheme}>
       <SnackbarProvider>
-        <LoginNavigation />
+        <FridgeItemsProvider>
+          <LoginNavigation />
+        </FridgeItemsProvider>
       </SnackbarProvider>
     </PaperProvider>
   );

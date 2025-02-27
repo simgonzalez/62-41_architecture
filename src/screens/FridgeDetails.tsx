@@ -7,8 +7,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import FridgeItemsList from "@components/FridgeItemsList";
 import AddEditFridgeItemModal from "@components/AddEditFridgeItemModal";
 import useFridgeItems from "@hooks/useFridgeItems";
-import { addDays } from "date-fns/addDays";
-import { Food } from "@src/types/Food";
+import { ScrollView } from "react-native-gesture-handler";
+import { defaultFridgeItem } from "@utils/constants";
 
 const FridgeDetails = () => {
   const route = useRoute();
@@ -28,13 +28,18 @@ const FridgeDetails = () => {
           {fridge.location.name}
         </Text>
       </View>
-      {fridgeItems.length > 0 ? (
-        <FridgeItemsList items={fridgeItems} />
-      ) : (
-        <Text style={[styles.noItemsText, { color: colors.onSurface }]}>
-          No items in this fridge
-        </Text>
-      )}
+      <ScrollView>
+        {fridgeItems.length > 0 ? (
+          <FridgeItemsList
+            items={fridgeItems}
+            onItemsUpdate={fetchFridgeItems} // Pass the function here
+          />
+        ) : (
+          <Text style={[styles.noItemsText, { color: colors.onSurface }]}>
+            No items in this fridge
+          </Text>
+        )}
+      </ScrollView>
       <FAB
         style={styles.fab}
         icon="plus"
@@ -48,13 +53,7 @@ const FridgeDetails = () => {
           setAddItemVisible(false);
           fetchFridgeItems();
         }}
-        fridgeItem={{
-          id: -1,
-          food: {} as Food,
-          quantity: { value: 500, unit: "piece" },
-          expirationDate: addDays(Date.now(), 5).toISOString(),
-          fridgeId: fridge.id,
-        }}
+        fridgeItem={defaultFridgeItem(fridge)}
       />
     </View>
   );

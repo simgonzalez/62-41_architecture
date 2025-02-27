@@ -1,4 +1,5 @@
 import { Food } from "./Food";
+import { Fridge } from "./Fridge";
 import { Quantity } from "./Quantity";
 
 export interface FridgeItem {
@@ -6,5 +7,5 @@ export interface FridgeItem {
   food: Food;
   quantity: Quantity;
   expirationDate: string;
-  fridgeId: number;
+  fridge: Fridge;
 }

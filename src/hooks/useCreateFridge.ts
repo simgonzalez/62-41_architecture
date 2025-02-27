@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Fridge } from "@src/types/Fridge";
 import { addFridge } from "@src/services/FridgeService";
-import { useSnackbar } from "@components/SnackbarProvider";
+import { useSnackbar } from "@src/contexts/SnackbarProvider";
 import { FridgeLocation } from "@src/types/FridgeLocation";
 
-const useCreateFridge = (onFridgeCreated: () => void, onDismiss: () => void) => {
+const useCreateFridge = (
+  onFridgeCreated: () => void,
+  onDismiss: () => void
+) => {
   const [name, setName] = useState("");
   const { showSnackbar } = useSnackbar();
 
