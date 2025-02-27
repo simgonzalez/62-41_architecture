@@ -32,7 +32,7 @@ const FridgeDetails = () => {
         {fridgeItems.length > 0 ? (
           <FridgeItemsList
             items={fridgeItems}
-            onItemsUpdate={fetchFridgeItems} // Pass the function here
+            onItemsUpdate={fetchFridgeItems}
           />
         ) : (
           <Text style={[styles.noItemsText, { color: colors.onSurface }]}>

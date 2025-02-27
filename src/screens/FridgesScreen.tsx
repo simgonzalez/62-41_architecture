@@ -6,7 +6,7 @@ import { addFridge, deleteFridge } from "@src/services/FridgeService";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme, FAB } from "react-native-paper";
 import { useSnackbar } from "@src/contexts/SnackbarProvider";
-import FridgeCreateModal from "@components/FridgeCreateModal";
+import AddFridgeModal from "@src/components/AddFridgeModal";
 import useFridges from "@hooks/useFridges";
 
 const FridgesScreen = () => {
@@ -53,7 +53,7 @@ const FridgesScreen = () => {
       )}
 
       <FAB style={styles.fab} icon="plus" onPress={handleCreateFridge} />
-      <FridgeCreateModal
+      <AddFridgeModal
         visible={modalVisible}
         onDismiss={() => setModalVisible(false)}
         onFridgeCreated={loadFridges}

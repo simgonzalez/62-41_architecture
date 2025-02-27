@@ -20,7 +20,7 @@ interface FridgeCreateModalProps {
   onFridgeCreated: () => void;
 }
 
-const FridgeCreateModal: React.FC<FridgeCreateModalProps> = ({
+const AddFridgeModal: React.FC<FridgeCreateModalProps> = ({
   visible,
   onDismiss,
   onFridgeCreated,
@@ -106,6 +106,7 @@ const FridgeCreateModal: React.FC<FridgeCreateModalProps> = ({
       <Dialog
         visible={locationDialogVisible}
         onDismiss={() => setLocationDialogVisible(false)}
+        style={{ height: "80%" }}
       >
         <Dialog.Title>Select Location</Dialog.Title>
         <Dialog.Content>
@@ -151,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FridgeCreateModal;
+export default AddFridgeModal;
