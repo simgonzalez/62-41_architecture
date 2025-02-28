@@ -17,7 +17,7 @@ import useSaveItem from "@hooks/useSaveItem";
 import UnitQuantitySelector from "@components/UnitQuantitySelector";
 import { FridgeService } from "@services/FridgeService";
 import { FridgeItemService } from "@services/FridgeItemService";
-import { useFridgeItems } from "@contexts/FridgeItemsContext";
+import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
 
 interface AddEditFridgeItemModalProps {
   visible: boolean;
@@ -33,7 +33,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
 
     const { newItemFood, setNewItemFood, handleSelectIngredient } =
       useIngredientSelection(fridgeItem?.food);
-    const { markAsDirty } = useFridgeItems();
+    const { markAsDirty } = useFridgeItemsContext();
 
     const {
       newItemQuantity,

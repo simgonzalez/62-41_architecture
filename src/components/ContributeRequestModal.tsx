@@ -14,7 +14,7 @@ import { FridgeItemService } from "@services/FridgeItemService";
 import { FridgeItem } from "@src/types/FridgeItem";
 import UnitQuantitySelector from "@components/UnitQuantitySelector";
 import { Quantity } from "@src/types/Quantity";
-import { useFridgeItems } from "@contexts/FridgeItemsContext";
+import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
 
 interface ContributeRequestModalProps {
   visible: boolean;
@@ -33,7 +33,7 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
     new Map()
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { markAsDirty } = useFridgeItems();
+  const { markAsDirty } = useFridgeItemsContext();
 
   useEffect(() => {
     if (request && visible) {

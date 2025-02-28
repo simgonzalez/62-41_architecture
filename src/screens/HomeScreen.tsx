@@ -5,14 +5,14 @@ import MealRecommendations from "@src/components/MealRecommendations";
 import FridgeItemsList from "@components/FridgeItemsList";
 import useClosestExpiringItem from "@hooks/useClosestExpiringItem";
 import useAllFridgeItems from "@hooks/useAllFridgeItems";
-import { useFridgeItems } from "@src/contexts/FridgeItemsContext";
+import { useFridgeItemsContext } from "@src/contexts/FridgeItemsContext";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
   const { closestExpiringItem, fetchClosestExpiringItem } =
     useClosestExpiringItem();
   const { fridgeItems, fetchFridgeItems } = useAllFridgeItems();
-  const { isDirty, resetDirtyFlag } = useFridgeItems();
+  const { isDirty, resetDirtyFlag } = useFridgeItemsContext();
 
   useEffect(() => {
     if (isDirty) {

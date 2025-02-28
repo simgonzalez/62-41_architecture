@@ -36,7 +36,7 @@ export const FridgeItemsProvider: React.FC<FridgeItemsProviderProps> = ({
   );
 };
 
-export const useFridgeItems = (): FridgeItemsContextType => {
+export const useFridgeItemsContext = (): FridgeItemsContextType => {
   const context = useContext(FridgeItemsContext);
   if (context === undefined) {
     throw new Error("useFridgeItems must be used within a FridgeItemsProvider");

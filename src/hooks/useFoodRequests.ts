@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FoodRequest } from "@src/types/FoodRequest";
 import { RequestService } from "@src/services/RequestService";
 import { FridgeItemService } from "@src/services/FridgeItemService";
-import { useFridgeItems } from "@contexts/FridgeItemsContext";
+import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
 
 export interface RequestWithFulfillmentStatus extends FoodRequest {
   canFulfill: boolean;
@@ -13,7 +13,7 @@ const useFoodRequests = () => {
   const [requests, setRequests] = useState<RequestWithFulfillmentStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isDirty, resetDirtyFlag } = useFridgeItems();
+  const { isDirty, resetDirtyFlag } = useFridgeItemsContext();
 
   const fetchRequests = async () => {
     try {
