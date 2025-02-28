@@ -1,8 +1,10 @@
+// src/navigations/MainNavigation.tsx
 import React from "react";
 import { Appbar, BottomNavigation } from "react-native-paper";
 import HomeScreen from "@screens/HomeScreen";
 import FridgeStack from "@navigations/FridgeStack";
 import UserScreen from "@screens/UserScreen";
+import RequestsScreen from "@screens/FoodRequestsScreen";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Navigation = () => {
@@ -10,12 +12,19 @@ const Navigation = () => {
   const [routes] = React.useState([
     { key: "home", title: "Home", icon: "home-outline" },
     { key: "fridges", title: "Fridges", icon: "snowflake" },
+    {
+      key: "requests",
+      title: "Requests",
+      topBarTitle: "Food donations requests",
+      icon: "gift-outline",
+    },
     { key: "user", title: "User", icon: "account-outline" },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeScreen,
     fridges: FridgeStack,
+    requests: RequestsScreen,
     user: UserScreen,
   });
 
@@ -31,24 +40,13 @@ const Navigation = () => {
     return <Icon name={route.icon} size={24} color={color} />;
   };
 
-  const getTitle = () => {
-    switch (routes[index].key) {
-      case "home":
-        return "Home";
-      case "fridges":
-        return "Fridges";
-      case "user":
-        return "User";
-      default:
-        return "Smart Fridge";
-    }
-  };
-
   return (
     <>
       {routes[index].key !== "fridges" && (
         <Appbar.Header elevated={true}>
-          <Appbar.Content title={getTitle()} />
+          <Appbar.Content
+            title={routes[index].topBarTitle ?? routes[index].title}
+          />
         </Appbar.Header>
       )}
       <BottomNavigation

@@ -10,7 +10,7 @@ import useFridgeItems from "@hooks/useFridgeItems";
 import { ScrollView } from "react-native-gesture-handler";
 import { defaultFridgeItem } from "@utils/constants";
 
-const FridgeDetails = () => {
+const FridgeDetailsScreen = () => {
   const route = useRoute();
   const { fridge } = route.params as { fridge: Fridge };
   const { fridgeItems, fetchFridgeItems } = useFridgeItems(fridge.id);
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FridgeDetails;
+export default FridgeDetailsScreen;

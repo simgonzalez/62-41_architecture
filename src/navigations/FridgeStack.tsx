@@ -4,7 +4,7 @@ import { RouteProp } from "@react-navigation/native";
 import { View } from "react-native";
 import { Appbar } from "react-native-paper";
 import FridgesScreen from "@screens/FridgesScreen";
-import FridgeDetails from "@screens/FridgeDetails";
+import FridgeDetailsScreen from "@src/screens/FridgeDetailsScreen";
 import FridgeDetailsMenu from "@src/components/FridgeDetailsMenu";
 import { Fridge } from "@src/types/Fridge";
 
@@ -47,7 +47,11 @@ const FridgeStack = () => (
             navigation={navigation}
             previous={route.name === "Fridges" ? null : back}
             title={title}
-            rightComponent={options.headerRight ? options.headerRight() : null}
+            rightComponent={
+              options.headerRight
+                ? options.headerRight({ tintColor: options.headerTintColor })
+                : null
+            }
           />
         );
       },
@@ -63,7 +67,7 @@ const FridgeStack = () => (
     />
     <Stack.Screen
       name="FridgeDetails"
-      component={FridgeDetails}
+      component={FridgeDetailsScreen}
       options={({
         route,
       }: {
