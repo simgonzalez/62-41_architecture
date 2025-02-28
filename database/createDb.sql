@@ -3,15 +3,16 @@ USE smart_fridge;
 
 CREATE TABLE role (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    permissions TEXT
+    name VARCHAR(50) NOT NULL UNIQUE
+    description VARCHAR(1000),
 );
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    display_name VARCHAR(100) NOT NULL,
+    firstname VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     role_id INT NOT NULL,
     FOREIGN KEY (role_id) REFERENCES role(id)
 );

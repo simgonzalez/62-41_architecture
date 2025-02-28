@@ -2,19 +2,17 @@ USE smart_fridge;
 
 -- Insert roles
 INSERT INTO role (name, permissions) VALUES
-('admin', '{"all": true}'),
-('manager', '{"manage_fridges": true, "manage_food": true}'),
-('user', '{"view": true, "add_food": true}'),
-('guest', '{"view": true}');
+('admin', 'Administrator of the application.'),
+('organization', 'Allow users to access organization screen and make manage requests'),
+('user', 'Mobile application role. Allow users to connect on the mobile platform');
 
 -- Insert users
-INSERT INTO user (email, password_hash, display_name, role_id) VALUES
-('admin@smartfridge.com', '$2a$12$1234567890123456789012uqgOQjiLiEMZ3Yh6IkMk5yvnQxy5tK6', 'Admin User', 1),
-('john.doe@example.com', '$2a$12$1234567890123456789012uhGzthG5wXMqvyfBGPR7c1crLpGDdUW', 'John Doe', 2),
-('jane.smith@example.com', '$2a$12$1234567890123456789012uw1GDn0k1PylYWBWz3cmTQ4mSczPNg9K', 'Jane Smith', 2),
-('bob.wilson@example.com', '$2a$12$1234567890123456789012uQgPrf0AmIjAXw6LVaGOELVX3eJnkTim', 'Bob Wilson', 3),
-('alice.johnson@example.com', '$2a$12$1234567890123456789012uq86y1JuV5flHRjQvHXjmKkTGdQyRC2', 'Alice Johnson', 3),
-('guest@smartfridge.com', '$2a$12$1234567890123456789012uYtkjKHYdKJA4wHFhKF2xeFJ5wFyG1O', 'Guest User', 4);
+INSERT INTO user (email, password_hash, name, role_id) VALUES
+('admin@smartfridge.com', '$2a$12$1234567890123456789012uqgOQjiLiEMZ3Yh6IkMk5yvnQxy5tK6', 'Admin', 'User', 1),
+('john.doe@example.com', '$2a$12$1234567890123456789012uhGzthG5wXMqvyfBGPR7c1crLpGDdUW', 'John', 'Doe', 2),
+('jane.smith@example.com', '$2a$12$1234567890123456789012uw1GDn0k1PylYWBWz3cmTQ4mSczPNg9K', 'Jane', 'Smith', 2),
+('bob.wilson@example.com', '$2a$12$1234567890123456789012uQgPrf0AmIjAXw6LVaGOELVX3eJnkTim', 'Bob', 'Wilson', 3),
+('alice.johnson@example.com', '$2a$12$1234567890123456789012uq86y1JuV5flHRjQvHXjmKkTGdQyRC2', 'Alice', 'Johnson', 3);
 
 -- Insert organizations
 INSERT INTO organization (name, address, contact_info, description) VALUES
