@@ -61,14 +61,9 @@ INSERT INTO user_fridge (user_id, fridge_id) VALUES
 
 -- Insert units
 INSERT INTO unit (name, abbreviation) VALUES
-('Kilogram', 'kg'),
-('Gram', 'g'),
-('Liter', 'L'),
-('Milliliter', 'mL'),
 ('Piece', 'pc'),
-('Package', 'pkg'),
-('Can', 'can'),
-('Box', 'box');
+('Kilogram', 'kg'),
+('Liter', 'L');
 
 -- Insert food items
 INSERT INTO food (name, ingredient_open_meal_db_name) VALUES
