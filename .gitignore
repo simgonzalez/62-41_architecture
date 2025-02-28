@@ -36,3 +36,4 @@ yarn-error.*
 *.tsbuildinfo
 
 .vs/*
+.vscode/*
