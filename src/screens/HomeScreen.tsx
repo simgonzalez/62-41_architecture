@@ -1,26 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { Divider, Text, useTheme } from "react-native-paper";
-import MealRecommendations from "@src/components/MealRecommendations";
+import MealRecommendations from "@components/MealRecommendations";
 import FridgeItemsList from "@components/FridgeItemsList";
 import useClosestExpiringItem from "@hooks/useClosestExpiringItem";
 import useAllFridgeItems from "@hooks/useAllFridgeItems";
-import { useFridgeItemsContext } from "@src/contexts/FridgeItemsContext";
+import useRefreshOnDirty from "@hooks/useRefreshOnDirty";
 
 const HomeScreen = () => {
   const { colors } = useTheme();
   const { closestExpiringItem, fetchClosestExpiringItem } =
     useClosestExpiringItem();
   const { fridgeItems, fetchFridgeItems } = useAllFridgeItems();
-  const { isDirty, resetDirtyFlag } = useFridgeItemsContext();
-
-  useEffect(() => {
-    if (isDirty) {
-      fetchFridgeItems();
-      fetchClosestExpiringItem();
-      resetDirtyFlag();
-    }
-  }, [isDirty, fetchFridgeItems, fetchClosestExpiringItem, resetDirtyFlag]);
+  useRefreshOnDirty([fetchFridgeItems, fetchClosestExpiringItem]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

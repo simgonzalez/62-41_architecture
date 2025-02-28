@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { Fridge } from "@src/types/Fridge";
@@ -9,7 +9,7 @@ import AddEditFridgeItemModal from "@components/AddEditFridgeItemModal";
 import useFridgeItems from "@hooks/useFridgeItems";
 import { ScrollView } from "react-native-gesture-handler";
 import { defaultFridgeItem } from "@utils/constants";
-import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
+import useRefreshOnDirty from "@src/hooks/useRefreshOnDirty";
 
 const FridgeDetailsScreen = () => {
   const route = useRoute();
@@ -17,14 +17,8 @@ const FridgeDetailsScreen = () => {
   const { fridgeItems, fetchFridgeItems } = useFridgeItems(fridge.id);
   const { colors } = useTheme();
   const [addItemVisible, setAddItemVisible] = useState(false);
-  const { isDirty, resetDirtyFlag } = useFridgeItemsContext();
 
-  useEffect(() => {
-    if (isDirty) {
-      fetchFridgeItems();
-      resetDirtyFlag();
-    }
-  }, [isDirty, fetchFridgeItems, resetDirtyFlag]);
+  useRefreshOnDirty([fetchFridgeItems]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>

@@ -22,7 +22,6 @@ const FoodRequestsScreen = () => {
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedRequest(null);
-    // Refresh the requests to update the UI
     fetchRequests();
   };
 

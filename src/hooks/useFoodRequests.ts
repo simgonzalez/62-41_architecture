@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FoodRequest } from "@src/types/FoodRequest";
-import { RequestService } from "@src/services/RequestService";
-import { FridgeItemService } from "@src/services/FridgeItemService";
+import { RequestService } from "@services/RequestService";
+import { FridgeItemService } from "@services/FridgeItemService";
 import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
+import useRefreshOnDirty from "./useRefreshOnDirty";
 
 export interface RequestWithFulfillmentStatus extends FoodRequest {
   canFulfill: boolean;
@@ -13,7 +14,6 @@ const useFoodRequests = () => {
   const [requests, setRequests] = useState<RequestWithFulfillmentStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isDirty, resetDirtyFlag } = useFridgeItemsContext();
 
   const fetchRequests = async () => {
     try {
@@ -62,13 +62,7 @@ const useFoodRequests = () => {
       .map((item) => item.id);
   };
 
-  useEffect(() => {
-    fetchRequests();
-
-    if (isDirty) {
-      resetDirtyFlag();
-    }
-  }, [isDirty]);
+  useRefreshOnDirty([fetchRequests]);
 
   return { requests, loading, error, fetchRequests };
 };
