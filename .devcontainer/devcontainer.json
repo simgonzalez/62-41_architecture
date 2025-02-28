@@ -1,9 +1,0 @@
-{
-	"name": "Node.js & TypeScript",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
-	"features": {
-		"ghcr.io/devcontainers-extra/features/mysql-homebrew:1": {}
-	},
-    "forwardPorts": [8081],
-    "remoteUser": "root"
-}
