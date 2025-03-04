@@ -142,7 +142,7 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
               setQuantity={setNewItemQuantity}
             />
             <DatePickerInput
-              locale="en-GB"
+              locale="fr-FR"
               label="Expiration Date"
               value={newItemExpirationDate}
               onChange={(date) => date && setNewItemExpirationDate(date)}

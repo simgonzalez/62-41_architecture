@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Text, Button, useTheme, ActivityIndicator } from "react-native-paper";
 import useFoodRequests, {
@@ -13,6 +13,10 @@ const FoodRequestsScreen = () => {
   const [selectedRequest, setSelectedRequest] =
     useState<RequestWithFulfillmentStatus | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    fetchRequests();
+  }, []);
 
   const handleContributePress = (request: RequestWithFulfillmentStatus) => {
     setSelectedRequest(request);
