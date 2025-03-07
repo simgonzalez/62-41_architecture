@@ -36,7 +36,7 @@ namespace SmartFridge
         {
             if (validateForm()) {
                 this.Hide();
-                new FrmMain().ShowDialog();
+                new FrmAdmin().ShowDialog();
                 this.Close();
             }
         }
