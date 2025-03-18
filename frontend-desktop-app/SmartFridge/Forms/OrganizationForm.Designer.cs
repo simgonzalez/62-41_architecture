@@ -32,10 +32,6 @@
             tpRequests = new TabPage();
             btnCreateFoodRequest = new Button();
             dataGridView1 = new DataGridView();
-            foodRequestName = new DataGridViewTextBoxColumn();
-            description = new DataGridViewTextBoxColumn();
-            deadline = new DataGridViewTextBoxColumn();
-            details = new DataGridViewLinkColumn();
             tpMembers = new TabPage();
             btnAddMember = new Button();
             dgvMembers = new DataGridView();
@@ -45,6 +41,11 @@
             tpOrganizationInfo = new TabPage();
             lblOrganizationPanel = new Label();
             fileSystemWatcher1 = new FileSystemWatcher();
+            foodRequestName = new DataGridViewTextBoxColumn();
+            description = new DataGridViewTextBoxColumn();
+            deadline = new DataGridViewTextBoxColumn();
+            status = new DataGridViewComboBoxColumn();
+            details = new DataGridViewLinkColumn();
             tabOrganizationPanel.SuspendLayout();
             tpRequests.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -93,45 +94,13 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { foodRequestName, description, deadline, details });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { foodRequestName, description, deadline, status, details });
             dataGridView1.Location = new Point(210, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(960, 731);
             dataGridView1.TabIndex = 1;
-            // 
-            // foodRequestName
-            // 
-            foodRequestName.HeaderText = "Name";
-            foodRequestName.MinimumWidth = 8;
-            foodRequestName.Name = "foodRequestName";
-            foodRequestName.ReadOnly = true;
-            foodRequestName.Width = 150;
-            // 
-            // description
-            // 
-            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            description.HeaderText = "Description";
-            description.MinimumWidth = 8;
-            description.Name = "description";
-            description.ReadOnly = true;
-            // 
-            // deadline
-            // 
-            deadline.HeaderText = "Deadline";
-            deadline.MinimumWidth = 8;
-            deadline.Name = "deadline";
-            deadline.ReadOnly = true;
-            deadline.Width = 150;
-            // 
-            // details
-            // 
-            details.HeaderText = "Details";
-            details.MinimumWidth = 8;
-            details.Name = "details";
-            details.ReadOnly = true;
-            details.Width = 150;
             // 
             // tpMembers
             // 
@@ -216,6 +185,48 @@
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
+            // foodRequestName
+            // 
+            foodRequestName.HeaderText = "Name";
+            foodRequestName.MinimumWidth = 8;
+            foodRequestName.Name = "foodRequestName";
+            foodRequestName.ReadOnly = true;
+            foodRequestName.Width = 150;
+            // 
+            // description
+            // 
+            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            description.HeaderText = "Description";
+            description.MinimumWidth = 8;
+            description.Name = "description";
+            description.ReadOnly = true;
+            // 
+            // deadline
+            // 
+            deadline.HeaderText = "Deadline";
+            deadline.MinimumWidth = 8;
+            deadline.Name = "deadline";
+            deadline.ReadOnly = true;
+            deadline.Width = 150;
+            // 
+            // status
+            // 
+            status.HeaderText = "Status";
+            status.MinimumWidth = 8;
+            status.Name = "status";
+            status.ReadOnly = true;
+            status.Resizable = DataGridViewTriState.True;
+            status.SortMode = DataGridViewColumnSortMode.Automatic;
+            status.Width = 150;
+            // 
+            // details
+            // 
+            details.HeaderText = "Details";
+            details.MinimumWidth = 8;
+            details.Name = "details";
+            details.ReadOnly = true;
+            details.Width = 150;
+            // 
             // frmOrganization
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -254,6 +265,7 @@
         private DataGridViewTextBoxColumn foodRequestName;
         private DataGridViewTextBoxColumn description;
         private DataGridViewTextBoxColumn deadline;
+        private DataGridViewComboBoxColumn status;
         private DataGridViewLinkColumn details;
     }
 }

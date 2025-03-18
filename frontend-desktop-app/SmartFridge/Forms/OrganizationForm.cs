@@ -22,7 +22,7 @@ namespace SmartFridge.Forms
         private void TabOrganizationPanel_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Check if the selected tab is the third one (index 2)
-            if (tabOrganizationPanel.SelectedIndex == 2)
+            if (tabOrganizationPanel.SelectedIndex == TAB_ORGANIZATION_INFORMATION)
             {
                 ForceRenderFormInTab();
             }

@@ -160,7 +160,9 @@
             Controls.Add(txtStreetNumber);
             Controls.Add(txtStreet);
             Controls.Add(lblStreet);
-            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "frmCreateEditAddress";
             Text = "Address";
             ResumeLayout(false);
