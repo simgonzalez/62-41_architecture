@@ -15,5 +15,11 @@
 \\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.genruntimeconfig.cache
 \\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\ref\SmartFridge.dll
 \\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.frmLogin.resources
-\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.FrmMain.resources
 \\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.FrmRegister.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.FrmAdmin.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmCreateEditOrganization.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmCreateEditAddress.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmOrganization.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmAddMember.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmCreateEditFoodRequest.resources
+\\wsl.localhost\Debian\home\sgonzalez\development\62-41_architecture\frontend-desktop-app\SmartFridge\obj\Debug\net8.0-windows\SmartFridge.Forms.frmCreateEditFoodRequestItem.resources

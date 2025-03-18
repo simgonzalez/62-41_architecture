@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SmartFridge.Forms;
 
 namespace SmartFridge
 {
@@ -35,9 +36,15 @@ namespace SmartFridge
         private void btnLogin_Click(object sender, EventArgs e)
         {
             if (validateForm()) {
-                this.Hide();
+                if(txtUsername.Text == "org")
+                {
+                    Hide();
+                    new frmOrganization().ShowDialog();
+                    Close();
+                }
+                Hide();
                 new FrmAdmin().ShowDialog();
-                this.Close();
+                Close();
             }
         }
 

@@ -28,31 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             tcAdminPanel = new TabControl();
             tpOrganizationPage = new TabPage();
-            tpUsers = new TabPage();
-            lblAdminPanel = new Label();
+            btnAddLine = new Button();
             dgvOrganization = new DataGridView();
-            tpUnits = new TabPage();
             name = new DataGridViewTextBoxColumn();
             description = new DataGridViewTextBoxColumn();
             address = new DataGridViewTextBoxColumn();
+            organizationEmail = new DataGridViewTextBoxColumn();
             Status = new DataGridViewComboBoxColumn();
-            contactPerson = new DataGridViewLinkColumn();
+            tpUsers = new TabPage();
             dgvUsers = new DataGridView();
+            userFirstName = new DataGridViewTextBoxColumn();
+            userName = new DataGridViewTextBoxColumn();
             email = new DataGridViewTextBoxColumn();
-            roles = new DataGridViewComboBoxColumn();
+            role = new DataGridViewComboBoxColumn();
             chkArchived = new DataGridViewCheckBoxColumn();
+            tpUnits = new TabPage();
             dataGridView1 = new DataGridView();
             unitName = new DataGridViewTextBoxColumn();
             abbreviation = new DataGridViewTextBoxColumn();
+            lblAdminPanel = new Label();
             tcAdminPanel.SuspendLayout();
             tpOrganizationPage.SuspendLayout();
-            tpUsers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOrganization).BeginInit();
-            tpUnits.SuspendLayout();
+            tpUsers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).BeginInit();
+            tpUnits.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -70,6 +73,7 @@
             // 
             // tpOrganizationPage
             // 
+            tpOrganizationPage.Controls.Add(btnAddLine);
             tpOrganizationPage.Controls.Add(dgvOrganization);
             tpOrganizationPage.Location = new Point(4, 34);
             tpOrganizationPage.Name = "tpOrganizationPage";
@@ -78,6 +82,75 @@
             tpOrganizationPage.TabIndex = 0;
             tpOrganizationPage.Text = "Organizations";
             tpOrganizationPage.UseVisualStyleBackColor = true;
+            // 
+            // btnAddLine
+            // 
+            btnAddLine.Location = new Point(9, 38);
+            btnAddLine.Name = "btnAddLine";
+            btnAddLine.Size = new Size(198, 35);
+            btnAddLine.TabIndex = 1;
+            btnAddLine.Text = "&Create organization";
+            btnAddLine.UseVisualStyleBackColor = true;
+            btnAddLine.Click += btnAddLine_Click;
+            // 
+            // dgvOrganization
+            // 
+            dgvOrganization.AllowUserToAddRows = false;
+            dgvOrganization.AllowUserToDeleteRows = false;
+            dgvOrganization.AllowUserToOrderColumns = true;
+            dgvOrganization.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvOrganization.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvOrganization.Columns.AddRange(new DataGridViewColumn[] { name, description, address, organizationEmail, Status });
+            dgvOrganization.Location = new Point(210, 3);
+            dgvOrganization.Name = "dgvOrganization";
+            dgvOrganization.ReadOnly = true;
+            dgvOrganization.RowHeadersWidth = 62;
+            dgvOrganization.Size = new Size(960, 719);
+            dgvOrganization.TabIndex = 0;
+            dgvOrganization.CellContentClick += dgvOrganization_CellContentClick;
+            // 
+            // name
+            // 
+            name.HeaderText = "Name";
+            name.MinimumWidth = 8;
+            name.Name = "name";
+            name.ReadOnly = true;
+            name.Width = 150;
+            // 
+            // description
+            // 
+            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            description.DefaultCellStyle = dataGridViewCellStyle2;
+            description.HeaderText = "Description";
+            description.MinimumWidth = 8;
+            description.Name = "description";
+            description.ReadOnly = true;
+            // 
+            // address
+            // 
+            address.HeaderText = "Address";
+            address.MinimumWidth = 8;
+            address.Name = "address";
+            address.ReadOnly = true;
+            address.Width = 150;
+            // 
+            // organizationEmail
+            // 
+            organizationEmail.HeaderText = "Email";
+            organizationEmail.MinimumWidth = 8;
+            organizationEmail.Name = "organizationEmail";
+            organizationEmail.ReadOnly = true;
+            organizationEmail.Width = 150;
+            // 
+            // Status
+            // 
+            Status.HeaderText = "Status";
+            Status.Items.AddRange(new object[] { "Waiting for approval", "Approved", "Archived" });
+            Status.MinimumWidth = 8;
+            Status.Name = "Status";
+            Status.ReadOnly = true;
+            Status.Width = 150;
             // 
             // tpUsers
             // 
@@ -90,29 +163,56 @@
             tpUsers.Text = "Users";
             tpUsers.UseVisualStyleBackColor = true;
             // 
-            // lblAdminPanel
+            // dgvUsers
             // 
-            lblAdminPanel.AutoSize = true;
-            lblAdminPanel.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAdminPanel.Location = new Point(4, 21);
-            lblAdminPanel.Name = "lblAdminPanel";
-            lblAdminPanel.Size = new Size(174, 38);
-            lblAdminPanel.TabIndex = 1;
-            lblAdminPanel.Text = "Admin panel";
-            lblAdminPanel.Click += label1_Click;
+            dgvUsers.AllowUserToDeleteRows = false;
+            dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsers.Columns.AddRange(new DataGridViewColumn[] { userFirstName, userName, email, role, chkArchived });
+            dgvUsers.Dock = DockStyle.Fill;
+            dgvUsers.Location = new Point(3, 3);
+            dgvUsers.Name = "dgvUsers";
+            dgvUsers.RowHeadersWidth = 62;
+            dgvUsers.Size = new Size(1167, 719);
+            dgvUsers.TabIndex = 0;
             // 
-            // dgvOrganization
+            // userFirstName
             // 
-            dgvOrganization.AllowUserToDeleteRows = false;
-            dgvOrganization.AllowUserToOrderColumns = true;
-            dgvOrganization.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvOrganization.Columns.AddRange(new DataGridViewColumn[] { name, description, address, Status, contactPerson });
-            dgvOrganization.Dock = DockStyle.Fill;
-            dgvOrganization.Location = new Point(3, 3);
-            dgvOrganization.Name = "dgvOrganization";
-            dgvOrganization.RowHeadersWidth = 62;
-            dgvOrganization.Size = new Size(1167, 719);
-            dgvOrganization.TabIndex = 0;
+            userFirstName.HeaderText = "First Name";
+            userFirstName.MinimumWidth = 8;
+            userFirstName.Name = "userFirstName";
+            userFirstName.Width = 150;
+            // 
+            // userName
+            // 
+            userName.HeaderText = "Name";
+            userName.MinimumWidth = 8;
+            userName.Name = "userName";
+            userName.Width = 150;
+            // 
+            // email
+            // 
+            email.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            email.HeaderText = "Email";
+            email.MinimumWidth = 8;
+            email.Name = "email";
+            // 
+            // role
+            // 
+            role.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            role.HeaderText = "Role";
+            role.Items.AddRange(new object[] { "User", "Admin", "Organization member" });
+            role.MinimumWidth = 8;
+            role.Name = "role";
+            role.Resizable = DataGridViewTriState.True;
+            role.SortMode = DataGridViewColumnSortMode.Automatic;
+            // 
+            // chkArchived
+            // 
+            chkArchived.HeaderText = "Archived";
+            chkArchived.MinimumWidth = 8;
+            chkArchived.Name = "chkArchived";
+            chkArchived.Resizable = DataGridViewTriState.True;
+            chkArchived.Width = 150;
             // 
             // tpUnits
             // 
@@ -124,81 +224,6 @@
             tpUnits.TabIndex = 2;
             tpUnits.Text = "Units";
             tpUnits.UseVisualStyleBackColor = true;
-            // 
-            // name
-            // 
-            name.HeaderText = "Name";
-            name.MinimumWidth = 8;
-            name.Name = "name";
-            name.Width = 150;
-            // 
-            // description
-            // 
-            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            description.DefaultCellStyle = dataGridViewCellStyle5;
-            description.HeaderText = "Description";
-            description.MinimumWidth = 8;
-            description.Name = "description";
-            // 
-            // address
-            // 
-            address.HeaderText = "Address";
-            address.MinimumWidth = 8;
-            address.Name = "address";
-            address.Width = 150;
-            // 
-            // Status
-            // 
-            Status.HeaderText = "Status";
-            Status.Items.AddRange(new object[] { "Waiting for approval", "Approved", "Archived" });
-            Status.MinimumWidth = 8;
-            Status.Name = "Status";
-            Status.Width = 150;
-            // 
-            // contactPerson
-            // 
-            contactPerson.HeaderText = "Person of contact";
-            contactPerson.MinimumWidth = 8;
-            contactPerson.Name = "contactPerson";
-            contactPerson.Width = 150;
-            // 
-            // dgvUsers
-            // 
-            dgvUsers.AllowUserToDeleteRows = false;
-            dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsers.Columns.AddRange(new DataGridViewColumn[] { email, roles, chkArchived });
-            dgvUsers.Dock = DockStyle.Fill;
-            dgvUsers.Location = new Point(3, 3);
-            dgvUsers.Name = "dgvUsers";
-            dgvUsers.RowHeadersWidth = 62;
-            dgvUsers.Size = new Size(1167, 719);
-            dgvUsers.TabIndex = 0;
-            // 
-            // email
-            // 
-            email.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            email.HeaderText = "Email";
-            email.MinimumWidth = 8;
-            email.Name = "email";
-            // 
-            // roles
-            // 
-            roles.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            roles.HeaderText = "Roles";
-            roles.Items.AddRange(new object[] { "User", "Admin", "Organization member" });
-            roles.MinimumWidth = 8;
-            roles.Name = "roles";
-            roles.Resizable = DataGridViewTriState.True;
-            roles.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // chkArchived
-            // 
-            chkArchived.HeaderText = "Archived";
-            chkArchived.MinimumWidth = 8;
-            chkArchived.Name = "chkArchived";
-            chkArchived.Resizable = DataGridViewTriState.True;
-            chkArchived.Width = 150;
             // 
             // dataGridView1
             // 
@@ -225,6 +250,17 @@
             abbreviation.MinimumWidth = 8;
             abbreviation.Name = "abbreviation";
             // 
+            // lblAdminPanel
+            // 
+            lblAdminPanel.AutoSize = true;
+            lblAdminPanel.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblAdminPanel.Location = new Point(4, 21);
+            lblAdminPanel.Name = "lblAdminPanel";
+            lblAdminPanel.Size = new Size(174, 38);
+            lblAdminPanel.TabIndex = 1;
+            lblAdminPanel.Text = "Admin panel";
+            lblAdminPanel.Click += label1_Click;
+            // 
             // FrmAdmin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -232,15 +268,15 @@
             ClientSize = new Size(1178, 844);
             Controls.Add(lblAdminPanel);
             Controls.Add(tcAdminPanel);
-            MinimumSize = new Size(720, 540);
+            MinimumSize = new Size(1200, 900);
             Name = "FrmAdmin";
             Text = "Home";
             tcAdminPanel.ResumeLayout(false);
             tpOrganizationPage.ResumeLayout(false);
-            tpUsers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvOrganization).EndInit();
-            tpUnits.ResumeLayout(false);
+            tpUsers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
+            tpUnits.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -254,17 +290,20 @@
         private Label lblAdminPanel;
         private DataGridView dgvOrganization;
         private TabPage tpUnits;
-        private DataGridViewTextBoxColumn name;
-        private DataGridViewTextBoxColumn description;
-        private DataGridViewTextBoxColumn address;
-        private DataGridViewComboBoxColumn Status;
-        private DataGridViewLinkColumn contactPerson;
         private DataGridView dgvUsers;
-        private DataGridViewTextBoxColumn email;
-        private DataGridViewComboBoxColumn roles;
-        private DataGridViewCheckBoxColumn chkArchived;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn unitName;
         private DataGridViewTextBoxColumn abbreviation;
+        private Button btnAddLine;
+        private DataGridViewTextBoxColumn name;
+        private DataGridViewTextBoxColumn description;
+        private DataGridViewTextBoxColumn address;
+        private DataGridViewTextBoxColumn organizationEmail;
+        private DataGridViewComboBoxColumn Status;
+        private DataGridViewTextBoxColumn userFirstName;
+        private DataGridViewTextBoxColumn userName;
+        private DataGridViewTextBoxColumn email;
+        private DataGridViewComboBoxColumn role;
+        private DataGridViewCheckBoxColumn chkArchived;
     }
 }

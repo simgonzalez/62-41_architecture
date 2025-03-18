@@ -10,11 +10,48 @@ using System.Windows.Forms;
 
 namespace SmartFridge.Forms
 {
-    public partial class OrganizationForm: Form
+    public partial class frmOrganization : Form
     {
-        public OrganizationForm()
+        private const int TAB_ORGANIZATION_INFORMATION = 2;
+        private frmCreateEditOrganization organizationForm;
+        public frmOrganization()
         {
             InitializeComponent();
+        }
+
+        private void TabOrganizationPanel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Check if the selected tab is the third one (index 2)
+            if (tabOrganizationPanel.SelectedIndex == 2)
+            {
+                ForceRenderFormInTab();
+            }
+        }
+
+        private void ForceRenderFormInTab()
+        {
+            if (organizationForm == null || organizationForm.IsDisposed)
+            {
+                organizationForm = new frmCreateEditOrganization();
+                organizationForm.TopLevel = false;
+                organizationForm.FormBorderStyle = FormBorderStyle.None; organizationForm.Dock = DockStyle.Fill;
+            }
+
+            var targetTabPage = tabOrganizationPanel.TabPages[2];
+            targetTabPage.Controls.Clear();
+
+            targetTabPage.Controls.Add(organizationForm);
+            organizationForm.Show();
+        }
+
+        private void btnAddMember_Click(object sender, EventArgs e)
+        {
+            new frmAddMember().ShowDialog();
+        }
+
+        private void btnCreateFoodRequest_Click(object sender, EventArgs e)
+        {
+            new frmCreateEditFoodRequest().ShowDialog();
         }
     }
 }
