@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj": {}
+    "C:\\Users\\sgonz\\Source\\Repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj": {}
   },
   "projects": {
-    "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj": {
+    "C:\\Users\\sgonz\\Source\\Repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
+        "projectUniqueName": "C:\\Users\\sgonz\\Source\\Repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
         "projectName": "SmartFridge",
-        "projectPath": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
+        "projectPath": "C:\\Users\\sgonz\\Source\\Repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
         "packagesPath": "C:\\Users\\sgonz\\.nuget\\packages\\",
-        "outputPath": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\obj\\",
+        "outputPath": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -60,10 +60,11 @@
             tabOrganizationPanel.Controls.Add(tpRequests);
             tabOrganizationPanel.Controls.Add(tpMembers);
             tabOrganizationPanel.Controls.Add(tpOrganizationInfo);
-            tabOrganizationPanel.Location = new Point(-1, 70);
+            tabOrganizationPanel.Location = new Point(-1, 42);
+            tabOrganizationPanel.Margin = new Padding(2, 2, 2, 2);
             tabOrganizationPanel.Name = "tabOrganizationPanel";
             tabOrganizationPanel.SelectedIndex = 0;
-            tabOrganizationPanel.Size = new Size(1181, 775);
+            tabOrganizationPanel.Size = new Size(827, 465);
             tabOrganizationPanel.TabIndex = 0;
             tabOrganizationPanel.SelectedIndexChanged += TabOrganizationPanel_SelectedIndexChanged;
             // 
@@ -71,19 +72,21 @@
             // 
             tpRequests.Controls.Add(btnCreateFoodRequest);
             tpRequests.Controls.Add(dataGridView1);
-            tpRequests.Location = new Point(4, 34);
+            tpRequests.Location = new Point(4, 24);
+            tpRequests.Margin = new Padding(2, 2, 2, 2);
             tpRequests.Name = "tpRequests";
-            tpRequests.Padding = new Padding(3);
-            tpRequests.Size = new Size(1173, 737);
+            tpRequests.Padding = new Padding(2, 2, 2, 2);
+            tpRequests.Size = new Size(819, 437);
             tpRequests.TabIndex = 0;
             tpRequests.Text = "Food Requests";
             tpRequests.UseVisualStyleBackColor = true;
             // 
             // btnCreateFoodRequest
             // 
-            btnCreateFoodRequest.Location = new Point(6, 45);
+            btnCreateFoodRequest.Location = new Point(4, 27);
+            btnCreateFoodRequest.Margin = new Padding(2, 2, 2, 2);
             btnCreateFoodRequest.Name = "btnCreateFoodRequest";
-            btnCreateFoodRequest.Size = new Size(198, 35);
+            btnCreateFoodRequest.Size = new Size(139, 21);
             btnCreateFoodRequest.TabIndex = 3;
             btnCreateFoodRequest.Text = "&Create request";
             btnCreateFoodRequest.UseVisualStyleBackColor = true;
@@ -95,29 +98,32 @@
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { foodRequestName, description, deadline, status, details });
-            dataGridView1.Location = new Point(210, 3);
+            dataGridView1.Location = new Point(147, 2);
+            dataGridView1.Margin = new Padding(2, 2, 2, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(960, 731);
+            dataGridView1.Size = new Size(672, 439);
             dataGridView1.TabIndex = 1;
             // 
             // tpMembers
             // 
             tpMembers.Controls.Add(btnAddMember);
             tpMembers.Controls.Add(dgvMembers);
-            tpMembers.Location = new Point(4, 34);
+            tpMembers.Location = new Point(4, 24);
+            tpMembers.Margin = new Padding(2, 2, 2, 2);
             tpMembers.Name = "tpMembers";
-            tpMembers.Size = new Size(1173, 737);
+            tpMembers.Size = new Size(819, 437);
             tpMembers.TabIndex = 2;
             tpMembers.Text = "Members";
             tpMembers.UseVisualStyleBackColor = true;
             // 
             // btnAddMember
             // 
-            btnAddMember.Location = new Point(9, 38);
+            btnAddMember.Location = new Point(6, 23);
+            btnAddMember.Margin = new Padding(2, 2, 2, 2);
             btnAddMember.Name = "btnAddMember";
-            btnAddMember.Size = new Size(198, 35);
+            btnAddMember.Size = new Size(139, 21);
             btnAddMember.TabIndex = 2;
             btnAddMember.Text = "&Add Member";
             btnAddMember.UseVisualStyleBackColor = true;
@@ -129,11 +135,12 @@
             dgvMembers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvMembers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMembers.Columns.AddRange(new DataGridViewColumn[] { firstname, name, email });
-            dgvMembers.Location = new Point(213, 0);
+            dgvMembers.Location = new Point(149, 0);
+            dgvMembers.Margin = new Padding(2, 2, 2, 2);
             dgvMembers.Name = "dgvMembers";
             dgvMembers.ReadOnly = true;
             dgvMembers.RowHeadersWidth = 62;
-            dgvMembers.Size = new Size(960, 737);
+            dgvMembers.Size = new Size(672, 442);
             dgvMembers.TabIndex = 0;
             // 
             // firstname
@@ -162,10 +169,11 @@
             // 
             // tpOrganizationInfo
             // 
-            tpOrganizationInfo.Location = new Point(4, 34);
+            tpOrganizationInfo.Location = new Point(4, 24);
+            tpOrganizationInfo.Margin = new Padding(2, 2, 2, 2);
             tpOrganizationInfo.Name = "tpOrganizationInfo";
-            tpOrganizationInfo.Padding = new Padding(3);
-            tpOrganizationInfo.Size = new Size(1173, 737);
+            tpOrganizationInfo.Padding = new Padding(2, 2, 2, 2);
+            tpOrganizationInfo.Size = new Size(819, 437);
             tpOrganizationInfo.TabIndex = 1;
             tpOrganizationInfo.Text = "Organization Info";
             tpOrganizationInfo.UseVisualStyleBackColor = true;
@@ -174,9 +182,10 @@
             // 
             lblOrganizationPanel.AutoSize = true;
             lblOrganizationPanel.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblOrganizationPanel.Location = new Point(3, 19);
+            lblOrganizationPanel.Location = new Point(2, 11);
+            lblOrganizationPanel.Margin = new Padding(2, 0, 2, 0);
             lblOrganizationPanel.Name = "lblOrganizationPanel";
-            lblOrganizationPanel.Size = new Size(184, 38);
+            lblOrganizationPanel.Size = new Size(127, 25);
             lblOrganizationPanel.TabIndex = 2;
             lblOrganizationPanel.Text = "Organization ";
             // 
@@ -229,12 +238,13 @@
             // 
             // frmOrganization
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1178, 844);
+            ClientSize = new Size(829, 517);
             Controls.Add(lblOrganizationPanel);
             Controls.Add(tabOrganizationPanel);
-            MinimumSize = new Size(1200, 900);
+            Margin = new Padding(2, 2, 2, 2);
+            MinimumSize = new Size(845, 556);
             Name = "frmOrganization";
             Text = "Organization administration";
             tabOrganizationPanel.ResumeLayout(false);

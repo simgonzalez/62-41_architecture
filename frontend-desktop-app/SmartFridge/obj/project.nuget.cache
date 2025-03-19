@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NiIfW5DXnTI=",
+  "dgSpecHash": "zyDCEJ6HRWQ=",
   "success": true,
-  "projectFilePath": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
+  "projectFilePath": "C:\\Users\\sgonz\\Source\\Repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
