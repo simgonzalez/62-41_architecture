@@ -43,7 +43,7 @@ namespace SmartFridge
                     Close();
                 }
                 Hide();
-                new FrmAdmin().ShowDialog();
+                new frmAdmin().ShowDialog();
                 Close();
             }
         }

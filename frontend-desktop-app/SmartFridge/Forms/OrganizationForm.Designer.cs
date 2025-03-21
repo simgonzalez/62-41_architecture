@@ -31,27 +31,25 @@
             tabOrganizationPanel = new TabControl();
             tpRequests = new TabPage();
             btnCreateFoodRequest = new Button();
-            dataGridView1 = new DataGridView();
+            dgvFoodRequest = new DataGridView();
+            colFoodRequestName = new DataGridViewTextBoxColumn();
+            colDescription = new DataGridViewTextBoxColumn();
+            colDeadline = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewComboBoxColumn();
+            colDetails = new DataGridViewLinkColumn();
             tpMembers = new TabPage();
             btnAddMember = new Button();
             dgvMembers = new DataGridView();
-            firstname = new DataGridViewTextBoxColumn();
-            name = new DataGridViewTextBoxColumn();
-            email = new DataGridViewTextBoxColumn();
+            colFirstname = new DataGridViewTextBoxColumn();
+            colName = new DataGridViewTextBoxColumn();
+            colEmail = new DataGridViewTextBoxColumn();
             tpOrganizationInfo = new TabPage();
             lblOrganizationPanel = new Label();
-            fileSystemWatcher1 = new FileSystemWatcher();
-            foodRequestName = new DataGridViewTextBoxColumn();
-            description = new DataGridViewTextBoxColumn();
-            deadline = new DataGridViewTextBoxColumn();
-            status = new DataGridViewComboBoxColumn();
-            details = new DataGridViewLinkColumn();
             tabOrganizationPanel.SuspendLayout();
             tpRequests.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvFoodRequest).BeginInit();
             tpMembers.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvMembers).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
             // 
             // tabOrganizationPanel
@@ -61,7 +59,7 @@
             tabOrganizationPanel.Controls.Add(tpMembers);
             tabOrganizationPanel.Controls.Add(tpOrganizationInfo);
             tabOrganizationPanel.Location = new Point(-1, 42);
-            tabOrganizationPanel.Margin = new Padding(2, 2, 2, 2);
+            tabOrganizationPanel.Margin = new Padding(2);
             tabOrganizationPanel.Name = "tabOrganizationPanel";
             tabOrganizationPanel.SelectedIndex = 0;
             tabOrganizationPanel.Size = new Size(827, 465);
@@ -71,11 +69,11 @@
             // tpRequests
             // 
             tpRequests.Controls.Add(btnCreateFoodRequest);
-            tpRequests.Controls.Add(dataGridView1);
+            tpRequests.Controls.Add(dgvFoodRequest);
             tpRequests.Location = new Point(4, 24);
-            tpRequests.Margin = new Padding(2, 2, 2, 2);
+            tpRequests.Margin = new Padding(2);
             tpRequests.Name = "tpRequests";
-            tpRequests.Padding = new Padding(2, 2, 2, 2);
+            tpRequests.Padding = new Padding(2);
             tpRequests.Size = new Size(819, 437);
             tpRequests.TabIndex = 0;
             tpRequests.Text = "Food Requests";
@@ -84,7 +82,7 @@
             // btnCreateFoodRequest
             // 
             btnCreateFoodRequest.Location = new Point(4, 27);
-            btnCreateFoodRequest.Margin = new Padding(2, 2, 2, 2);
+            btnCreateFoodRequest.Margin = new Padding(2);
             btnCreateFoodRequest.Name = "btnCreateFoodRequest";
             btnCreateFoodRequest.Size = new Size(139, 21);
             btnCreateFoodRequest.TabIndex = 3;
@@ -92,26 +90,68 @@
             btnCreateFoodRequest.UseVisualStyleBackColor = true;
             btnCreateFoodRequest.Click += btnCreateFoodRequest_Click;
             // 
-            // dataGridView1
+            // dgvFoodRequest
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { foodRequestName, description, deadline, status, details });
-            dataGridView1.Location = new Point(147, 2);
-            dataGridView1.Margin = new Padding(2, 2, 2, 2);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(672, 439);
-            dataGridView1.TabIndex = 1;
+            dgvFoodRequest.AllowUserToAddRows = false;
+            dgvFoodRequest.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvFoodRequest.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvFoodRequest.Columns.AddRange(new DataGridViewColumn[] { colFoodRequestName, colDescription, colDeadline, colStatus, colDetails });
+            dgvFoodRequest.Location = new Point(147, 2);
+            dgvFoodRequest.Margin = new Padding(2);
+            dgvFoodRequest.Name = "dgvFoodRequest";
+            dgvFoodRequest.ReadOnly = true;
+            dgvFoodRequest.RowHeadersWidth = 62;
+            dgvFoodRequest.Size = new Size(672, 439);
+            dgvFoodRequest.TabIndex = 1;
+            // 
+            // colFoodRequestName
+            // 
+            colFoodRequestName.HeaderText = "Name";
+            colFoodRequestName.MinimumWidth = 8;
+            colFoodRequestName.Name = "colFoodRequestName";
+            colFoodRequestName.ReadOnly = true;
+            colFoodRequestName.Width = 150;
+            // 
+            // colDescription
+            // 
+            colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colDescription.HeaderText = "Description";
+            colDescription.MinimumWidth = 8;
+            colDescription.Name = "colDescription";
+            colDescription.ReadOnly = true;
+            // 
+            // colDeadline
+            // 
+            colDeadline.HeaderText = "Deadline";
+            colDeadline.MinimumWidth = 8;
+            colDeadline.Name = "colDeadline";
+            colDeadline.ReadOnly = true;
+            colDeadline.Width = 150;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.MinimumWidth = 8;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            colStatus.Resizable = DataGridViewTriState.True;
+            colStatus.SortMode = DataGridViewColumnSortMode.Automatic;
+            colStatus.Width = 150;
+            // 
+            // colDetails
+            // 
+            colDetails.HeaderText = "Details";
+            colDetails.MinimumWidth = 8;
+            colDetails.Name = "colDetails";
+            colDetails.ReadOnly = true;
+            colDetails.Width = 150;
             // 
             // tpMembers
             // 
             tpMembers.Controls.Add(btnAddMember);
             tpMembers.Controls.Add(dgvMembers);
             tpMembers.Location = new Point(4, 24);
-            tpMembers.Margin = new Padding(2, 2, 2, 2);
+            tpMembers.Margin = new Padding(2);
             tpMembers.Name = "tpMembers";
             tpMembers.Size = new Size(819, 437);
             tpMembers.TabIndex = 2;
@@ -121,7 +161,7 @@
             // btnAddMember
             // 
             btnAddMember.Location = new Point(6, 23);
-            btnAddMember.Margin = new Padding(2, 2, 2, 2);
+            btnAddMember.Margin = new Padding(2);
             btnAddMember.Name = "btnAddMember";
             btnAddMember.Size = new Size(139, 21);
             btnAddMember.TabIndex = 2;
@@ -134,45 +174,45 @@
             dgvMembers.AllowUserToAddRows = false;
             dgvMembers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvMembers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMembers.Columns.AddRange(new DataGridViewColumn[] { firstname, name, email });
+            dgvMembers.Columns.AddRange(new DataGridViewColumn[] { colFirstname, colName, colEmail });
             dgvMembers.Location = new Point(149, 0);
-            dgvMembers.Margin = new Padding(2, 2, 2, 2);
+            dgvMembers.Margin = new Padding(2);
             dgvMembers.Name = "dgvMembers";
             dgvMembers.ReadOnly = true;
             dgvMembers.RowHeadersWidth = 62;
             dgvMembers.Size = new Size(672, 442);
             dgvMembers.TabIndex = 0;
             // 
-            // firstname
+            // colFirstname
             // 
-            firstname.HeaderText = "First Name";
-            firstname.MinimumWidth = 8;
-            firstname.Name = "firstname";
-            firstname.ReadOnly = true;
-            firstname.Width = 150;
+            colFirstname.HeaderText = "First Name";
+            colFirstname.MinimumWidth = 8;
+            colFirstname.Name = "colFirstname";
+            colFirstname.ReadOnly = true;
+            colFirstname.Width = 150;
             // 
-            // name
+            // colName
             // 
-            name.HeaderText = "Name";
-            name.MinimumWidth = 8;
-            name.Name = "name";
-            name.ReadOnly = true;
-            name.Width = 150;
+            colName.HeaderText = "Name";
+            colName.MinimumWidth = 8;
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.Width = 150;
             // 
-            // email
+            // colEmail
             // 
-            email.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            email.HeaderText = "Email";
-            email.MinimumWidth = 8;
-            email.Name = "email";
-            email.ReadOnly = true;
+            colEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colEmail.HeaderText = "Email";
+            colEmail.MinimumWidth = 8;
+            colEmail.Name = "colEmail";
+            colEmail.ReadOnly = true;
             // 
             // tpOrganizationInfo
             // 
             tpOrganizationInfo.Location = new Point(4, 24);
-            tpOrganizationInfo.Margin = new Padding(2, 2, 2, 2);
+            tpOrganizationInfo.Margin = new Padding(2);
             tpOrganizationInfo.Name = "tpOrganizationInfo";
-            tpOrganizationInfo.Padding = new Padding(2, 2, 2, 2);
+            tpOrganizationInfo.Padding = new Padding(2);
             tpOrganizationInfo.Size = new Size(819, 437);
             tpOrganizationInfo.TabIndex = 1;
             tpOrganizationInfo.Text = "Organization Info";
@@ -189,53 +229,6 @@
             lblOrganizationPanel.TabIndex = 2;
             lblOrganizationPanel.Text = "Organization ";
             // 
-            // fileSystemWatcher1
-            // 
-            fileSystemWatcher1.EnableRaisingEvents = true;
-            fileSystemWatcher1.SynchronizingObject = this;
-            // 
-            // foodRequestName
-            // 
-            foodRequestName.HeaderText = "Name";
-            foodRequestName.MinimumWidth = 8;
-            foodRequestName.Name = "foodRequestName";
-            foodRequestName.ReadOnly = true;
-            foodRequestName.Width = 150;
-            // 
-            // description
-            // 
-            description.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            description.HeaderText = "Description";
-            description.MinimumWidth = 8;
-            description.Name = "description";
-            description.ReadOnly = true;
-            // 
-            // deadline
-            // 
-            deadline.HeaderText = "Deadline";
-            deadline.MinimumWidth = 8;
-            deadline.Name = "deadline";
-            deadline.ReadOnly = true;
-            deadline.Width = 150;
-            // 
-            // status
-            // 
-            status.HeaderText = "Status";
-            status.MinimumWidth = 8;
-            status.Name = "status";
-            status.ReadOnly = true;
-            status.Resizable = DataGridViewTriState.True;
-            status.SortMode = DataGridViewColumnSortMode.Automatic;
-            status.Width = 150;
-            // 
-            // details
-            // 
-            details.HeaderText = "Details";
-            details.MinimumWidth = 8;
-            details.Name = "details";
-            details.ReadOnly = true;
-            details.Width = 150;
-            // 
             // frmOrganization
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -243,16 +236,15 @@
             ClientSize = new Size(829, 517);
             Controls.Add(lblOrganizationPanel);
             Controls.Add(tabOrganizationPanel);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             MinimumSize = new Size(845, 556);
             Name = "frmOrganization";
             Text = "Organization administration";
             tabOrganizationPanel.ResumeLayout(false);
             tpRequests.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvFoodRequest).EndInit();
             tpMembers.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvMembers).EndInit();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -267,15 +259,15 @@
         private TabPage tpOrganizationInfo;
         private DataGridView dgvMembers;
         private Button btnAddMember;
-        private DataGridViewTextBoxColumn firstname;
-        private DataGridViewTextBoxColumn name;
-        private DataGridViewTextBoxColumn email;
+        private DataGridViewTextBoxColumn colFirstname;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colEmail;
         private Button btnCreateFoodRequest;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn foodRequestName;
-        private DataGridViewTextBoxColumn description;
-        private DataGridViewTextBoxColumn deadline;
-        private DataGridViewComboBoxColumn status;
-        private DataGridViewLinkColumn details;
+        private DataGridView dgvFoodRequest;
+        private DataGridViewTextBoxColumn colFoodRequestName;
+        private DataGridViewTextBoxColumn colDescription;
+        private DataGridViewTextBoxColumn colDeadline;
+        private DataGridViewComboBoxColumn colStatus;
+        private DataGridViewLinkColumn colDetails;
     }
 }

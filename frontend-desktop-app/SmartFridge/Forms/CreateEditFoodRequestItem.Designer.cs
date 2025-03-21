@@ -34,25 +34,27 @@
             lblCity = new Label();
             lblUnit = new Label();
             cmbFood = new ComboBox();
-            comboBox1 = new ComboBox();
+            cmbUnit = new ComboBox();
             nudQuantity = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)nudQuantity).BeginInit();
             SuspendLayout();
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(345, 219);
+            btnCancel.Location = new Point(242, 131);
+            btnCancel.Margin = new Padding(2, 2, 2, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(112, 34);
+            btnCancel.Size = new Size(78, 20);
             btnCancel.TabIndex = 7;
             btnCancel.Text = "Canc&el";
             btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(463, 219);
+            btnSave.Location = new Point(324, 131);
+            btnSave.Margin = new Padding(2, 2, 2, 2);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(112, 34);
+            btnSave.Size = new Size(78, 20);
             btnSave.TabIndex = 6;
             btnSave.Text = "Sa&ve";
             btnSave.UseVisualStyleBackColor = true;
@@ -60,27 +62,30 @@
             // lblFood
             // 
             lblFood.AutoSize = true;
-            lblFood.Location = new Point(121, 37);
+            lblFood.Location = new Point(85, 22);
+            lblFood.Margin = new Padding(2, 0, 2, 0);
             lblFood.Name = "lblFood";
-            lblFood.Size = new Size(54, 25);
+            lblFood.Size = new Size(34, 15);
             lblFood.TabIndex = 0;
             lblFood.Text = "&Food";
             // 
             // lblCity
             // 
             lblCity.AutoSize = true;
-            lblCity.Location = new Point(121, 121);
+            lblCity.Location = new Point(85, 73);
+            lblCity.Margin = new Padding(2, 0, 2, 0);
             lblCity.Name = "lblCity";
-            lblCity.Size = new Size(80, 25);
+            lblCity.Size = new Size(53, 15);
             lblCity.TabIndex = 2;
             lblCity.Text = "&Quantity";
             // 
             // lblUnit
             // 
             lblUnit.AutoSize = true;
-            lblUnit.Location = new Point(463, 121);
+            lblUnit.Location = new Point(324, 73);
+            lblUnit.Margin = new Padding(2, 0, 2, 0);
             lblUnit.Name = "lblUnit";
-            lblUnit.Size = new Size(44, 25);
+            lblUnit.Size = new Size(29, 15);
             lblUnit.TabIndex = 4;
             lblUnit.Text = "&Unit";
             // 
@@ -88,37 +93,40 @@
             // 
             cmbFood.FormattingEnabled = true;
             cmbFood.Items.AddRange(new object[] { "-", "Carrots", "Potatoes", "..." });
-            cmbFood.Location = new Point(121, 65);
+            cmbFood.Location = new Point(85, 39);
+            cmbFood.Margin = new Padding(2, 2, 2, 2);
             cmbFood.Name = "cmbFood";
-            cmbFood.Size = new Size(454, 33);
+            cmbFood.Size = new Size(319, 23);
             cmbFood.TabIndex = 1;
             // 
-            // comboBox1
+            // cmbUnit
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "KG", "L", "..." });
-            comboBox1.Location = new Point(463, 147);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(112, 33);
-            comboBox1.TabIndex = 5;
+            cmbUnit.FormattingEnabled = true;
+            cmbUnit.Items.AddRange(new object[] { "KG", "L", "..." });
+            cmbUnit.Location = new Point(324, 88);
+            cmbUnit.Margin = new Padding(2, 2, 2, 2);
+            cmbUnit.Name = "cmbUnit";
+            cmbUnit.Size = new Size(80, 23);
+            cmbUnit.TabIndex = 5;
             // 
             // nudQuantity
             // 
-            nudQuantity.Location = new Point(121, 149);
+            nudQuantity.Location = new Point(85, 89);
+            nudQuantity.Margin = new Padding(2, 2, 2, 2);
             nudQuantity.Name = "nudQuantity";
-            nudQuantity.Size = new Size(336, 31);
+            nudQuantity.Size = new Size(235, 23);
             nudQuantity.TabIndex = 3;
             nudQuantity.ThousandsSeparator = true;
             // 
             // frmCreateEditFoodRequestItem
             // 
             AcceptButton = btnSave;
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(702, 308);
+            ClientSize = new Size(491, 185);
             Controls.Add(nudQuantity);
-            Controls.Add(comboBox1);
+            Controls.Add(cmbUnit);
             Controls.Add(cmbFood);
             Controls.Add(btnCancel);
             Controls.Add(lblUnit);
@@ -126,6 +134,7 @@
             Controls.Add(lblCity);
             Controls.Add(lblFood);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(2, 2, 2, 2);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "frmCreateEditFoodRequestItem";
@@ -145,7 +154,7 @@
         private Label lblCity;
         private Label lblUnit;
         private ComboBox cmbFood;
-        private ComboBox comboBox1;
+        private ComboBox cmbUnit;
         private NumericUpDown nudQuantity;
     }
 }

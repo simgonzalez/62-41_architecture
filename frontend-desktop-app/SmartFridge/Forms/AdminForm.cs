@@ -2,9 +2,9 @@ using SmartFridge.Forms;
 
 namespace SmartFridge
 {
-    public partial class FrmAdmin : Form
+    public partial class frmAdmin : Form
     {
-        public FrmAdmin()
+        public frmAdmin()
         {
             InitializeComponent();
         }

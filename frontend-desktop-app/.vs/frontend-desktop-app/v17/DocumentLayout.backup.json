@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -45,8 +45,7 @@
               "ToolTip": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\LoginForm.cs [Design]",
               "RelativeToolTip": "SmartFridge\\Forms\\LoginForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T17:51:31.588Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-03-19T17:51:31.588Z"
             },
             {
               "$type": "Document",
@@ -57,8 +56,7 @@
               "ToolTip": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\RegisterForm.cs [Design]",
               "RelativeToolTip": "SmartFridge\\Forms\\RegisterForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T17:50:59.522Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-03-19T17:50:59.522Z"
             }
           ]
         }
