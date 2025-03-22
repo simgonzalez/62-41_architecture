@@ -53,5 +53,10 @@ namespace SmartFridge.Forms
         {
             new frmCreateEditFoodRequest().ShowDialog();
         }
+
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

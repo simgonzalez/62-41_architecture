@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             tcAdminPanel = new TabControl();
             tpOrganizationPage = new TabPage();
             btnAddLine = new Button();
@@ -50,6 +50,13 @@
             colUnitName = new DataGridViewTextBoxColumn();
             colAbbreviation = new DataGridViewTextBoxColumn();
             lblAdminPanel = new Label();
+            lblFilter = new Label();
+            txtFilterOrganization = new TextBox();
+            txtFilterEmail = new TextBox();
+            txtName = new TextBox();
+            txtFilterFirstName = new TextBox();
+            lblFilters = new Label();
+            txtEmail = new TextBox();
             tcAdminPanel.SuspendLayout();
             tpOrganizationPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOrganization).BeginInit();
@@ -65,32 +72,32 @@
             tcAdminPanel.Controls.Add(tpOrganizationPage);
             tcAdminPanel.Controls.Add(tpUsers);
             tcAdminPanel.Controls.Add(tpUnits);
-            tcAdminPanel.Location = new Point(0, 49);
-            tcAdminPanel.Margin = new Padding(2, 2, 2, 2);
+            tcAdminPanel.Location = new Point(4, 82);
             tcAdminPanel.Name = "tcAdminPanel";
             tcAdminPanel.SelectedIndex = 0;
-            tcAdminPanel.Size = new Size(827, 458);
+            tcAdminPanel.Size = new Size(1177, 777);
             tcAdminPanel.TabIndex = 0;
             // 
             // tpOrganizationPage
             // 
+            tpOrganizationPage.Controls.Add(txtFilterEmail);
+            tpOrganizationPage.Controls.Add(txtFilterOrganization);
+            tpOrganizationPage.Controls.Add(lblFilter);
             tpOrganizationPage.Controls.Add(btnAddLine);
             tpOrganizationPage.Controls.Add(dgvOrganization);
-            tpOrganizationPage.Location = new Point(4, 24);
-            tpOrganizationPage.Margin = new Padding(2, 2, 2, 2);
+            tpOrganizationPage.Location = new Point(4, 34);
             tpOrganizationPage.Name = "tpOrganizationPage";
-            tpOrganizationPage.Padding = new Padding(2, 2, 2, 2);
-            tpOrganizationPage.Size = new Size(819, 430);
+            tpOrganizationPage.Padding = new Padding(3, 3, 3, 3);
+            tpOrganizationPage.Size = new Size(1169, 730);
             tpOrganizationPage.TabIndex = 0;
             tpOrganizationPage.Text = "Organizations";
             tpOrganizationPage.UseVisualStyleBackColor = true;
             // 
             // btnAddLine
             // 
-            btnAddLine.Location = new Point(6, 23);
-            btnAddLine.Margin = new Padding(2, 2, 2, 2);
+            btnAddLine.Location = new Point(9, 38);
             btnAddLine.Name = "btnAddLine";
-            btnAddLine.Size = new Size(139, 21);
+            btnAddLine.Size = new Size(199, 35);
             btnAddLine.TabIndex = 1;
             btnAddLine.Text = "&Create organization";
             btnAddLine.UseVisualStyleBackColor = true;
@@ -104,12 +111,11 @@
             dgvOrganization.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvOrganization.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvOrganization.Columns.AddRange(new DataGridViewColumn[] { colName, colDescription, colAddress, colOrganizationEmail, colStatus });
-            dgvOrganization.Location = new Point(147, 2);
-            dgvOrganization.Margin = new Padding(2, 2, 2, 2);
+            dgvOrganization.Location = new Point(213, 3);
             dgvOrganization.Name = "dgvOrganization";
             dgvOrganization.ReadOnly = true;
             dgvOrganization.RowHeadersWidth = 62;
-            dgvOrganization.Size = new Size(672, 431);
+            dgvOrganization.Size = new Size(953, 718);
             dgvOrganization.TabIndex = 0;
             dgvOrganization.CellContentClick += dgvOrganization_CellContentClick;
             // 
@@ -124,8 +130,8 @@
             // colDescription
             // 
             colDescription.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            colDescription.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            colDescription.DefaultCellStyle = dataGridViewCellStyle5;
             colDescription.HeaderText = "Description";
             colDescription.MinimumWidth = 8;
             colDescription.Name = "colDescription";
@@ -158,12 +164,15 @@
             // 
             // tpUsers
             // 
+            tpUsers.Controls.Add(txtEmail);
+            tpUsers.Controls.Add(txtName);
+            tpUsers.Controls.Add(txtFilterFirstName);
+            tpUsers.Controls.Add(lblFilters);
             tpUsers.Controls.Add(dgvUsers);
-            tpUsers.Location = new Point(4, 24);
-            tpUsers.Margin = new Padding(2, 2, 2, 2);
+            tpUsers.Location = new Point(4, 34);
             tpUsers.Name = "tpUsers";
-            tpUsers.Padding = new Padding(2, 2, 2, 2);
-            tpUsers.Size = new Size(819, 430);
+            tpUsers.Padding = new Padding(3, 3, 3, 3);
+            tpUsers.Size = new Size(1169, 739);
             tpUsers.TabIndex = 1;
             tpUsers.Text = "Users";
             tpUsers.UseVisualStyleBackColor = true;
@@ -171,14 +180,13 @@
             // dgvUsers
             // 
             dgvUsers.AllowUserToDeleteRows = false;
+            dgvUsers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUsers.Columns.AddRange(new DataGridViewColumn[] { colUserFirstName, colUserName, colEmail, colRole, chkArchived });
-            dgvUsers.Dock = DockStyle.Fill;
-            dgvUsers.Location = new Point(2, 2);
-            dgvUsers.Margin = new Padding(2, 2, 2, 2);
+            dgvUsers.Location = new Point(212, 3);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.RowHeadersWidth = 62;
-            dgvUsers.Size = new Size(815, 426);
+            dgvUsers.Size = new Size(954, 733);
             dgvUsers.TabIndex = 0;
             // 
             // colUserFirstName
@@ -223,11 +231,10 @@
             // tpUnits
             // 
             tpUnits.Controls.Add(dgvUnit);
-            tpUnits.Location = new Point(4, 24);
-            tpUnits.Margin = new Padding(2, 2, 2, 2);
+            tpUnits.Location = new Point(4, 34);
             tpUnits.Name = "tpUnits";
-            tpUnits.Padding = new Padding(2, 2, 2, 2);
-            tpUnits.Size = new Size(819, 430);
+            tpUnits.Padding = new Padding(3, 3, 3, 3);
+            tpUnits.Size = new Size(1173, 725);
             tpUnits.TabIndex = 2;
             tpUnits.Text = "Units";
             tpUnits.UseVisualStyleBackColor = true;
@@ -237,11 +244,10 @@
             dgvUnit.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvUnit.Columns.AddRange(new DataGridViewColumn[] { colUnitName, colAbbreviation });
             dgvUnit.Dock = DockStyle.Fill;
-            dgvUnit.Location = new Point(2, 2);
-            dgvUnit.Margin = new Padding(2, 2, 2, 2);
+            dgvUnit.Location = new Point(3, 3);
             dgvUnit.Name = "dgvUnit";
             dgvUnit.RowHeadersWidth = 62;
-            dgvUnit.Size = new Size(815, 426);
+            dgvUnit.Size = new Size(1167, 719);
             dgvUnit.TabIndex = 0;
             // 
             // colUnitName
@@ -262,29 +268,87 @@
             // 
             lblAdminPanel.AutoSize = true;
             lblAdminPanel.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblAdminPanel.Location = new Point(3, 13);
-            lblAdminPanel.Margin = new Padding(2, 0, 2, 0);
+            lblAdminPanel.Location = new Point(4, 22);
             lblAdminPanel.Name = "lblAdminPanel";
-            lblAdminPanel.Size = new Size(119, 25);
+            lblAdminPanel.Size = new Size(174, 38);
             lblAdminPanel.TabIndex = 1;
             lblAdminPanel.Text = "Admin panel";
             lblAdminPanel.Click += label1_Click;
             // 
+            // lblFilter
+            // 
+            lblFilter.AutoSize = true;
+            lblFilter.Location = new Point(9, 111);
+            lblFilter.Name = "lblFilter";
+            lblFilter.Size = new Size(58, 25);
+            lblFilter.TabIndex = 2;
+            lblFilter.Text = "&Filters";
+            // 
+            // txtFilterOrganization
+            // 
+            txtFilterOrganization.Location = new Point(9, 139);
+            txtFilterOrganization.Name = "txtFilterOrganization";
+            txtFilterOrganization.PlaceholderText = "Name";
+            txtFilterOrganization.Size = new Size(199, 31);
+            txtFilterOrganization.TabIndex = 3;
+            // 
+            // txtFilterEmail
+            // 
+            txtFilterEmail.Location = new Point(8, 176);
+            txtFilterEmail.Name = "txtFilterEmail";
+            txtFilterEmail.PlaceholderText = "Email";
+            txtFilterEmail.Size = new Size(199, 31);
+            txtFilterEmail.TabIndex = 4;
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(7, 175);
+            txtName.Name = "txtName";
+            txtName.PlaceholderText = "Name";
+            txtName.Size = new Size(199, 31);
+            txtName.TabIndex = 7;
+            // 
+            // txtFilterFirstName
+            // 
+            txtFilterFirstName.Location = new Point(8, 138);
+            txtFilterFirstName.Name = "txtFilterFirstName";
+            txtFilterFirstName.PlaceholderText = "First name";
+            txtFilterFirstName.Size = new Size(199, 31);
+            txtFilterFirstName.TabIndex = 6;
+            // 
+            // lblFilters
+            // 
+            lblFilters.AutoSize = true;
+            lblFilters.Location = new Point(8, 110);
+            lblFilters.Name = "lblFilters";
+            lblFilters.Size = new Size(58, 25);
+            lblFilters.TabIndex = 5;
+            lblFilters.Text = "&Filters";
+            // 
+            // txtEmail
+            // 
+            txtEmail.Location = new Point(8, 212);
+            txtEmail.Name = "txtEmail";
+            txtEmail.PlaceholderText = "Email";
+            txtEmail.Size = new Size(199, 31);
+            txtEmail.TabIndex = 8;
+            // 
             // frmAdmin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(829, 517);
+            ClientSize = new Size(1184, 862);
             Controls.Add(lblAdminPanel);
             Controls.Add(tcAdminPanel);
-            Margin = new Padding(2, 2, 2, 2);
-            MinimumSize = new Size(845, 556);
+            MinimumSize = new Size(1198, 889);
             Name = "frmAdmin";
-            Text = "Home";
+            Text = "Admin panel";
             tcAdminPanel.ResumeLayout(false);
             tpOrganizationPage.ResumeLayout(false);
+            tpOrganizationPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOrganization).EndInit();
             tpUsers.ResumeLayout(false);
+            tpUsers.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsers).EndInit();
             tpUnits.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvUnit).EndInit();
@@ -315,5 +379,12 @@
         private DataGridViewTextBoxColumn colEmail;
         private DataGridViewComboBoxColumn colRole;
         private DataGridViewCheckBoxColumn chkArchived;
+        private Label lblFilter;
+        private TextBox txtFilterOrganization;
+        private TextBox txtFilterEmail;
+        private TextBox txtName;
+        private TextBox txtFilterFirstName;
+        private Label lblFilters;
+        private TextBox txtEmail;
     }
 }

@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
+      "projectUniqueName": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
       "projectName": "SmartFridge",
-      "projectPath": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
+      "projectPath": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\SmartFridge.csproj",
       "packagesPath": "C:\\Users\\sgonz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\obj\\",
+      "outputPath": "\\\\wsl.localhost\\Debian\\home\\sgonzalez\\development\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
