@@ -3,15 +3,24 @@ USE smart_fridge;
 
 CREATE TABLE role (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL UNIQUE,
     description VARCHAR(1000),
+    code VARCHAR(50)
+);
+
+CREATE TABLE address (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    street_name VARCHAR(100),
+    street_number VARCHAR(20),
+    npa VARCHAR(10),
+    city VARCHAR(50)
 );
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    firstname VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(500) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     role_id INT NOT NULL,
     FOREIGN KEY (role_id) REFERENCES role(id)
@@ -20,9 +29,10 @@ CREATE TABLE user (
 CREATE TABLE organization (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    address TEXT,
     contact_info VARCHAR(100),
-    description TEXT
+    description TEXT,
+    address_id INT,
+    FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 CREATE TABLE user_organization (
@@ -37,7 +47,8 @@ CREATE TABLE user_organization (
 CREATE TABLE fridge_location (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    address TEXT
+    address_id INT,
+    FOREIGN KEY (address_id) REFERENCES address(id)
 );
 
 CREATE TABLE fridge (
@@ -71,7 +82,7 @@ CREATE TABLE food (
 CREATE TABLE fridge_item (
     id INT AUTO_INCREMENT PRIMARY KEY,
     food_id INT NOT NULL,
-    quantity_value FLOAT NOT NULL,
+    quantity FLOAT NOT NULL,
     quantity_unit_id INT NOT NULL,
     expiration_date TIMESTAMP,
     fridge_id INT NOT NULL,
@@ -84,7 +95,7 @@ CREATE TABLE fridge_item (
 
 CREATE TABLE food_request (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(200) NOT NULL,
+    name VARCHAR(200) NOT NULL,
     organization_id INT NOT NULL,
     description TEXT,
     deadline_date TIMESTAMP,
@@ -100,7 +111,7 @@ CREATE TABLE food_request_item (
     id INT AUTO_INCREMENT PRIMARY KEY,
     request_id INT NOT NULL,
     food_id INT NOT NULL,
-    quantity_value FLOAT NOT NULL,
+    quantity FLOAT NOT NULL,
     quantity_unit_id INT NOT NULL,
     FOREIGN KEY (request_id) REFERENCES food_request(id) ON DELETE CASCADE,
     FOREIGN KEY (food_id) REFERENCES food(id),
@@ -112,7 +123,7 @@ CREATE TABLE request_contribution (
     user_id INT NOT NULL,
     request_id INT NOT NULL,
     contribution_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    quantity_value FLOAT NOT NULL,
+    quantity FLOAT NOT NULL,
     quantity_unit_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (request_id) REFERENCES food_request(id) ON DELETE CASCADE,

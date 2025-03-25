@@ -1,13 +1,21 @@
 USE smart_fridge;
 
 -- Insert roles
-INSERT INTO role (name, permissions) VALUES
-('admin', 'Administrator of the application.'),
-('organization', 'Allow users to access organization screen and make manage requests'),
-('user', 'Mobile application role. Allow users to connect on the mobile platform');
+INSERT INTO role (name, description, code) VALUES
+('admin', 'Administrator of the application.', 'ADMIN'),
+('organization', 'Allow users to access organization screen and manage requests', 'ORG'),
+('user', 'Mobile application role. Allow users to connect on the mobile platform', 'USER');
+
+-- Insert addresses
+INSERT INTO address (street_name, street_number, npa, city) VALUES
+('Main St', '123', '10001', 'Anytown'),
+('Oak Ave', '456', '20002', 'Springfield'),
+('University Campus', '1', '30003', 'College Town'),
+('Elder St', '789', '40004', 'Retirement City'),
+('Community Blvd', '101', '10001', 'Anytown');
 
 -- Insert users
-INSERT INTO user (email, password_hash, name, role_id) VALUES
+INSERT INTO user (email, password_hash, first_name, name, role_id) VALUES
 ('admin@smartfridge.com', '$2a$12$1234567890123456789012uqgOQjiLiEMZ3Yh6IkMk5yvnQxy5tK6', 'Admin', 'User', 1),
 ('john.doe@example.com', '$2a$12$1234567890123456789012uhGzthG5wXMqvyfBGPR7c1crLpGDdUW', 'John', 'Doe', 2),
 ('jane.smith@example.com', '$2a$12$1234567890123456789012uw1GDn0k1PylYWBWz3cmTQ4mSczPNg9K', 'Jane', 'Smith', 2),
@@ -15,11 +23,11 @@ INSERT INTO user (email, password_hash, name, role_id) VALUES
 ('alice.johnson@example.com', '$2a$12$1234567890123456789012uq86y1JuV5flHRjQvHXjmKkTGdQyRC2', 'Alice', 'Johnson', 3);
 
 -- Insert organizations
-INSERT INTO organization (name, address, contact_info, description) VALUES
-('Community Kitchen', '123 Main St, Anytown, USA', 'contact@communitykitchen.org', 'Serving the local community with fresh food'),
-('Food Bank Central', '456 Oak Ave, Springfield, USA', 'info@foodbankcentral.org', 'Collecting and distributing food for those in need'),
-('Campus Dining Hall', 'University Campus, College Town, USA', 'dining@university.edu', 'Providing meals for students and faculty'),
-('Senior Center', '789 Elder St, Retirement City, USA', 'info@seniorcenter.org', 'Supporting healthy eating for seniors');
+INSERT INTO organization (name, contact_info, description, address_id) VALUES
+('Community Kitchen', 'contact@communitykitchen.org', 'Serving the local community with fresh food', 1),
+('Food Bank Central', 'info@foodbankcentral.org', 'Collecting and distributing food for those in need', 2),
+('Campus Dining Hall', 'dining@university.edu', 'Providing meals for students and faculty', 3),
+('Senior Center', 'info@seniorcenter.org', 'Supporting healthy eating for seniors', 4);
 
 -- Insert user_organization relationships
 INSERT INTO user_organization (user_id, organization_id) VALUES
@@ -31,12 +39,12 @@ INSERT INTO user_organization (user_id, organization_id) VALUES
 (6, 1);
 
 -- Insert fridge locations
-INSERT INTO fridge_location (name, address) VALUES
-('Main Kitchen', '123 Main St, Anytown, USA'),
-('Campus Center', 'University Campus, College Town, USA'),
-('Senior Center', '789 Elder St, Retirement City, USA'),
-('Food Bank Warehouse', '456 Oak Ave, Springfield, USA'),
-('Community Center', '101 Community Blvd, Anytown, USA');
+INSERT INTO fridge_location (name, address_id) VALUES
+('Main Kitchen', 1),
+('Campus Center', 3),
+('Senior Center', 4),
+('Food Bank Warehouse', 2),
+('Community Center', 5);
 
 -- Insert fridges
 INSERT INTO fridge (name, location_id) VALUES
@@ -59,9 +67,13 @@ INSERT INTO user_fridge (user_id, fridge_id) VALUES
 
 -- Insert units
 INSERT INTO unit (name, abbreviation) VALUES
-('Piece', 'pc'),
 ('Kilogram', 'kg'),
-('Liter', 'L');
+('Gram', 'g'),
+('Liter', 'L'),
+('Milliliter', 'mL'),
+('Piece', 'pc'),
+('Package', 'pkg'),
+('Can', 'can');
 
 -- Insert food items
 INSERT INTO food (name, ingredient_open_meal_db_name) VALUES
@@ -87,7 +99,7 @@ INSERT INTO food (name, ingredient_open_meal_db_name) VALUES
 ('Flour', 'Flour');
 
 -- Insert fridge items
-INSERT INTO fridge_item (food_id, quantity_value, quantity_unit_id, expiration_date, fridge_id, added_by_user_id) VALUES
+INSERT INTO fridge_item (food_id, quantity, quantity_unit_id, expiration_date, fridge_id, added_by_user_id) VALUES
 (1, 1, 3, DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY), 1, 2),
 (2, 12, 5, DATE_ADD(CURRENT_DATE(), INTERVAL 14 DAY), 1, 2),
 (3, 500, 2, DATE_ADD(CURRENT_DATE(), INTERVAL 3 DAY), 1, 2),
@@ -110,7 +122,7 @@ INSERT INTO fridge_item (food_id, quantity_value, quantity_unit_id, expiration_d
 (20, 1, 1, DATE_ADD(CURRENT_DATE(), INTERVAL 180 DAY), 5, 3);
 
 -- Insert food requests
-INSERT INTO food_request (title, organization_id, description, deadline_date, status, responsible_user_id, created_by_user_id) VALUES
+INSERT INTO food_request (name, organization_id, description, deadline_date, status, responsible_user_id, created_by_user_id) VALUES
 ('Weekly Community Meal', 1, 'Food needed for our weekly community dinner serving 50 people', DATE_ADD(CURRENT_DATE(), INTERVAL 7 DAY), 'open', 2, 2),
 ('Emergency Food Drive', 2, 'Collecting non-perishable items for disaster relief', DATE_ADD(CURRENT_DATE(), INTERVAL 3 DAY), 'urgent', 3, 3),
 ('Campus Food Pantry Restock', 3, 'Restocking our student food pantry for the new semester', DATE_ADD(CURRENT_DATE(), INTERVAL 14 DAY), 'open', 4, 4),
@@ -118,7 +130,7 @@ INSERT INTO food_request (title, organization_id, description, deadline_date, st
 ('Holiday Food Baskets', 1, 'Creating 25 holiday meal baskets for families in need', DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY), 'planning', 2, 1);
 
 -- Insert food request items
-INSERT INTO food_request_item (request_id, food_id, quantity_value, quantity_unit_id) VALUES
+INSERT INTO food_request_item (request_id, food_id, quantity, quantity_unit_id) VALUES
 (1, 3, 5, 1), -- 5kg of chicken for community meal
 (1, 5, 20, 5), -- 20 tomatoes for community meal
 (1, 7, 10, 6), -- 10 packages of bread for community meal
@@ -138,7 +150,7 @@ INSERT INTO food_request_item (request_id, food_id, quantity_value, quantity_uni
 (5, 17, 25, 1); -- 25kg of potatoes for holiday baskets
 
 -- Insert request contributions
-INSERT INTO request_contribution (user_id, request_id, contribution_date, quantity_value, quantity_unit_id) VALUES
+INSERT INTO request_contribution (user_id, request_id, contribution_date, quantity, quantity_unit_id) VALUES
 (2, 1, DATE_SUB(CURRENT_DATE(), INTERVAL 2 DAY), 2, 1), -- 2kg of chicken
 (4, 1, DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY), 10, 5), -- 10 tomatoes
 (6, 1, CURRENT_DATE(), 5, 6), -- 5 packages of bread
