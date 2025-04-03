@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,9 +17,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'first_name',
         'name',
         'email',
-        'password',
+        'password_hash',
+        'role_id',
     ];
 
     /**
@@ -29,7 +30,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
+        'password_hash',
         'remember_token',
     ];
 
@@ -42,7 +43,31 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password_hash' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the role that the user belongs to.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the organizations that the user belongs to.
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class, 'user_organizations');
+    }
+
+    /**
+     * Get the fridges that the user has access to.
+     */
+    public function fridges()
+    {
+        return $this->belongsToMany(Fridge::class, 'fridge_user');
     }
 }
