@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Address;
 
 class OrganizationFactory extends Factory
 {
@@ -13,6 +14,9 @@ class OrganizationFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'description' => $this->faker->sentence(),
+            'address_id' => Address::factory(),
         ];
+        
     }
 }

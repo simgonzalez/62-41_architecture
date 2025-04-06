@@ -11,8 +11,10 @@ class Organization extends Model
 
     protected $fillable = ['name', 'description', 'address_id'];
 
+    protected $hidden = ['address_id'];
+
     public function address()
     {
-        return $this->hasOne(Address::class);
+        return $this->belongsTo(Address::class);
     }
 }

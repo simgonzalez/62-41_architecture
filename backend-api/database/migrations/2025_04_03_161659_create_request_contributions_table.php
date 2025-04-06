@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('request_id')->constrained('food_requests')->onDelete('cascade');
             $table->timestamp('contribution_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->float('quantity');
-            $table->foreignId('quantity_unit_id')->constrained('units');
+            $table->foreignId('unit_id')->constrained('units');
             $table->timestamps();
         });
     }

@@ -10,23 +10,30 @@ class OrganizationService
 {
     public function getAll(): Collection
     {
-        return Organization::all();
+        return Organization::with('address')->get();
     }
 
     public function getById(int $id): Organization
     {
-        return Organization::findOrFail($id);
+        return Organization::with('address')->findOrFail($id);
     }
 
     public function create(array $data): Organization
     {
-        return Organization::create($data);
+        $organization = Organization::create($data);
+
+        $organization->load('address');
+
+        return $organization;
     }
 
     public function update(int $id, array $data): Organization
     {
         $organization = Organization::findOrFail($id);
         $organization->update($data);
+
+        $organization->load('address');
+
         return $organization;
     }
 

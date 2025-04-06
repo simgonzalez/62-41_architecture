@@ -20,7 +20,7 @@ class User extends Authenticatable
         'first_name',
         'name',
         'email',
-        'password_hash',
+        'password',
         'role_id',
     ];
 
@@ -30,7 +30,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password_hash',
+        'password',
         'remember_token',
     ];
 

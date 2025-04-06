@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('first_name', 500)->after('email');
             $table->foreignId('role_id')->constrained();
-            $table->renameColumn('password', 'password_hash');
         });
     }
 
@@ -19,7 +18,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn(['first_name', 'role_id']);
-            $table->renameColumn('password_hash', 'password');
         });
     }
 };

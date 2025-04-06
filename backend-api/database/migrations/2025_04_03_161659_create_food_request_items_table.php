@@ -20,7 +20,7 @@ class CreateFoodRequestItemsTable extends Migration
             $table->foreignId('request_id')->constrained('food_requests')->onDelete('cascade');
             $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
             $table->float('quantity', 53);
-            $table->foreignId('quantity_unit_id')->constrained('quantity_units')->onDelete('cascade');
+            $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -11,6 +11,8 @@ class Fridge extends Model
 
     protected $fillable = ['name', 'location_id'];
 
+    protected $hidden = ['location_id'];
+
     public function location()
     {
         return $this->belongsTo(FridgeLocation::class);

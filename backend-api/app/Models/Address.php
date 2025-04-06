@@ -9,13 +9,10 @@ class Address extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['organization_id', 'street_name', 'street_number', 'npa', 'city'];
+    protected $fillable = ['street_name', 'street_number', 'npa', 'city'];
 
-    /**
-     * Define a belongs-to relationship with Organization.
-     */
-    public function organization()
+    public function organizations()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->hasMany(Organization::class);
     }
 }

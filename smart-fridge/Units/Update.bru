@@ -1,0 +1,24 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8000/api/units/24
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Liter",
+    "code": "L"
+  }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

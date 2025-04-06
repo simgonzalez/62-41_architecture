@@ -12,7 +12,7 @@ class FridgeItem extends Model
     protected $fillable = [
         'food_id',
         'quantity',
-        'quantity_unit_id',
+        'unit_id',
         'expiration_date',
         'fridge_id',
         'added_by_user_id',
@@ -23,9 +23,9 @@ class FridgeItem extends Model
         return $this->belongsTo(Food::class, 'food_id');
     }
 
-    public function quantityUnit()
+    public function unit()
     {
-        return $this->belongsTo(QuantityUnit::class, 'quantity_unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
     public function fridge()

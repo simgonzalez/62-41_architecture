@@ -1,0 +1,31 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/organizations
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "id": 2,
+      "name": "Compassion",
+      "description": "NGO",
+      "address": {
+        "street_name": "Rue gallilée",
+        "street_number": "3",
+        "npa": "1400",
+        "city": "Yverdon-les-Bains"
+      }
+    }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

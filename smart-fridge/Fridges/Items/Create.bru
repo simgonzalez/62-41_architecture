@@ -1,0 +1,28 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/fridges/1/items
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "food_id": 1,
+    "quantity": 5,
+    "unit_id": 1,
+    "expiration_date": "2025-04-10",
+    "fridge_id": 1,
+    "added_by_user_id": 3
+  }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

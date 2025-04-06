@@ -1,0 +1,26 @@
+meta {
+  name: Update
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8000/api/fridges/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "toto",
+    "location": {
+      "name": "Chambre"
+    }
+  }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

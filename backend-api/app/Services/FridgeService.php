@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class FridgeService
 {
     public function getAll(): Collection
-    {
-        return Fridge::all();
-    }
+{
+    return Fridge::with('location')->get(); 
+}
 
-    public function getById(int $id): Fridge
-    {
-        return Fridge::findOrFail($id);
-    }
+public function getById(int $id): Fridge
+{
+    return Fridge::with('location')->findOrFail($id); 
+}
 
     public function create(array $data): Fridge
     {

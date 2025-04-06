@@ -19,7 +19,7 @@ class CreateFridgeItemsTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
             $table->float('quantity', 53);
-            $table->foreignId('quantity_unit_id')->constrained('quantity_units')->onDelete('cascade');
+            $table->foreignId('unit_id')->constrained('units')->onDelete('cascade');
             $table->timestamp('expiration_date');
             $table->foreignId('fridge_id')->constrained('fridges')->onDelete('cascade');
             $table->foreignId('added_by_user_id')->constrained('users')->onDelete('cascade');

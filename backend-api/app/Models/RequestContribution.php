@@ -10,7 +10,7 @@ class RequestContribution extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'request_id', 'contribution_date', 'quantity', 'quantity_unit_id'
+        'user_id', 'request_id', 'contribution_date', 'quantity', 'unit_id'
     ];
 
     public function user()
@@ -23,8 +23,8 @@ class RequestContribution extends Model
         return $this->belongsTo(FoodRequest::class);
     }
 
-    public function quantityUnit()
+    public function Unit()
     {
-        return $this->belongsTo(Unit::class, 'quantity_unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 }

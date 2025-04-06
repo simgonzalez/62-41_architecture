@@ -39,6 +39,7 @@ class OrganizationController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:2000',
             'address' => 'required|array',
             'address.street_name' => 'required|string|max:2000',
             'address.street_number' => 'nullable|string|max:20',
@@ -48,42 +49,52 @@ class OrganizationController extends Controller
 
         $organizationData = [
             'name' => $data['name'],
+            'description' => $data['description'] ?? null,
         ];
 
         $organization = $this->organizationService->create($organizationData);
 
         $addressData = $data['address'];
-        $addressData['organization_id'] = $organization->id;
-        $this->addressService->create($addressData);
+        $address = $this->addressService->create($addressData);
 
-        return response()->json($organization, 201);
+        $organization->address()->associate($address);
+        $organization->save();
+
+        return response()->json($organization->load('address'), 201);
     }
 
     public function update(Request $request, int $id): JsonResponse
-    {
-        $data = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'address' => 'sometimes|required|array',
-            'address.street_name' => 'sometimes|required|string|max:2000',
-            'address.street_number' => 'nullable|string|max:20',
-            'address.npa' => 'nullable|string|max:10',
-            'address.city' => 'nullable|string|max:1000',
-        ]);
+{
+    $data = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'description' => 'nullable|string|max:2000',
+        'address' => 'sometimes|required|array',
+        'address.street_name' => 'sometimes|required|string|max:2000',
+        'address.street_number' => 'nullable|string|max:20',
+        'address.npa' => 'nullable|string|max:10',
+        'address.city' => 'nullable|string|max:1000',
+    ]);
 
-        try {
-            $organization = $this->organizationService->update($id, $data);
+    try {
+        $organization = $this->organizationService->update($id, $data);
 
-            if (isset($data['address'])) {
-                $addressData = $data['address'];
-                $addressData['organization_id'] = $organization->id;
+        if (isset($data['address'])) {
+            $addressData = $data['address'];
+
+            if ($organization->address) {
                 $this->addressService->update($organization->address->id, $addressData);
+            } else {
+                $address = $this->addressService->create($addressData);
+                $organization->address()->associate($address);
+                $organization->save();
             }
-
-            return response()->json($organization);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Organization not found'], 404);
         }
+
+        return response()->json($organization->load('address'));
+    } catch (ModelNotFoundException $e) {
+        return response()->json(['error' => 'Organization not found'], 404);
     }
+}
 
     public function destroy(int $id): JsonResponse
     {
