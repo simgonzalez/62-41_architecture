@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FoodRequestController;
+use App\Http\Controllers\FoodRequestItemController;
 use App\Http\Controllers\FridgeController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RoleController;
@@ -14,3 +16,7 @@ Route::prefix('fridges/{fridge}')->group(function () {
 });
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('units', UnitController::class);
+Route::apiResource('food-requests', FoodRequestController::class);
+Route::prefix('food-requests/{request}')->group(function () {
+    Route::apiResource('items', FoodRequestItemController::class);
+});

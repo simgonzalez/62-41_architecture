@@ -1,0 +1,26 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/food-requests/1/items
+  body: json
+  auth: inherit
+}
+
+body:json {
+   {
+      "request_id": 11,
+      "food_id": 21,
+      "quantity": 96.87,
+      "unit_id": 2
+    }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

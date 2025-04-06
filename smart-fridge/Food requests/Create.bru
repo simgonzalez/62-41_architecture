@@ -1,0 +1,29 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/food-requests
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Autem repellendus corporis.",
+    "organization_id": 12,
+    "description": null,
+    "deadline_date": "2025-04-18 18:25:43",
+    "responsible_user_id": 23,
+    "created_by_user_id": 24,
+    "status_id": 2
+  }
+}
+
+body:form-urlencoded {
+  name: compassion
+  description: ONG de parrainage
+  : 
+}

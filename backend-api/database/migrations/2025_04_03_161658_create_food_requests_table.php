@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamp('deadline_date');
             $table->foreignId('responsible_user_id')->constrained('users');
             $table->foreignId('created_by_user_id')->constrained('users');
-            $table->foreignId('status_id')->constrained('status');
+            $table->foreignId('status_id')->constrained('statuses');
             $table->index('deadline_date', 'idx_food_request_deadline');
             $table->timestamps();
         });

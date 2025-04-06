@@ -11,6 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([OrganizationSeeder::class, FridgeSeeder::class, FridgeItemSeeder::class]);
+        $this->call([StatusSeeder::class, OrganizationSeeder::class, FridgeSeeder::class, FridgeItemSeeder::class, FoodRequestSeeder::class, FoodRequestItemSeeder::class]);
     }
 }
