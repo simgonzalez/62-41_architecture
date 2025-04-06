@@ -3,6 +3,7 @@
 use App\Http\Controllers\FoodRequestController;
 use App\Http\Controllers\FoodRequestItemController;
 use App\Http\Controllers\FridgeController;
+use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
@@ -20,3 +21,5 @@ Route::apiResource('food-requests', FoodRequestController::class);
 Route::prefix('food-requests/{request}')->group(function () {
     Route::apiResource('items', FoodRequestItemController::class);
 });
+Route::get('/meals', [MealController::class, 'getMealsByIngredient']);
+Route::get('/meals/{idMeal}', [MealController::class, 'getMealById']);
