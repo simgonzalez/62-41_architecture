@@ -7,6 +7,7 @@ use App\Services\FridgeItemService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class FridgeItemController extends Controller
 {
@@ -19,8 +20,12 @@ class FridgeItemController extends Controller
 
     public function index(): JsonResponse
     {
-        $fridgeItems = FridgeItem::with(['food', 'unit', 'fridge', 'user'])->get();
-        return response()->json($fridgeItems);
+        try {
+            $fridgeItems = FridgeItem::with(['food', 'unit', 'fridge', 'user'])->get();
+            return response()->json($fridgeItems);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching fridge items'], 500);
+        }
     }
 
     public function show(int $id): JsonResponse
@@ -30,43 +35,51 @@ class FridgeItemController extends Controller
             return response()->json($fridgeItem);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge item not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching the fridge item'], 500);
         }
     }
-    
+
     public function store(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'food_id' => 'required|exists:foods,id',
-            'quantity' => 'required|numeric|min:0',
-            'unit_id' => 'required|exists:units,id',
-            'expiration_date' => 'nullable|date|after:today',
-            'fridge_id' => 'required|exists:fridges,id',
-            'added_by_user_id' => 'required|exists:users,id',
-        ]);
+        try {
+            $data = $request->validate([
+                'food_id' => 'required|exists:foods,id',
+                'quantity' => 'required|numeric|min:0',
+                'unit_id' => 'required|exists:units,id',
+                'expiration_date' => 'nullable|date|after:today',
+                'fridge_id' => 'required|exists:fridges,id',
+                'added_by_user_id' => 'required|exists:users,id',
+            ]);
 
-        $fridgeItem = $this->fridgeItemService->create($data);
+            $fridgeItem = $this->fridgeItemService->create($data);
 
-        return response()->json($fridgeItem, 201);
+            return response()->json($fridgeItem, 201);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while creating the fridge item'], 500);
+        }
     }
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $data = $request->validate([
-            'food_id' => 'sometimes|required|exists:foods,id',
-            'quantity' => 'sometimes|required|numeric|min:0',
-            'unit_id' => 'sometimes|required|exists:units,id',
-            'expiration_date' => 'nullable|date|after:today',
-            'fridge_id' => 'sometimes|required|exists:fridges,id',
-            'added_by_user_id' => 'sometimes|required|exists:users,id',
-        ]);
-
         try {
+            $data = $request->validate([
+                'food_id' => 'sometimes|required|exists:foods,id',
+                'quantity' => 'sometimes|required|numeric|min:0',
+                'unit_id' => 'sometimes|required|exists:units,id',
+                'expiration_date' => 'nullable|date|after:today',
+                'fridge_id' => 'sometimes|required|exists:fridges,id',
+                'added_by_user_id' => 'sometimes|required|exists:users,id',
+            ]);
+
             $fridgeItem = FridgeItem::findOrFail($id);
             $updatedFridgeItem = $this->fridgeItemService->update($fridgeItem, $data);
 
             return response()->json($updatedFridgeItem);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge item not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while updating the fridge item'], 500);
         }
     }
 
@@ -79,6 +92,8 @@ class FridgeItemController extends Controller
             return response()->json(null, 204);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge item not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the fridge item'], 500);
         }
     }
 }

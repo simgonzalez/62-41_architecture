@@ -7,6 +7,7 @@ use App\Services\FridgeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class FridgeController extends Controller
 {
@@ -19,8 +20,12 @@ class FridgeController extends Controller
 
     public function index(): JsonResponse
     {
-        $fridges = $this->fridgeService->getAll();
-        return response()->json($fridges);
+        try {
+            $fridges = $this->fridgeService->getAll();
+            return response()->json($fridges);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching fridges'], 500);
+        }
     }
 
     public function show(int $id): JsonResponse
@@ -30,38 +35,44 @@ class FridgeController extends Controller
             return response()->json($fridge);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching the fridge'], 500);
         }
     }
 
     public function store(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'location.name' => 'required|string|max:255',
-        ]);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'location.name' => 'required|string|max:255',
+            ]);
 
-        $locationData = $data['location'];
-        $location = FridgeLocation::create(['name' => $locationData['name']]);
+            $locationData = $data['location'];
+            $location = FridgeLocation::create(['name' => $locationData['name']]);
 
-        $fridgeData = [
-            'name' => $data['name'],
-            'location_id' => $location->id,
-        ];
-        $fridge = $this->fridgeService->create($fridgeData);
+            $fridgeData = [
+                'name' => $data['name'],
+                'location_id' => $location->id,
+            ];
+            $fridge = $this->fridgeService->create($fridgeData);
 
-        $fridge->load('location');
+            $fridge->load('location');
 
-        return response()->json($fridge, 201);
+            return response()->json($fridge, 201);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while creating the fridge'], 500);
+        }
     }
 
     public function update(Request $request, int $id): JsonResponse
     {
-        $data = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'location.name' => 'sometimes|required|string|max:255',
-        ]);
-
         try {
+            $data = $request->validate([
+                'name' => 'sometimes|required|string|max:255',
+                'location.name' => 'sometimes|required|string|max:255',
+            ]);
+
             $fridge = $this->fridgeService->getById($id);
 
             if (isset($data['name'])) {
@@ -84,6 +95,8 @@ class FridgeController extends Controller
             return response()->json($fridge);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while updating the fridge'], 500);
         }
     }
 
@@ -94,6 +107,8 @@ class FridgeController extends Controller
             return response()->json(null, 204);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the fridge'], 500);
         }
     }
 }
