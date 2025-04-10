@@ -17,22 +17,29 @@ class FoodRequestItemController extends Controller
         $this->foodRequestItemService = $foodRequestItemService;
     }
 
-    public function index(): JsonResponse
+    public function index(int $request): JsonResponse
     {
-        $foodRequestItems = FoodRequestItem::with(['food', 'unit', 'foodRequest'])->get();
+        $foodRequestItems = FoodRequestItem::where('request_id', $request)
+            ->with(['food', 'unit'])
+            ->get();
+
         return response()->json($foodRequestItems);
     }
 
-    public function show(int $id): JsonResponse
+    public function show(int $request, int $itemId): JsonResponse
     {
         try {
-            $foodRequestItem = FoodRequestItem::with(['food', 'unit', 'foodRequest'])->findOrFail($id);
+            $foodRequestItem = FoodRequestItem::where('request_id', $request)
+                ->where('id', $itemId)
+                ->with(['food', 'unit'])
+                ->firstOrFail();
+
             return response()->json($foodRequestItem);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Food request item not found'], 404);
         }
     }
-    
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
