@@ -21,5 +21,6 @@ Route::apiResource('food-requests', FoodRequestController::class);
 Route::prefix('food-requests/{request}')->group(function () {
     Route::apiResource('items', FoodRequestItemController::class);
 });
+Route::get('/ingredients', [MealController::class, 'getAllIngredients']);
 Route::get('/meals', [MealController::class, 'getMealsByIngredient']);
 Route::get('/meals/{idMeal}', [MealController::class, 'getMealById']);

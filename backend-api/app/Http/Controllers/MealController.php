@@ -12,6 +12,19 @@ class MealController extends Controller
     private const LOOKUP_URL = self::API_BASE_URL . '/lookup.php';
 
     /**
+     * Get all available ingredients.
+     */
+    public function getAllIngredients()
+    {
+        try {
+            $response = Http::get(self::API_BASE_URL . '/list.php', ['i' => 'list']);
+            return response()->json($response->json());
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch ingredients'], 500);
+        }
+    }
+
+    /**
      * Get meals by ingredient.
      */
     public function getMealsByIngredient(Request $request)
