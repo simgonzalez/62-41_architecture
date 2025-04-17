@@ -16,6 +16,10 @@ class FoodRequestItem extends Model
         'unit_id',
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function foodRequest()
     {
         return $this->belongsTo(FoodRequest::class, 'request_id');

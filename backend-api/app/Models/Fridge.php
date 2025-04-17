@@ -11,7 +11,7 @@ class Fridge extends Model
 
     protected $fillable = ['name', 'location_id'];
 
-    protected $hidden = ['location_id'];
+    protected $hidden = ['location_id', 'created_at', 'updated_at'];
 
     public function location()
     {

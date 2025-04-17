@@ -10,4 +10,8 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description', 'code'];
+    
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
 }

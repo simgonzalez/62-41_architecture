@@ -14,6 +14,10 @@ class FoodRequest extends Model
         'responsible_user_id', 'created_by_user_id', 'status_id'
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function organization()
     {
         return $this->belongsTo(Organization::class);

@@ -11,7 +11,7 @@ class Organization extends Model
 
     protected $fillable = ['name', 'description', 'address_id'];
 
-    protected $hidden = ['address_id'];
+    protected $hidden = ['address_id', 'created_at', 'updated_at'];
 
     public function address()
     {

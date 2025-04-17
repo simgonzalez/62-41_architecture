@@ -18,6 +18,10 @@ class FridgeItem extends Model
         'added_by_user_id',
     ];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function food()
     {
         return $this->belongsTo(Food::class, 'food_id');

@@ -11,6 +11,10 @@ class Address extends Model
 
     protected $fillable = ['street_name', 'street_number', 'npa', 'city'];
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+
     public function organizations()
     {
         return $this->hasMany(Organization::class);

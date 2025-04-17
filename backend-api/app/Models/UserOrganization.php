@@ -9,5 +9,9 @@ class UserOrganization extends Pivot
 {
     use HasFactory;
 
+    protected $hidden = [
+        'created_at', 'updated_at'
+    ];
+    
     protected $table = 'user_organizations';
 }
