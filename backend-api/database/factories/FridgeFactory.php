@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\FridgeLocation;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class FridgeFactory extends Factory
     {
         return [
             'name' => $this->faker->word . ' Fridge',
-            'location_id' => FridgeLocation::factory()
+            'location_id' => FridgeLocation::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

@@ -42,4 +42,14 @@ class OrganizationService
         $organization = Organization::findOrFail($id);
         $organization->delete();
     }
+
+    public function getAllByUser(int $userId)
+    {
+        return Organization::where('user_id', $userId)->get();
+    }
+
+    public function getByIdAndUser(int $id, int $userId)
+    {
+        return Organization::where('id', $id)->where('user_id', $userId)->first();
+    }
 }

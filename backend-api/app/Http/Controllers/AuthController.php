@@ -17,7 +17,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id',
+            'is_admin' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -29,8 +29,10 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id,
         ]);
+
+        $role = $request->is_admin ? 'admin' : 'user';
+        $user->assignRole($role);
 
         return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }

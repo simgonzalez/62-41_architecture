@@ -23,7 +23,14 @@ class OrganizationController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $organizations = $this->organizationService->getAll();
+            $user = auth()->user();
+
+            if ($user->hasRole('admin')) {
+                $organizations = $this->organizationService->getAll();
+            } else {
+                $organizations = $this->organizationService->getAllByUser($user->id);
+            }
+
             return response()->json($organizations);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching organizations'], 500);
@@ -33,18 +40,22 @@ class OrganizationController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $organization = $this->organizationService->getById($id);
+            $user = auth()->user();
+            $organization = $this->organizationService->getByIdAndUser($id, $user->id);
+
+            if (!$organization) {
+                return response()->json(['error' => 'Organization not found'], 404);
+            }
+
             return response()->json($organization);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Organization not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching the organization'], 500);
         }
     }
-
     public function store(Request $request): JsonResponse
     {
         try {
+            $user = auth()->user();
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string|max:2000',
@@ -58,6 +69,7 @@ class OrganizationController extends Controller
             $organizationData = [
                 'name' => $data['name'],
                 'description' => $data['description'] ?? null,
+                'user_id' => $user->id,
             ];
 
             $organization = $this->organizationService->create($organizationData);
@@ -77,6 +89,13 @@ class OrganizationController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         try {
+            $user = auth()->user();
+
+            $organization = $this->organizationService->getById($id);
+            if (!$organization || (!$user->hasRole('admin') && !$organization->users->contains('id', $user->id))) {
+                return response()->json(['error' => 'Organization not found or access denied'], 404);
+            }
+
             $data = $request->validate([
                 'name' => 'sometimes|required|string|max:255',
                 'description' => 'nullable|string|max:2000',
@@ -112,7 +131,14 @@ class OrganizationController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $user = auth()->user();
+
+            if (!$user->hasRole('admin')) {
+                return response()->json(['error' => 'Access denied. Only admins can delete organizations.'], 403);
+            }
+
             $this->organizationService->delete($id);
+
             return response()->json(null, 204);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Organization not found'], 404);

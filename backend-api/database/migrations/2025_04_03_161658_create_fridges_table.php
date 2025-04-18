@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 250);
             $table->foreignId('location_id')->constrained('fridge_locations');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

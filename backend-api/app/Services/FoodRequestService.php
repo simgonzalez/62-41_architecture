@@ -35,4 +35,19 @@ class FoodRequestService
         $foodRequest = FoodRequest::findOrFail($id);
         $foodRequest->delete();
     }
+    
+    public function getAllByUserOrganizations(int $userId)
+    {
+        return FoodRequest::whereHas('organization.users', function ($query) use ($userId) {
+            $query->where('users.id', $userId);
+        })->get();
+    }
+
+    public function getByIdAndUserOrganizations(int $id, int $userId)
+    {
+        return FoodRequest::where('id', $id)
+            ->whereHas('organization.users', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })->first();
+    }
 }

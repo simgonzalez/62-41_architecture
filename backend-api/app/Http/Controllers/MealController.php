@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FridgeItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -53,6 +54,41 @@ class MealController extends Controller
             return response()->json($response->json());
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to fetch meal'], 500);
+        }
+    }
+
+
+    public function recommendMeal(Request $request)
+    {
+        try {
+            $user = auth()->user();
+
+            // Fetch the user's fridge items and find the most perishable item
+            $mostPerishableItem = FridgeItem::whereHas('fridge', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+                ->orderBy('expiration_date', 'asc')
+                ->first();
+
+            if (!$mostPerishableItem) {
+                return response()->json(['error' => 'No items found in your fridge'], 404);
+            }
+
+            $ingredient = $mostPerishableItem->name;
+
+            // Fetch meal recommendations based on the most perishable item
+            $response = Http::get(self::API_URL, ['i' => $ingredient]);
+
+            if ($response->failed()) {
+                return response()->json(['error' => 'Failed to fetch meal recommendations'], 500);
+            }
+
+            return response()->json([
+                'ingredient' => $ingredient,
+                'meals' => $response->json(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching meal recommendations'], 500);
         }
     }
 }

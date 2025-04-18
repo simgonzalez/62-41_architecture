@@ -10,14 +10,13 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('first_name', 500)->after('email');
-            $table->foreignId('role_id')->constrained();
         });
     }
 
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['first_name', 'role_id']);
+            $table->dropColumn(['first_name']);
         });
     }
 };

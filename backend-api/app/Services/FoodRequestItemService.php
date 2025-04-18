@@ -1,5 +1,7 @@
-<?php namespace App\Services;
+<?php
+namespace App\Services;
 
+use App\Models\FoodRequest;
 use App\Models\FoodRequestItem;
 
 class FoodRequestItemService
@@ -18,5 +20,14 @@ class FoodRequestItemService
     public function delete(FoodRequestItem $foodRequestItem)
     {
         $foodRequestItem->delete();
+    }
+
+    public function userHasAccessToRequest(int $userId, int $requestId): bool
+    {
+        return FoodRequest::where('id', $requestId)
+            ->whereHas('organization.users', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })
+            ->exists();
     }
 }

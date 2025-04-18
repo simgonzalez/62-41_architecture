@@ -21,7 +21,8 @@ class FridgeController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $fridges = $this->fridgeService->getAll();
+            $user = auth()->user();
+            $fridges = $this->fridgeService->getAllByUser($user->id);
             return response()->json($fridges);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching fridges'], 500);
@@ -31,10 +32,14 @@ class FridgeController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $fridge = $this->fridgeService->getById($id);
+            $user = auth()->user();
+            $fridge = $this->fridgeService->getByIdAndUser($id, $user->id);
+
+            if (!$fridge) {
+                return response()->json(['error' => 'Fridge not found or access denied'], 404);
+            }
+
             return response()->json($fridge);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Fridge not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching the fridge'], 500);
         }
@@ -43,6 +48,7 @@ class FridgeController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
+            $user = auth()->user(); // Get the authenticated user
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'location.name' => 'required|string|max:255',
@@ -54,6 +60,7 @@ class FridgeController extends Controller
             $fridgeData = [
                 'name' => $data['name'],
                 'location_id' => $location->id,
+                'user_id' => $user->id,
             ];
             $fridge = $this->fridgeService->create($fridgeData);
 
@@ -103,7 +110,20 @@ class FridgeController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $user = auth()->user();
+
+            $fridge = $this->fridgeService->getByIdAndUser($id, $user->id);
+
+            if (!$fridge) {
+                return response()->json(['error' => 'Fridge not found or access denied'], 404);
+            }
+
+            if ($fridge->items()->exists()) {
+                return response()->json(['error' => 'Fridge cannot be deleted because it contains items'], 400);
+            }
+
             $this->fridgeService->delete($id);
+
             return response()->json(null, 204);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Fridge not found'], 404);
