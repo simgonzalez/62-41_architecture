@@ -9,7 +9,7 @@ class Fridge extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'location_id'];
+    protected $fillable = ['name', 'location_id', 'user_id'];
 
     protected $hidden = ['location_id', 'created_at', 'updated_at'];
 

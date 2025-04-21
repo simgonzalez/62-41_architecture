@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Food;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 class FoodFactory extends Factory
 {
@@ -11,10 +12,13 @@ class FoodFactory extends Factory
 
     public function definition(): array
     {
-        $fakeName = $this->faker->word;
+        $ingredients = json_decode(Storage::disk('local')->get('mealdb_ingredients.json'), true);
+
+        $ingredient = $this->faker->randomElement($ingredients);
+
         return [
-            'name' => $fakeName,
-            'ingredient_open_meal_db_name' => $fakeName,
+            'name' => $ingredient,
+            'ingredient_open_meal_db_name' => $ingredient,
         ];
     }
 }

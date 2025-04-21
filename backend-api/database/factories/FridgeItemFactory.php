@@ -19,7 +19,7 @@ class FridgeItemFactory extends Factory
             'food_id' => Food::factory(),
             'quantity' => $this->faker->randomFloat(2, 0.1, 100),
             'unit_id' => Unit::factory(),
-            'expiration_date' => $this->faker->optional()->dateTimeBetween('now', '+1 year'),
+            'expiration_date' => $this->faker->dateTimeBetween('now', '+1 year'), // Removed optional()
             'fridge_id' => Fridge::factory(),
             'added_by_user_id' => User::factory(),
         ];

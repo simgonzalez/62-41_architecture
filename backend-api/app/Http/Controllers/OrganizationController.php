@@ -31,6 +31,7 @@ class OrganizationController extends Controller
                 $organizations = $this->organizationService->getAllByUser($user->id);
             }
 
+
             return response()->json($organizations);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching organizations'], 500);
@@ -52,10 +53,13 @@ class OrganizationController extends Controller
             return response()->json(['error' => 'An error occurred while fetching the organization'], 500);
         }
     }
+
     public function store(Request $request): JsonResponse
     {
         try {
             $user = auth()->user();
+
+            // Validate the request data
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'description' => 'nullable|string|max:2000',
@@ -69,16 +73,15 @@ class OrganizationController extends Controller
             $organizationData = [
                 'name' => $data['name'],
                 'description' => $data['description'] ?? null,
-                'user_id' => $user->id,
             ];
-
             $organization = $this->organizationService->create($organizationData);
 
             $addressData = $data['address'];
             $address = $this->addressService->create($addressData);
-
             $organization->address()->associate($address);
             $organization->save();
+
+            $organization->users()->attach($user->id);
 
             return response()->json($organization->load('address'), 201);
         } catch (Exception $e) {

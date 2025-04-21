@@ -64,6 +64,6 @@ class User extends Authenticatable
      */
     public function fridges()
     {
-        return $this->belongsToMany(Fridge::class, 'fridge_user');
+        return $this->hasMany(Fridge::class);
     }
 }

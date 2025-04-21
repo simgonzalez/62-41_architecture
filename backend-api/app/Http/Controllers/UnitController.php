@@ -34,12 +34,11 @@ class UnitController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|string|max:50|unique:units,code',
+        ]);
         try {
-            $data = $request->validate([
-                'name' => 'required|string|max:255',
-                'code' => 'required|string|max:50|unique:units,code',
-            ]);
-
             $unit = Unit::create($data);
 
             return response()->json($unit, 201);

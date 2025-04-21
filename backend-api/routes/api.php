@@ -6,7 +6,6 @@ use App\Http\Controllers\FoodRequestItemController;
 use App\Http\Controllers\FridgeController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +16,15 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [UserController::class, 'getProfile']);
+    
+    Route::middleware('can:admin')->group(function () {
+        Route::apiResource('units', UnitController::class);
+        Route::apiResource('users', UserController::class);
+    });
 
     Route::middleware('can:user')->group(function () {
-        Route::get('/users/list-for-organization', [UserController::class, 'listForOrganization']);
+        Route::get('/users-org', [UserController::class, 'listForOrganization']);
         Route::apiResource('organizations', OrganizationController::class);
         Route::apiResource('fridges', FridgeController::class);
         Route::prefix('fridges/{fridge}')->group(function () {
@@ -31,12 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::get('/ingredients', [MealController::class, 'getAllIngredients']);
         Route::get('/meals', [MealController::class, 'getMealsByIngredient']);
-        Route::get('/meals/{idMeal}', [MealController::class, 'getMealById']);
         Route::get('/meals/recommend', [MealController::class, 'recommendMeal']);
-    });
+        Route::get('/meals/{idMeal}', [MealController::class, 'getMealById']);
 
-    Route::middleware('can:admin')->group( function () {
-        Route::apiResource('units', UnitController::class);
-        Route::apiResource('users', UserController::class);
+        Route::get('/units', [UnitController::class, 'index']);
     });
 });

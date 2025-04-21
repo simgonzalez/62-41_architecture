@@ -5,20 +5,19 @@ meta {
 }
 
 post {
-  url: http://localhost:8000/api/fridges/1/items
+  url: http://localhost:8000/api/fridges/32/items
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "food_id": 1,
+    "food_id": 6,
     "quantity": 5,
-    "unit_id": 1,
-    "expiration_date": "2025-04-10",
-    "fridge_id": 1,
-    "added_by_user_id": 3
+    "unit_id": 2,
+    "expiration_date": "2025-04-24"
   }
+  
 }
 
 body:form-urlencoded {

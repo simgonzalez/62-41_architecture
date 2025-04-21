@@ -45,11 +45,18 @@ class OrganizationService
 
     public function getAllByUser(int $userId)
     {
-        return Organization::where('user_id', $userId)->get();
+        return Organization::whereHas('users', function ($query) use ($userId) {
+            $query->where('users.id', $userId);
+        })->with('address')->get();
     }
 
     public function getByIdAndUser(int $id, int $userId)
     {
-        return Organization::where('id', $id)->where('user_id', $userId)->first();
+        return Organization::where('id', $id)
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })
+            ->with('address')
+            ->first();
     }
 }

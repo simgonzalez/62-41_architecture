@@ -48,7 +48,7 @@ class FridgeController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $user = auth()->user(); // Get the authenticated user
+            $user = auth()->user();
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'location.name' => 'required|string|max:255',
@@ -56,7 +56,6 @@ class FridgeController extends Controller
 
             $locationData = $data['location'];
             $location = FridgeLocation::create(['name' => $locationData['name']]);
-
             $fridgeData = [
                 'name' => $data['name'],
                 'location_id' => $location->id,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -10,10 +11,26 @@ use Exception;
 
 class UserController extends Controller
 {
-    public function index(): JsonResponse
+
+    public function index(Request $request): JsonResponse
     {
         try {
-            $users = User::all();
+            $query = User::query();
+
+            if ($request->has('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            }
+
+            if ($request->has('email')) {
+                $query->where('email', 'like', '%' . $request->input('email') . '%');
+            }
+
+            if ($request->has('first_name')) {
+                $query->where('first_name', 'like', '%' . $request->input('first_name') . '%');
+            }
+
+            $users = $query->get();
+
             return response()->json($users);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching users'], 500);
@@ -105,5 +122,10 @@ class UserController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching users for the organization'], 500);
         }
+    }
+
+    public function getProfile()
+    {
+        return response()->json(Auth::user());
     }
 }
