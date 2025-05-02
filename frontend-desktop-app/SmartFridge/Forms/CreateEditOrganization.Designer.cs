@@ -34,10 +34,8 @@
             txtDescription = new TextBox();
             lblAddress = new Label();
             txtAddress = new TextBox();
-            lblEmail = new Label();
             btnSave = new Button();
             btnCancel = new Button();
-            txtEmail = new TextBox();
             SuspendLayout();
             // 
             // lblName
@@ -96,30 +94,21 @@
             txtAddress.TabIndex = 5;
             txtAddress.Enter += txtAddress_Enter;
             // 
-            // lblEmail
-            // 
-            lblEmail.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(107, 393);
-            lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(54, 25);
-            lblEmail.TabIndex = 6;
-            lblEmail.Text = "&Email";
-            // 
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSave.Location = new Point(489, 488);
+            btnSave.Location = new Point(489, 388);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 8;
             btnSave.Text = "&Save";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
             btnCancel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnCancel.Location = new Point(371, 488);
+            btnCancel.Location = new Point(371, 388);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(112, 34);
             btnCancel.TabIndex = 9;
@@ -127,32 +116,22 @@
             btnCancel.UseVisualStyleBackColor = true;
             btnCancel.Click += btnCancel_Click;
             // 
-            // txtEmail
-            // 
-            txtEmail.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtEmail.Location = new Point(107, 421);
-            txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(494, 31);
-            txtEmail.TabIndex = 7;
-            // 
             // frmCreateEditOrganization
             // 
             AcceptButton = btnSave;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(736, 594);
-            Controls.Add(txtEmail);
+            ClientSize = new Size(736, 464);
             Controls.Add(btnCancel);
             Controls.Add(btnSave);
-            Controls.Add(lblEmail);
             Controls.Add(txtAddress);
             Controls.Add(lblAddress);
             Controls.Add(txtDescription);
             Controls.Add(lblDescription);
             Controls.Add(txtName);
             Controls.Add(lblName);
-            MinimumSize = new Size(720, 650);
+            MinimumSize = new Size(720, 450);
             Name = "frmCreateEditOrganization";
             Text = "Organization";
             ResumeLayout(false);
@@ -167,9 +146,7 @@
         private TextBox txtDescription;
         private Label lblAddress;
         private TextBox txtAddress;
-        private Label lblEmail;
         private Button btnSave;
         private Button btnCancel;
-        private TextBox txtEmail;
     }
 }

@@ -85,6 +85,9 @@ class OrganizationController extends Controller
 
             return response()->json($organization->load('address'), 201);
         } catch (Exception $e) {
+            // Log the exception for debugging
+            \Log::error('Error creating organization: ' . $e->getMessage(), ['exception' => $e]);
+
             return response()->json(['error' => 'An error occurred while creating the organization'], 500);
         }
     }

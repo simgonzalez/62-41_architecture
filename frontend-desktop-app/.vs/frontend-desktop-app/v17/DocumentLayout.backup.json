@@ -1,18 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\",
+  "WorkspaceRootPath": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\registerform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\createeditorganization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\createeditorganization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,36 +23,28 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OrganizationForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Forms\\OrganizationForm.cs",
-              "ToolTip": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs [Design]",
-              "RelativeToolTip": "SmartFridge\\Forms\\OrganizationForm.cs [Design]",
+              "Title": "Address.cs",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\Address.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Models\\Address.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\Address.cs",
+              "RelativeToolTip": "SmartFridge\\Models\\Address.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T17:52:27.654Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2025-05-02T13:52:22.504Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LoginForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\LoginForm.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Forms\\LoginForm.cs",
-              "ToolTip": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\LoginForm.cs [Design]",
-              "RelativeToolTip": "SmartFridge\\Forms\\LoginForm.cs [Design]",
+              "Title": "CreateEditOrganization.cs",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\CreateEditOrganization.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Forms\\CreateEditOrganization.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\CreateEditOrganization.cs",
+              "RelativeToolTip": "SmartFridge\\Forms\\CreateEditOrganization.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA/wB0AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T17:51:31.588Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RegisterForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\RegisterForm.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Forms\\RegisterForm.cs",
-              "ToolTip": "C:\\Users\\sgonz\\source\\repos\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\RegisterForm.cs [Design]",
-              "RelativeToolTip": "SmartFridge\\Forms\\RegisterForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T17:50:59.522Z"
+              "WhenOpened": "2025-05-02T11:35:39.766Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -114,6 +114,7 @@
             btnSave.TabIndex = 10;
             btnSave.Text = "Sa&ve";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // lblNpa
             // 

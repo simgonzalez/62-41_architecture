@@ -28,20 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnLogin = new Button();
             btnRegister = new Button();
             txtUsername = new TextBox();
             lblUsername = new Label();
             lblPassword = new Label();
             txtPassword = new TextBox();
+            imageList1 = new ImageList(components);
             SuspendLayout();
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(204, 144);
-            btnLogin.Margin = new Padding(2, 2, 2, 2);
+            btnLogin.Location = new Point(291, 240);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(106, 23);
+            btnLogin.Size = new Size(151, 38);
             btnLogin.TabIndex = 2;
             btnLogin.Text = "&Login";
             btnLogin.UseVisualStyleBackColor = true;
@@ -49,10 +50,9 @@
             // 
             // btnRegister
             // 
-            btnRegister.Location = new Point(69, 144);
-            btnRegister.Margin = new Padding(2, 2, 2, 2);
+            btnRegister.Location = new Point(99, 240);
             btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(106, 23);
+            btnRegister.Size = new Size(151, 38);
             btnRegister.TabIndex = 3;
             btnRegister.Text = "&Sign-in";
             btnRegister.UseVisualStyleBackColor = true;
@@ -60,47 +60,49 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(69, 59);
-            txtUsername.Margin = new Padding(2, 2, 2, 2);
+            txtUsername.Location = new Point(99, 98);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(242, 23);
+            txtUsername.Size = new Size(344, 31);
             txtUsername.TabIndex = 0;
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Location = new Point(69, 42);
-            lblUsername.Margin = new Padding(2, 0, 2, 0);
+            lblUsername.Location = new Point(99, 70);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(36, 15);
+            lblUsername.Size = new Size(54, 25);
             lblUsername.TabIndex = 3;
             lblUsername.Text = "&Email";
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(69, 90);
-            lblPassword.Margin = new Padding(2, 0, 2, 0);
+            lblPassword.Location = new Point(99, 150);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(57, 15);
+            lblPassword.Size = new Size(87, 25);
             lblPassword.TabIndex = 5;
             lblPassword.Text = "&Password";
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(69, 107);
-            txtPassword.Margin = new Padding(2, 2, 2, 2);
+            txtPassword.Location = new Point(99, 178);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(242, 23);
+            txtPassword.Size = new Size(344, 31);
             txtPassword.TabIndex = 1;
+            // 
+            // imageList1
+            // 
+            imageList1.ColorDepth = ColorDepth.Depth32Bit;
+            imageList1.ImageSize = new Size(16, 16);
+            imageList1.TransparentColor = Color.Transparent;
             // 
             // frmLogin
             // 
             AcceptButton = btnLogin;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(374, 217);
+            ClientSize = new Size(534, 362);
             Controls.Add(lblPassword);
             Controls.Add(txtPassword);
             Controls.Add(lblUsername);
@@ -108,10 +110,9 @@
             Controls.Add(btnRegister);
             Controls.Add(btnLogin);
             FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(2, 2, 2, 2);
             MaximizeBox = false;
             MinimizeBox = false;
-            MinimumSize = new Size(390, 256);
+            MinimumSize = new Size(548, 389);
             Name = "frmLogin";
             Text = "Login";
             TopMost = true;
@@ -127,5 +128,6 @@
         private Label lblUsername;
         private Label lblPassword;
         private TextBox txtPassword;
+        private ImageList imageList1;
     }
 }

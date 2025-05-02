@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SmartFridge.Forms;
+using SmartFridge.Services;
 
 namespace SmartFridge
 {
@@ -33,20 +34,41 @@ namespace SmartFridge
             return true;
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
-            if (validateForm()) {
-                if(txtUsername.Text == "org")
+            if (validateForm())
+            {
+                try
                 {
-                    Hide();
-                    new frmOrganization().ShowDialog();
-                    Close();
+                    string email = txtUsername.Text;
+                    string password = txtPassword.Text;
+
+                    await BackendService.LoginAsync(email, password);
+
+                    var userInfo = await BackendService.GetUserInfoAsync();
+
+                    if (userInfo.Roles.Contains("admin"))
+                    {
+                        Hide();
+                        new frmAdmin().ShowDialog();
+                        Close();
+                    }
+                    else
+                    {
+                        Hide();
+                        new frmOrganization().ShowDialog();
+                        Close();
+                    }
                 }
-                Hide();
-                new frmAdmin().ShowDialog();
-                Close();
+                catch (HttpRequestException ex)
+                {
+                    MessageBox.Show($"Login failed: {ex.Message}");
+                }
             }
         }
+
+
+
 
         private void btnRegister_Click(object sender, EventArgs e)
         {

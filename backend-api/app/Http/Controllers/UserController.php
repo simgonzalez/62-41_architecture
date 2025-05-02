@@ -124,8 +124,23 @@ class UserController extends Controller
         }
     }
 
-    public function getProfile()
+    public function getProfile(): JsonResponse
     {
-        return response()->json(Auth::user());
+        try {
+            $user = Auth::user();
+
+            $response = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'email_verified_at' => $user->email_verified_at,
+                'roles' => $user->roles->pluck('name'),
+            ];
+
+            return response()->json($response);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching the user profile'], 500);
+        }
     }
 }
