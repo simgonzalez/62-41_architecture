@@ -5,14 +5,21 @@ meta {
 }
 
 put {
-  url: http://localhost:8000/api/users/20
+  url: http://localhost:8000/api/users/1
   body: json
   auth: inherit
 }
 
 body:json {
-  {
-  }
+   {
+      "id": 1,
+      "name": "Miss Marjolaine Howell",
+     "first_name": "toto",
+     "email": "nono@email.com",
+     "password": "password",
+     "role": "admin"
+     
+    }
 }
 
 body:form-urlencoded {

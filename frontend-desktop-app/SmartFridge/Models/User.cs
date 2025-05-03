@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace SmartFridge.Models
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        [JsonPropertyName("first_name")]
+        public string First_Name { get; set; }
+        public List<string> Roles { get; set; }
+
+        // Single role for backend serialization
+        [JsonPropertyName("role")]
+        public string Role
+        {
+            get => Roles != null && Roles.Count > 0 ? Roles.First() : string.Empty;
+            set => Roles = !string.IsNullOrWhiteSpace(value) ? new List<string> { value } : new List<string>();
+        }
+
+        [JsonPropertyName("password")]
+        public string Password { get; set; }
+    }
+
+}

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -15,7 +16,7 @@ class UserController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $query = User::query();
+            $query = User::with('roles');
 
             if ($request->has('name')) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
@@ -29,7 +30,15 @@ class UserController extends Controller
                 $query->where('first_name', 'like', '%' . $request->input('first_name') . '%');
             }
 
-            $users = $query->get();
+            $users = $query->get()->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'first_name' => $user->first_name,
+                    'roles' => $user->roles->pluck('name'), // Include role names
+                ];
+            });
 
             return response()->json($users);
         } catch (Exception $e) {
@@ -37,11 +46,21 @@ class UserController extends Controller
         }
     }
 
+
     public function show(int $id): JsonResponse
     {
         try {
-            $user = User::findOrFail($id);
-            return response()->json($user);
+            $user = User::with('roles')->findOrFail($id);
+
+            $response = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'roles' => $user->roles->pluck('name'),
+            ];
+
+            return response()->json($response);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User not found'], 404);
         } catch (Exception $e) {
@@ -49,49 +68,69 @@ class UserController extends Controller
         }
     }
 
+
     public function store(Request $request): JsonResponse
     {
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8',
-                'role' => 'required|string|in:admin,user', // Ensure valid roles
+                'role' => 'required|string|in:admin,user',
             ]);
 
-            $data['password'] = bcrypt($data['password']); // Hash the password
+            $data['password'] = bcrypt($data['password']);
 
             $user = User::create($data);
-            $user->assignRole($data['role']); // Assign the role using Spatie
+            $user->assignRole($data['role']);
 
-            return response()->json($user, 201);
+            $response = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'roles' => $user->roles->pluck('name'),
+            ];
+
+            return response()->json($response, 201);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while creating the user'], 500);
         }
     }
+
 
     public function update(Request $request, int $id): JsonResponse
     {
         try {
             $data = $request->validate([
                 'name' => 'sometimes|required|string|max:255',
+                'first_name' => 'sometimes|required|string|max:255',
                 'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $id,
                 'password' => 'sometimes|required|string|min:8',
-                'role' => 'sometimes|required|string|in:admin,user', // Ensure valid roles
+                'role' => 'sometimes|required|string|in:admin,user',
             ]);
 
             if (isset($data['password'])) {
-                $data['password'] = bcrypt($data['password']); // Hash the password
+                $data['password'] = bcrypt($data['password']);
             }
 
             $user = User::findOrFail($id);
             $user->update($data);
 
             if (isset($data['role'])) {
-                $user->syncRoles([$data['role']]); // Update the role using Spatie
+                $user->syncRoles([$data['role']]);
             }
 
-            return response()->json($user);
+            $response = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'first_name' => $user->first_name,
+                'roles' => $user->roles->pluck('name'),
+            ];
+
+            return response()->json($response);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User not found'], 404);
         } catch (Exception $e) {
@@ -141,6 +180,19 @@ class UserController extends Controller
             return response()->json($response);
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching the user profile'], 500);
+        }
+
+    }
+
+    public function getRoles(): JsonResponse
+    {
+        try {
+            // Fetch all roles
+            $roles = Role::all()->pluck('name');
+
+            return response()->json($roles);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching roles'], 500);
         }
     }
 }

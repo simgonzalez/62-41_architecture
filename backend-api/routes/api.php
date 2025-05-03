@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('can:admin')->group(function () {
         Route::apiResource('units', UnitController::class);
         Route::apiResource('users', UserController::class);
+        Route::get('/roles', [UserController::class, 'getRoles']);
     });
 
     Route::middleware('can:user')->group(function () {

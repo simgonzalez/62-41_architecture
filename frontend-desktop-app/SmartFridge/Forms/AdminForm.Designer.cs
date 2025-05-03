@@ -41,11 +41,6 @@
             txtFilterFirstName = new TextBox();
             lblFilters = new Label();
             dgvUsers = new DataGridView();
-            colUserFirstName = new DataGridViewTextBoxColumn();
-            colUserName = new DataGridViewTextBoxColumn();
-            colEmail = new DataGridViewTextBoxColumn();
-            colRole = new DataGridViewComboBoxColumn();
-            chkArchived = new DataGridViewCheckBoxColumn();
             tpUnits = new TabPage();
             dgvUnit = new DataGridView();
             colUnitName = new DataGridViewTextBoxColumn();
@@ -71,6 +66,7 @@
             tcAdminPanel.SelectedIndex = 0;
             tcAdminPanel.Size = new Size(1177, 777);
             tcAdminPanel.TabIndex = 0;
+            tcAdminPanel.SelectedIndexChanged += tcAdminPanel_SelectedIndexChanged;
             // 
             // tpOrganizationPage
             // 
@@ -136,6 +132,7 @@
             dgvOrganization.Size = new Size(953, 718);
             dgvOrganization.TabIndex = 0;
             dgvOrganization.CellClick += dgvOrganization_CellClick;
+            dgvOrganization.CellDoubleClick += dgvOrganization_CellDoubleClick;
             dgvOrganization.CellFormatting += dgvOrganization_CellFormatting;
             // 
             // tpUsers
@@ -188,54 +185,16 @@
             // 
             // dgvUsers
             // 
-            dgvUsers.AllowUserToDeleteRows = false;
             dgvUsers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsers.Columns.AddRange(new DataGridViewColumn[] { colUserFirstName, colUserName, colEmail, colRole, chkArchived });
             dgvUsers.Location = new Point(212, 3);
             dgvUsers.Name = "dgvUsers";
             dgvUsers.RowHeadersWidth = 62;
             dgvUsers.Size = new Size(954, 733);
             dgvUsers.TabIndex = 0;
-            // 
-            // colUserFirstName
-            // 
-            colUserFirstName.HeaderText = "First Name";
-            colUserFirstName.MinimumWidth = 8;
-            colUserFirstName.Name = "colUserFirstName";
-            colUserFirstName.Width = 150;
-            // 
-            // colUserName
-            // 
-            colUserName.HeaderText = "Name";
-            colUserName.MinimumWidth = 8;
-            colUserName.Name = "colUserName";
-            colUserName.Width = 150;
-            // 
-            // colEmail
-            // 
-            colEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colEmail.HeaderText = "Email";
-            colEmail.MinimumWidth = 8;
-            colEmail.Name = "colEmail";
-            // 
-            // colRole
-            // 
-            colRole.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colRole.HeaderText = "Role";
-            colRole.Items.AddRange(new object[] { "User", "Admin", "Organization member" });
-            colRole.MinimumWidth = 8;
-            colRole.Name = "colRole";
-            colRole.Resizable = DataGridViewTriState.True;
-            colRole.SortMode = DataGridViewColumnSortMode.Automatic;
-            // 
-            // chkArchived
-            // 
-            chkArchived.HeaderText = "Archived";
-            chkArchived.MinimumWidth = 8;
-            chkArchived.Name = "chkArchived";
-            chkArchived.Resizable = DataGridViewTriState.True;
-            chkArchived.Width = 150;
+            dgvUsers.CellContentClick += dgvUsers_CellContentClick;
+            dgvUsers.CellValueChanged += dgvUsers_CellValueChanged;
+            dgvUsers.RowValidated += dgvUsers_RowValidated;
             // 
             // tpUnits
             // 
@@ -258,6 +217,9 @@
             dgvUnit.RowHeadersWidth = 62;
             dgvUnit.Size = new Size(1163, 733);
             dgvUnit.TabIndex = 0;
+            dgvUnit.CellContentClick += dgvUnits_CellContentClick;
+            dgvUnit.CellValueChanged += dgvUnits_CellValueChanged;
+            dgvUnit.RowValidated += dgvUnits_RowValidated;
             // 
             // colUnitName
             // 
@@ -320,11 +282,6 @@
         private DataGridViewTextBoxColumn colUnitName;
         private DataGridViewTextBoxColumn colAbbreviation;
         private Button btnAddLine;
-        private DataGridViewTextBoxColumn colUserFirstName;
-        private DataGridViewTextBoxColumn colUserName;
-        private DataGridViewTextBoxColumn colEmail;
-        private DataGridViewComboBoxColumn colRole;
-        private DataGridViewCheckBoxColumn chkArchived;
         private Label lblFilter;
         private TextBox txtFilterOrganization;
         private TextBox txtFilterEmail;

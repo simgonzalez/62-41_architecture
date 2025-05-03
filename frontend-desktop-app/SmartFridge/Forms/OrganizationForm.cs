@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SmartFridge.Forms
 {
-    public partial class frmOrganization : Form
+    public partial class frmOrganization : Form, FormReloadData
     {
         private const int TAB_ORGANIZATION_INFORMATION = 2;
         private frmCreateEditOrganization organizationForm;
@@ -32,7 +32,7 @@ namespace SmartFridge.Forms
         {
             if (organizationForm == null || organizationForm.IsDisposed)
             {
-                organizationForm = new frmCreateEditOrganization();
+                organizationForm = new frmCreateEditOrganization(this);
                 organizationForm.TopLevel = false;
                 organizationForm.FormBorderStyle = FormBorderStyle.None; organizationForm.Dock = DockStyle.Fill;
             }
@@ -57,6 +57,11 @@ namespace SmartFridge.Forms
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public void reloadOrganizationData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

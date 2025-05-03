@@ -25,7 +25,46 @@ namespace SmartFridge.Services
 
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
+        public static async Task<List<Unit>> GetUnitsAsync()
+        {
+            return await GetDataAsync<List<Unit>>("units");
+        }
 
+        public static async Task<Unit> UpdateUnitAsync(int id, Unit unit)
+        {
+            return await UpdateDataAsync<Unit, Unit>($"units/{id}", unit);
+        }
+
+        public static async Task<Unit> CreateUnitAsync(Unit unit)
+        {
+            return await CreateDataAsync<Unit, Unit>("units", unit);
+        }
+        public static async Task DeleteUnitAsync(int id)
+        {
+            await DeleteDataAsync($"units/{id}");
+        }
+        public static async Task<List<string>> GetRolesName()
+        {
+            return await GetDataAsync<List<string>>("roles");
+        }
+
+        public static async Task<List<User>> GetUsersAsync()
+        {
+            return await GetDataAsync<List<User>>("users");
+        }
+
+        public static async Task<User> UpdateUserAsync(int id, User user)
+        {
+            return await UpdateDataAsync<User, User>($"users/{id}", user);
+        }
+        public static async Task<User> CreateUserAsync(User user)
+        {
+            return await CreateDataAsync<User, User>("users", user);
+        }
+        public static async Task DeleteUserAsync(int id)
+        {
+            await DeleteDataAsync($"users/{id}");
+        }
         public static async Task<List<Organization>> GetOrganizationsAsync()
         {
             return await GetDataAsync<List<Organization>>("organizations");
@@ -41,13 +80,13 @@ namespace SmartFridge.Services
             return await UpdateDataAsync<Organization, Organization>($"organizations/{id}", organization);
         }
 
-        public static async Task<UserInfo> GetUserInfoAsync()
+        public static async Task<User> GetUserInfoAsync()
         {
             var response = await _httpClient.GetAsync( _httpClient.BaseAddress + "me");
             response.EnsureSuccessStatusCode();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<UserInfo>(jsonResponse, new JsonSerializerOptions
+            return JsonSerializer.Deserialize<User>(jsonResponse, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });

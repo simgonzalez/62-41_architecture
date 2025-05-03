@@ -14,19 +14,19 @@ namespace SmartFridge.Forms
 {
     public partial class frmCreateEditOrganization : Form
     {
-        private readonly frmAdmin _parentForm;
+        private readonly FormReloadData _parentForm;
         private Address _address;
         private Organization _organization; // Store the organization being edited
 
         // Constructor for creating a new organization
-        public frmCreateEditOrganization(frmAdmin parentForm)
+        public frmCreateEditOrganization(FormReloadData parentForm)
         {
             InitializeComponent();
             _parentForm = parentForm;
         }
 
         // Constructor for editing an existing organization
-        public frmCreateEditOrganization(frmAdmin parentForm, Organization organization)
+        public frmCreateEditOrganization(FormReloadData parentForm, Organization organization)
         {
             InitializeComponent();
             _parentForm = parentForm;
@@ -83,12 +83,10 @@ namespace SmartFridge.Forms
                     Organization result;
                     if (_organization == null)
                     {
-                        // Create a new organization
                         result = await BackendService.CreateOrganizationAsync(organization);
                     }
                     else
                     {
-                        // Update an existing organization
                         result = await BackendService.UpdateOrganizationAsync(organization.Id, organization);
                     }
 
@@ -97,7 +95,7 @@ namespace SmartFridge.Forms
                         Invoke(new Action(() =>
                         {
                             MessageBox.Show($"Organization '{result.Name}' saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            _parentForm.reloadOrganization();
+                            _parentForm.reloadOrganizationData();
                             Close();
                         }));
                     }
