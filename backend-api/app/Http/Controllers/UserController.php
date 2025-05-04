@@ -195,4 +195,34 @@ class UserController extends Controller
             return response()->json(['error' => 'An error occurred while fetching roles'], 500);
         }
     }
+    public function getOrganization(): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+
+            // Ensure the user belongs to an organization
+            if ($user->organizations->isEmpty()) {
+                return response()->json(['error' => 'User does not belong to any organization'], 404);
+            }
+
+            // Retrieve the first organization of the user with its address
+            $organization = $user->organizations()->with('address')->first();
+
+            return response()->json([
+                'id' => $organization->id,
+                'name' => $organization->name,
+                'description' => $organization->description,
+                'address' => [
+                    'street_name' => $organization->address->street_name ?? null,
+                    'street_number' => $organization->address->street_number ?? null,
+                    'npa' => $organization->address->npa ?? null,
+                    'city' => $organization->address->city ?? null,
+                ],
+                'created_at' => $organization->created_at,
+                'updated_at' => $organization->updated_at,
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while retrieving the organization'], 500);
+        }
+    }
 }

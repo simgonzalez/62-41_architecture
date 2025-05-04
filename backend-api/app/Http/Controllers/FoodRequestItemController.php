@@ -63,7 +63,7 @@ class FoodRequestItemController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        try {
+       // try {
             $user = auth()->user();
             $data = $request->validate([
                 'request_id' => 'required|exists:food_requests,id',
@@ -80,9 +80,9 @@ class FoodRequestItemController extends Controller
             $foodRequestItem = $this->foodRequestItemService->create($data);
 
             return response()->json($foodRequestItem, 201);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred while creating the food request item'], 500);
-        }
+        //} catch (Exception $e) {
+       //     return response()->json(['error' => 'An error occurred while creating the food request item'], 500);
+       // }
     }
 
     public function update(Request $request, int $id): JsonResponse

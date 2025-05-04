@@ -17,6 +17,10 @@ class FoodRequest extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
+    
+    protected $casts = [
+        'deadline_date' => 'datetime:Y-m-d\TH:i:sP', 
+    ];
 
     public function organization()
     {

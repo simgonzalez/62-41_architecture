@@ -52,6 +52,7 @@
             btnAddMember.TabIndex = 1;
             btnAddMember.Text = "&Add";
             btnAddMember.UseVisualStyleBackColor = true;
+            btnAddMember.Click += btnAddMember_Click;
             // 
             // lblNewMember
             // 
@@ -70,6 +71,7 @@
             btnCancel.TabIndex = 3;
             btnCancel.Text = "&Cancel";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // frmAddMember
             // 
@@ -85,6 +87,7 @@
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "frmAddMember";
             Text = "Add Members";
+            Load += frmAddMember_Load;
             ResumeLayout(false);
             PerformLayout();
         }

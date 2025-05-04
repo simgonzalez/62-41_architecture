@@ -152,4 +152,75 @@ class OrganizationController extends Controller
             return response()->json(['error' => 'An error occurred while deleting the organization'], 500);
         }
     }
+
+    public function getUsers(int $id): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+
+            $organization = $this->organizationService->getById($id);
+            if (!$organization || (!$user->hasRole('admin') && !$organization->users->contains('id', $user->id))) {
+                return response()->json(['error' => 'Organization not found or access denied'], 404);
+            }
+
+            // Load users related to the organization
+            $users = $organization->users()->get(['users.id', 'name', 'email', 'first_name']);
+
+            return response()->json($users);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Organization not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching users for the organization'], 500);
+        }
+    }
+    public function addUser(Request $request, int $id): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+
+            // Ensure only admins or organization members can add users
+            $organization = $this->organizationService->getById($id);
+            if (!$organization || (!$user->hasRole('admin') && !$organization->users->contains('id', $user->id))) {
+                return response()->json(['error' => 'Organization not found or access denied'], 404);
+            }
+
+            // Validate the request
+            $data = $request->validate([
+                'user_id' => 'required|exists:users,id',
+            ]);
+
+            // Attach the user to the organization
+            $organization->users()->attach($data['user_id']);
+
+            return response()->json(['message' => 'User added to the organization successfully.'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Organization not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while adding the user to the organization'], 500);
+        }
+    }
+
+    public function removeUser(int $id, int $user_id): JsonResponse
+    {
+        try {
+            $authUser = auth()->user();
+
+            $organization = $this->organizationService->getById($id);
+            if (!$organization || (!$authUser->hasRole('admin') && !$organization->users->contains('id', $authUser->id))) {
+                return response()->json(['error' => 'Organization not found or access denied'], 404);
+            }
+
+            if (!$organization->users->contains('id', $user_id)) {
+                return response()->json(['error' => 'User is not part of this organization'], 404);
+            }
+
+            $organization->users()->detach($user_id);
+
+            return response()->json(['message' => 'User removed from the organization successfully.'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Organization not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while removing the user from the organization'], 500);
+        }
+    }
 }

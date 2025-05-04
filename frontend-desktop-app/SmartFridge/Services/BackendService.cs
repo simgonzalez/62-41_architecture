@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using SmartFridge.Models;
+using SmartFridge.Models.SmartFridge.Models;
 
 namespace SmartFridge.Services
 {
@@ -25,6 +26,60 @@ namespace SmartFridge.Services
 
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
+        public static async Task<List<User>> GetUsersForOrganizationAsync()
+        {
+            return await GetDataAsync<List<User>>("users-org");
+        }
+
+        public static async Task AddUserToOrganizationAsync(int organizationId, int userId)
+        {
+            var payload = new { user_id = userId };
+
+            var jsonContent = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _httpClient.PostAsync($"organizations/{organizationId}/users", jsonContent);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task RemoveUserFromOrganizationAsync(int organizationId, int userId)
+        {
+            var response = await _httpClient.DeleteAsync($"organizations/{organizationId}/users/{userId}");
+            response.EnsureSuccessStatusCode();
+        }
+
+        public static async Task<List<User>> GetOrganizationUsersAsync(int organizationId)
+        {
+            return await GetDataAsync<List<User>>($"organizations/{organizationId}/users");
+        }
+
+        public static async Task<Organization> GetCurrentUserOrganizationAsync()
+        {
+            return await GetDataAsync<Organization>("me/organization");
+        }
+
+        public static async Task<List<Food>> getFoodsAsync()
+        {
+            return await GetDataAsync<List<Food>>("foods");
+        }
+
+        public static async Task<List<FoodRequestItem>> GetFoodRequestItemsAsync(int requestId)
+        {
+            return await GetDataAsync<List<FoodRequestItem>>($"food-requests/{requestId}/items");
+        }
+        public static async Task<FoodRequestItem> CreateFoodRequestItemAsync(int requestId, FoodRequestItem item)
+        {
+            return await CreateDataAsync<FoodRequestItem, FoodRequestItem>($"food-requests/{requestId}/items", item);
+        }
+
+        public static async Task<List<FoodRequest>> GetFoodRequestsAsync()
+        {
+            return await GetDataAsync<List<FoodRequest>>("food-requests");
+        }
+
         public static async Task<List<Unit>> GetUnitsAsync()
         {
             return await GetDataAsync<List<Unit>>("units");

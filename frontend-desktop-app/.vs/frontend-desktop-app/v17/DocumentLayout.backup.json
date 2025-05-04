@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\services\\backendservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\services\\backendservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\adminform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\models\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\models\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\addmemberform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\addmemberform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\addmemberform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\addmemberform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|c:\\users\\sgonz\\documents\\dev\\62-41_architecture\\frontend-desktop-app\\smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5E4DED3F-1F13-423B-8660-411053A08565}|SmartFridge\\SmartFridge.csproj|solutionrelative:smartfridge\\forms\\organizationform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +30,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Unit.cs",
-              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\Unit.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Models\\Unit.cs",
-              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\Unit.cs",
-              "RelativeToolTip": "SmartFridge\\Models\\Unit.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Title": "AddMemberForm.cs",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AddMemberForm.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Forms\\AddMemberForm.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AddMemberForm.cs",
+              "RelativeToolTip": "SmartFridge\\Forms\\AddMemberForm.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAArwEUAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T14:07:57.051Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AdminForm.cs",
-              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AdminForm.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Forms\\AdminForm.cs",
-              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AdminForm.cs",
-              "RelativeToolTip": "SmartFridge\\Forms\\AdminForm.cs",
-              "ViewState": "AgIAAJYAAAAAAAAAAAAcwMMAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T10:57:01.159Z",
+              "WhenOpened": "2025-05-04T07:17:49.725Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\User.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Models\\User.cs",
-              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Models\\User.cs",
-              "RelativeToolTip": "SmartFridge\\Models\\User.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "Title": "AddMemberForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AddMemberForm.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Forms\\AddMemberForm.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AddMemberForm.cs [Design]",
+              "RelativeToolTip": "SmartFridge\\Forms\\AddMemberForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T12:45:28.347Z",
+              "WhenOpened": "2025-05-04T07:17:45.385Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BackendService.cs",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Services\\BackendService.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Services\\BackendService.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Services\\BackendService.cs",
+              "RelativeToolTip": "SmartFridge\\Services\\BackendService.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAgwDAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T06:56:54.918Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AdminForm.cs",
-              "RelativeDocumentMoniker": "SmartFridge\\Forms\\AdminForm.cs",
-              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\AdminForm.cs [Design]",
-              "RelativeToolTip": "SmartFridge\\Forms\\AdminForm.cs [Design]",
+              "DocumentIndex": 4,
+              "Title": "OrganizationForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Forms\\OrganizationForm.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs [Design]",
+              "RelativeToolTip": "SmartFridge\\Forms\\OrganizationForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T11:45:36.807Z",
+              "WhenOpened": "2025-05-04T06:39:27.038Z",
               "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrganizationForm.cs",
+              "DocumentMoniker": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs",
+              "RelativeDocumentMoniker": "SmartFridge\\Forms\\OrganizationForm.cs",
+              "ToolTip": "C:\\Users\\sgonz\\Documents\\dev\\62-41_architecture\\frontend-desktop-app\\SmartFridge\\Forms\\OrganizationForm.cs",
+              "RelativeToolTip": "SmartFridge\\Forms\\OrganizationForm.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAA9wMYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T06:04:00.09Z",
+              "EditorCaption": ""
             }
           ]
         }

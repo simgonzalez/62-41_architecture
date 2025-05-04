@@ -35,9 +35,6 @@
             txtName = new TextBox();
             lblName = new Label();
             dgvRequestItem = new DataGridView();
-            colFood = new DataGridViewTextBoxColumn();
-            colQuantity = new DataGridViewTextBoxColumn();
-            colUnit = new DataGridViewTextBoxColumn();
             lblDeadline = new Label();
             dtpDeadline = new DateTimePicker();
             lblFoodItems = new Label();
@@ -48,63 +45,59 @@
             // btnCancel
             // 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnCancel.Location = new Point(614, 463);
-            btnCancel.Margin = new Padding(2, 2, 2, 2);
+            btnCancel.Location = new Point(877, 772);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(78, 20);
+            btnCancel.Size = new Size(111, 33);
             btnCancel.TabIndex = 10;
             btnCancel.Text = "Canc&el";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnSave.Location = new Point(696, 463);
-            btnSave.Margin = new Padding(2, 2, 2, 2);
+            btnSave.Location = new Point(994, 772);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(78, 20);
+            btnSave.Size = new Size(111, 33);
             btnSave.TabIndex = 9;
             btnSave.Text = "&Save";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // txtDescription
             // 
             txtDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtDescription.Location = new Point(50, 87);
-            txtDescription.Margin = new Padding(2, 2, 2, 2);
+            txtDescription.Location = new Point(71, 145);
             txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
-            txtDescription.Size = new Size(726, 101);
+            txtDescription.Size = new Size(1035, 166);
             txtDescription.TabIndex = 3;
             // 
             // lblDescription
             // 
             lblDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblDescription.AutoSize = true;
-            lblDescription.Location = new Point(50, 70);
-            lblDescription.Margin = new Padding(2, 0, 2, 0);
+            lblDescription.Location = new Point(71, 117);
             lblDescription.Name = "lblDescription";
-            lblDescription.Size = new Size(67, 15);
+            lblDescription.Size = new Size(102, 25);
             lblDescription.TabIndex = 2;
             lblDescription.Text = "&Description";
             // 
             // txtName
             // 
             txtName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtName.Location = new Point(50, 38);
-            txtName.Margin = new Padding(2, 2, 2, 2);
+            txtName.Location = new Point(71, 63);
             txtName.Name = "txtName";
-            txtName.Size = new Size(726, 23);
+            txtName.Size = new Size(1035, 31);
             txtName.TabIndex = 1;
             // 
             // lblName
             // 
             lblName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblName.AutoSize = true;
-            lblName.Location = new Point(50, 22);
-            lblName.Margin = new Padding(2, 0, 2, 0);
+            lblName.Location = new Point(71, 37);
             lblName.Name = "lblName";
-            lblName.Size = new Size(39, 15);
+            lblName.Size = new Size(59, 25);
             lblName.TabIndex = 0;
             lblName.Text = "&Name";
             // 
@@ -113,71 +106,44 @@
             dgvRequestItem.AllowUserToAddRows = false;
             dgvRequestItem.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvRequestItem.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRequestItem.Columns.AddRange(new DataGridViewColumn[] { colFood, colQuantity, colUnit });
-            dgvRequestItem.Location = new Point(50, 280);
-            dgvRequestItem.Margin = new Padding(2, 2, 2, 2);
+            dgvRequestItem.Location = new Point(71, 467);
             dgvRequestItem.Name = "dgvRequestItem";
             dgvRequestItem.RowHeadersWidth = 62;
-            dgvRequestItem.Size = new Size(724, 173);
+            dgvRequestItem.Size = new Size(1034, 288);
             dgvRequestItem.TabIndex = 8;
-            // 
-            // colFood
-            // 
-            colFood.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colFood.HeaderText = "Food";
-            colFood.MinimumWidth = 8;
-            colFood.Name = "colFood";
-            // 
-            // colQuantity
-            // 
-            colQuantity.HeaderText = "Quantity";
-            colQuantity.MinimumWidth = 8;
-            colQuantity.Name = "colQuantity";
-            colQuantity.Width = 150;
-            // 
-            // colUnit
-            // 
-            colUnit.HeaderText = "Unit";
-            colUnit.MinimumWidth = 8;
-            colUnit.Name = "colUnit";
-            colUnit.Width = 150;
             // 
             // lblDeadline
             // 
             lblDeadline.AutoSize = true;
-            lblDeadline.Location = new Point(50, 202);
-            lblDeadline.Margin = new Padding(2, 0, 2, 0);
+            lblDeadline.Location = new Point(71, 337);
             lblDeadline.Name = "lblDeadline";
-            lblDeadline.Size = new Size(53, 15);
+            lblDeadline.Size = new Size(81, 25);
             lblDeadline.TabIndex = 4;
             lblDeadline.Text = "D&eadline";
             // 
             // dtpDeadline
             // 
             dtpDeadline.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            dtpDeadline.Location = new Point(50, 220);
-            dtpDeadline.Margin = new Padding(2, 2, 2, 2);
+            dtpDeadline.Location = new Point(71, 367);
             dtpDeadline.Name = "dtpDeadline";
-            dtpDeadline.Size = new Size(726, 23);
+            dtpDeadline.Size = new Size(1035, 31);
             dtpDeadline.TabIndex = 5;
             // 
             // lblFoodItems
             // 
             lblFoodItems.AutoSize = true;
-            lblFoodItems.Location = new Point(50, 260);
-            lblFoodItems.Margin = new Padding(2, 0, 2, 0);
+            lblFoodItems.Location = new Point(71, 433);
             lblFoodItems.Name = "lblFoodItems";
-            lblFoodItems.Size = new Size(81, 15);
+            lblFoodItems.Size = new Size(124, 25);
             lblFoodItems.TabIndex = 6;
             lblFoodItems.Text = "&Request Items";
             // 
             // btnAddItems
             // 
             btnAddItems.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnAddItems.Location = new Point(696, 257);
-            btnAddItems.Margin = new Padding(2, 2, 2, 2);
+            btnAddItems.Location = new Point(994, 428);
             btnAddItems.Name = "btnAddItems";
-            btnAddItems.Size = new Size(78, 20);
+            btnAddItems.Size = new Size(111, 33);
             btnAddItems.TabIndex = 7;
             btnAddItems.Text = "&New Item";
             btnAddItems.UseVisualStyleBackColor = true;
@@ -186,10 +152,10 @@
             // frmCreateEditFoodRequest
             // 
             AcceptButton = btnSave;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(829, 517);
+            ClientSize = new Size(1184, 862);
             Controls.Add(btnAddItems);
             Controls.Add(lblFoodItems);
             Controls.Add(dtpDeadline);
@@ -201,10 +167,10 @@
             Controls.Add(lblDescription);
             Controls.Add(txtName);
             Controls.Add(lblName);
-            Margin = new Padding(2, 2, 2, 2);
-            MinimumSize = new Size(845, 556);
+            MinimumSize = new Size(1198, 889);
             Name = "frmCreateEditFoodRequest";
             Text = "Food request";
+            Load += frmCreateEditFoodRequest_Load;
             ((System.ComponentModel.ISupportInitialize)dgvRequestItem).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -218,9 +184,6 @@
         private TextBox txtName;
         private Label lblName;
         private DataGridView dgvRequestItem;
-        private DataGridViewTextBoxColumn colFood;
-        private DataGridViewTextBoxColumn colQuantity;
-        private DataGridViewTextBoxColumn colUnit;
         private Label lblDeadline;
         private DateTimePicker dtpDeadline;
         private Label lblFoodItems;
