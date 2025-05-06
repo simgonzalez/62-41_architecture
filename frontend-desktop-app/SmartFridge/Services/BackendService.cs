@@ -26,6 +26,20 @@ namespace SmartFridge.Services
 
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
+
+        public static async Task RegisterAsync(string firstName, string name, string email, string password)
+        {
+            var registrationData = new
+            {
+                first_name = firstName,
+                name = name,
+                email = email,
+                password = password
+            };
+
+            await CreateDataAsync<object, object>("register", registrationData);
+        }
+
         public static async Task<List<User>> GetUsersForOrganizationAsync()
         {
             return await GetDataAsync<List<User>>("users-org");

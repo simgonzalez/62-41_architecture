@@ -182,6 +182,12 @@ namespace SmartFridge
                             dgvUsers.Columns["Email"].ReadOnly = false;
                             dgvUsers.Columns["First_Name"].ReadOnly = false;
                             dgvUsers.Columns["Role"].ReadOnly = false;
+
+                            // Hide the Password column if it exists
+                            if (dgvUsers.Columns.Contains("Password"))
+                            {
+                                dgvUsers.Columns["Password"].Visible = false;
+                            }
                         }));
                     }
                     catch (Exception ex)

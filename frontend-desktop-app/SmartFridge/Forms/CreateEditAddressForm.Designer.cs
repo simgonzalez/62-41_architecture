@@ -34,8 +34,6 @@
             lblStreetNumber = new Label();
             txtCity = new TextBox();
             lblCity = new Label();
-            txtCanton = new TextBox();
-            lblCanton = new Label();
             btnSave = new Button();
             lblNpa = new Label();
             txtNpa = new TextBox();
@@ -90,25 +88,9 @@
             lblCity.TabIndex = 4;
             lblCity.Text = "&City";
             // 
-            // txtCanton
-            // 
-            txtCanton.Location = new Point(107, 248);
-            txtCanton.Name = "txtCanton";
-            txtCanton.Size = new Size(456, 31);
-            txtCanton.TabIndex = 9;
-            // 
-            // lblCanton
-            // 
-            lblCanton.AutoSize = true;
-            lblCanton.Location = new Point(107, 220);
-            lblCanton.Name = "lblCanton";
-            lblCanton.Size = new Size(69, 25);
-            lblCanton.TabIndex = 8;
-            lblCanton.Text = "C&anton";
-            // 
             // btnSave
             // 
-            btnSave.Location = new Point(451, 315);
+            btnSave.Location = new Point(451, 223);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(112, 34);
             btnSave.TabIndex = 10;
@@ -134,7 +116,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(333, 315);
+            btnCancel.Location = new Point(333, 223);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(112, 34);
             btnCancel.TabIndex = 11;
@@ -148,13 +130,11 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(698, 402);
+            ClientSize = new Size(698, 285);
             Controls.Add(btnCancel);
             Controls.Add(lblNpa);
             Controls.Add(txtNpa);
             Controls.Add(btnSave);
-            Controls.Add(txtCanton);
-            Controls.Add(lblCanton);
             Controls.Add(txtCity);
             Controls.Add(lblCity);
             Controls.Add(lblStreetNumber);
@@ -178,8 +158,6 @@
         private Label lblStreetNumber;
         private TextBox txtCity;
         private Label lblCity;
-        private TextBox txtCanton;
-        private Label lblCanton;
         private Button btnSave;
         private Label lblNpa;
         private TextBox txtNpa;

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartFridge")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b2aa850607c771cca836f76384999f3e6e1dff0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e154cd25a4aa18be319a3f5ae448ab64e6a8312")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartFridge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartFridge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
