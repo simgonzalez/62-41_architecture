@@ -30,7 +30,7 @@
         {
             tcAdminPanel = new TabControl();
             tpOrganizationPage = new TabPage();
-            txtFilterEmail = new TextBox();
+            txtFilterCity = new TextBox();
             txtFilterOrganization = new TextBox();
             lblFilter = new Label();
             btnAddLine = new Button();
@@ -70,7 +70,7 @@
             // 
             // tpOrganizationPage
             // 
-            tpOrganizationPage.Controls.Add(txtFilterEmail);
+            tpOrganizationPage.Controls.Add(txtFilterCity);
             tpOrganizationPage.Controls.Add(txtFilterOrganization);
             tpOrganizationPage.Controls.Add(lblFilter);
             tpOrganizationPage.Controls.Add(btnAddLine);
@@ -83,13 +83,14 @@
             tpOrganizationPage.Text = "Organizations";
             tpOrganizationPage.UseVisualStyleBackColor = true;
             // 
-            // txtFilterEmail
+            // txtFilterCity
             // 
-            txtFilterEmail.Location = new Point(8, 176);
-            txtFilterEmail.Name = "txtFilterEmail";
-            txtFilterEmail.PlaceholderText = "Email";
-            txtFilterEmail.Size = new Size(199, 31);
-            txtFilterEmail.TabIndex = 4;
+            txtFilterCity.Location = new Point(8, 176);
+            txtFilterCity.Name = "txtFilterCity";
+            txtFilterCity.PlaceholderText = "City/Npa";
+            txtFilterCity.Size = new Size(199, 31);
+            txtFilterCity.TabIndex = 4;
+            txtFilterCity.TextChanged += txtFilterCity_TextChanged;
             // 
             // txtFilterOrganization
             // 
@@ -98,6 +99,7 @@
             txtFilterOrganization.PlaceholderText = "Name";
             txtFilterOrganization.Size = new Size(199, 31);
             txtFilterOrganization.TabIndex = 3;
+            txtFilterOrganization.TextChanged += txtFilterName_TextChanged;
             // 
             // lblFilter
             // 
@@ -284,7 +286,7 @@
         private Button btnAddLine;
         private Label lblFilter;
         private TextBox txtFilterOrganization;
-        private TextBox txtFilterEmail;
+        private TextBox txtFilterCity;
         private TextBox txtName;
         private TextBox txtFilterFirstName;
         private Label lblFilters;

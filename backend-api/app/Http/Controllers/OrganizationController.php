@@ -19,18 +19,28 @@ class OrganizationController extends Controller
         $this->organizationService = $organizationService;
         $this->addressService = $addressService;
     }
-
-    public function index(): JsonResponse
+    
+    public function index(Request $request): JsonResponse
     {
         try {
             $user = auth()->user();
 
-            if ($user->hasRole('admin')) {
-                $organizations = $this->organizationService->getAll();
-            } else {
-                $organizations = $this->organizationService->getAllByUser($user->id);
+            $query = $user->hasRole('admin')
+                ? $this->organizationService->getQuery() // Admins can see all organizations
+                : $this->organizationService->getQueryByUser($user->id); // Regular users see their organizations
+
+            if ($request->has('name')) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
             }
 
+            if ($request->has('city')) {
+                $query->whereHas('address', function ($q) use ($request) {
+                    $q->where('city', 'like', '%' . $request->input('city') . '%')
+                      ->orWhere('npa', 'like', '%' . $request->input('city') . '%');
+                });
+            }
+
+            $organizations = $query->with('address')->get();
 
             return response()->json($organizations);
         } catch (Exception $e) {

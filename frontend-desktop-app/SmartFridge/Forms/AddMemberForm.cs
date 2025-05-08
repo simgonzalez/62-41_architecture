@@ -22,8 +22,8 @@ namespace SmartFridge.Forms
         {
             try
             {
-                // Fetch all users from the backend
-                var allUsers = await BackendService.GetUsersAsync();
+                // Fetch all users
+                var allUsers = await BackendService.GetUsersForOrganizationAsync();
 
                 // Fetch current members of the organization
                 var currentMembers = await BackendService.GetOrganizationUsersAsync(_organizationId);
@@ -41,8 +41,6 @@ namespace SmartFridge.Forms
                 MessageBox.Show($"An error occurred while loading users: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
 
         private async void btnAddMember_Click(object sender, EventArgs e)
         {

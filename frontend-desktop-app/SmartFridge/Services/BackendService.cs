@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using SmartFridge.Models;
 using SmartFridge.Models.SmartFridge.Models;
@@ -27,6 +28,12 @@ namespace SmartFridge.Services
             _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
+        public static async Task LogoutAsync()
+        {
+            await _httpClient.PostAsync("logout", null);
+            RemoveAuthenticationToken();
+        }
+
         public static async Task RegisterAsync(string firstName, string name, string email, string password)
         {
             var registrationData = new
@@ -38,6 +45,24 @@ namespace SmartFridge.Services
             };
 
             await CreateDataAsync<object, object>("register", registrationData);
+        }
+
+        public static async Task<List<Organization>> GetFilteredOrganizationsAsync(string queryString, CancellationToken cancellationToken)
+        {
+            var response = await _httpClient.GetAsync($"organizations?{queryString}", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Organization>>(jsonResponse, jsonOptions);
+        }
+
+        public static async Task<List<FoodRequest>> GetFilteredFoodRequestsAsync(string queryString, CancellationToken cancellationToken)
+        {
+            var response = await _httpClient.GetAsync($"food-requests?{queryString}", cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<FoodRequest>>(jsonResponse, jsonOptions);
         }
 
         public static async Task<List<User>> GetUsersForOrganizationAsync()
@@ -124,8 +149,23 @@ namespace SmartFridge.Services
 
         public static async Task<User> UpdateUserAsync(int id, User user)
         {
-            return await UpdateDataAsync<User, User>($"users/{id}", user);
+            // Serialize the user object, excluding the password if it should not be serialized
+            var jsonContent = new StringContent(
+                JsonSerializer.Serialize(user, new JsonSerializerOptions
+                {
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+                }),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = await _httpClient.PutAsync($"users/{id}", jsonContent);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<User>(jsonResponse, jsonOptions);
         }
+
         public static async Task<User> CreateUserAsync(User user)
         {
             return await CreateDataAsync<User, User>("users", user);

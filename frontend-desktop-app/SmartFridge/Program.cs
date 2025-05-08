@@ -1,3 +1,5 @@
+using SmartFridge.Services;
+
 namespace SmartFridge
 {
     internal static class Program
@@ -12,6 +14,21 @@ namespace SmartFridge
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new frmLogin());
+        }
+
+        private static void OnApplicationExit(object sender, EventArgs e)
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await BackendService.LogoutAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred during logout: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }).Wait();
         }
     }
 }

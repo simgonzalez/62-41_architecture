@@ -16,14 +16,75 @@ namespace SmartFridge.Forms
     {
         private const int TAB_ORGANIZATION_INFORMATION = 2;
         private const int TAB_MEMBERS = 1;
+        
         private Organization Organization;
+        private System.Windows.Forms.Timer filterTimer;
+        private CancellationTokenSource cancellationTokenSource;
 
         private frmCreateEditOrganization organizationForm;
         public frmOrganization()
         {
             InitializeComponent();
             LoadOrganizationAsync();
+
+            filterTimer = new System.Windows.Forms.Timer();
+            filterTimer.Interval = 500; 
+            filterTimer.Tick += FilterTimer_Tick;
         }
+
+        private void txtFilterName_TextChanged(object sender, EventArgs e)
+        {
+            RestartFilterTimer();
+        }
+
+        private void txtFilterDescription_TextChanged(object sender, EventArgs e)
+        {
+            RestartFilterTimer();
+        }
+
+        private void RestartFilterTimer()
+        {
+            filterTimer.Stop();
+
+            filterTimer.Start();
+        }
+
+        private async void FilterTimer_Tick(object sender, EventArgs e)
+        {
+            filterTimer.Stop();
+
+            cancellationTokenSource?.Cancel();
+
+            cancellationTokenSource = new CancellationTokenSource();
+
+            try
+            {
+                string name = txtFilterRequestName.Text;
+                string description = txtRequestDescription.Text;
+
+                // Build query parameters
+                var queryParams = new List<string>();
+                if (!string.IsNullOrWhiteSpace(name)) queryParams.Add($"name={Uri.EscapeDataString(name)}");
+                if (!string.IsNullOrWhiteSpace(description)) queryParams.Add($"description={Uri.EscapeDataString(description)}");
+
+                string queryString = string.Join("&", queryParams);
+
+                // Send the filtered request
+                var foodRequests = await BackendService.GetFilteredFoodRequestsAsync(queryString, cancellationTokenSource.Token);
+
+                // Update the DataGridView
+                dgvFoodRequest.DataSource = null;
+                dgvFoodRequest.DataSource = foodRequests;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while filtering: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private async void LoadOrganizationAsync()
         {

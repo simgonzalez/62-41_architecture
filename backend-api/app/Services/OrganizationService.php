@@ -8,9 +8,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class OrganizationService
 {
-    public function getAll(): Collection
+
+    
+    public function getQuery()
     {
-        return Organization::with('address')->get();
+        return Organization::query();
+    }
+
+    public function getQueryByUser(int $userId)
+    {
+        return Organization::whereHas('users', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        });
     }
 
     public function getById(int $id): Organization

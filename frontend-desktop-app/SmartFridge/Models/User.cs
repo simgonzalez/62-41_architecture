@@ -24,8 +24,20 @@ namespace SmartFridge.Models
             set => Roles = !string.IsNullOrWhiteSpace(value) ? new List<string> { value } : new List<string>();
         }
 
+        private string _password;
+
         [JsonPropertyName("password")]
-        public string Password { get; set; }
+        public string Password
+        {
+            get => _password;
+            set => _password = value;
+        }
+
+        public bool ShouldSerializePassword()
+        {
+            // Only serialize the password if it is not null or empty
+            return !string.IsNullOrWhiteSpace(_password);
+        }
     }
 
 }

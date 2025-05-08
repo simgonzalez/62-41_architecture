@@ -36,14 +36,13 @@ class FoodRequestService
         $foodRequest->delete();
     }
 
+    
     public function getAllByUserOrganizations(int $userId)
-    {
-        return FoodRequest::whereHas('organization.users', function ($query) use ($userId) {
-            $query->where('users.id', $userId);
-        })
-            ->with(['organization', 'responsibleUser', 'createdByUser', 'status']) // Eager load relationships
-            ->get();
-    }
+{
+    $userOrganizations = \App\Models\User::find($userId)->organizations->pluck('id');
+
+    return FoodRequest::whereIn('organization_id', $userOrganizations);
+}
 
     public function getByIdAndUserOrganizations(int $id, int $userId)
     {

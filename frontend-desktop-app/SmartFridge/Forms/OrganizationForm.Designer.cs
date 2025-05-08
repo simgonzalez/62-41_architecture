@@ -30,7 +30,6 @@
         {
             tabOrganizationPanel = new TabControl();
             tpRequests = new TabPage();
-            dtpFilterDeadline = new DateTimePicker();
             txtRequestDescription = new TextBox();
             txtFilterRequestName = new TextBox();
             lblFilter = new Label();
@@ -67,7 +66,6 @@
             // 
             // tpRequests
             // 
-            tpRequests.Controls.Add(dtpFilterDeadline);
             tpRequests.Controls.Add(txtRequestDescription);
             tpRequests.Controls.Add(txtFilterRequestName);
             tpRequests.Controls.Add(lblFilter);
@@ -81,14 +79,6 @@
             tpRequests.Text = "Food Requests";
             tpRequests.UseVisualStyleBackColor = true;
             // 
-            // dtpFilterDeadline
-            // 
-            dtpFilterDeadline.Location = new Point(6, 214);
-            dtpFilterDeadline.MinDate = new DateTime(2025, 3, 22, 0, 0, 0, 0);
-            dtpFilterDeadline.Name = "dtpFilterDeadline";
-            dtpFilterDeadline.Size = new Size(199, 31);
-            dtpFilterDeadline.TabIndex = 12;
-            // 
             // txtRequestDescription
             // 
             txtRequestDescription.Location = new Point(5, 177);
@@ -96,6 +86,7 @@
             txtRequestDescription.PlaceholderText = "Description";
             txtRequestDescription.Size = new Size(199, 31);
             txtRequestDescription.TabIndex = 11;
+            txtRequestDescription.TextChanged += txtFilterDescription_TextChanged;
             // 
             // txtFilterRequestName
             // 
@@ -104,6 +95,7 @@
             txtFilterRequestName.PlaceholderText = "Name";
             txtFilterRequestName.Size = new Size(199, 31);
             txtFilterRequestName.TabIndex = 10;
+            txtFilterRequestName.TextChanged += txtFilterName_TextChanged;
             // 
             // lblFilter
             // 

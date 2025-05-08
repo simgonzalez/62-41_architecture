@@ -8,9 +8,74 @@ namespace SmartFridge
     public partial class frmAdmin : Form, FormReloadData
     {
         private HashSet<int> modifiedRows = new HashSet<int>();
+        private System.Windows.Forms.Timer filterTimer;
+        private CancellationTokenSource cancellationTokenSource;
+
         public frmAdmin()
         {
             InitializeComponent();
+            filterTimer = new System.Windows.Forms.Timer();
+            filterTimer.Interval = 500; 
+            filterTimer.Tick += FilterTimer_Tick;
+        }
+        private void txtFilterName_TextChanged(object sender, EventArgs e)
+        {
+            RestartFilterTimer();
+        }
+
+        private void txtFilterCity_TextChanged(object sender, EventArgs e)
+        {
+            RestartFilterTimer();
+        }
+
+        private void RestartFilterTimer()
+        {
+            // Stop the timer if it's already running
+            filterTimer.Stop();
+
+            // Restart the timer
+            filterTimer.Start();
+        }
+
+        private async void FilterTimer_Tick(object sender, EventArgs e)
+        {
+            // Stop the timer
+            filterTimer.Stop();
+
+            // Cancel any ongoing request
+            cancellationTokenSource?.Cancel();
+
+            // Create a new CancellationTokenSource
+            cancellationTokenSource = new CancellationTokenSource();
+
+            try
+            {
+                // Get filter values
+                string name = txtFilterOrganization.Text;
+                string city = txtFilterCity.Text;
+
+                // Build query parameters
+                var queryParams = new List<string>();
+                if (!string.IsNullOrWhiteSpace(name)) queryParams.Add($"name={Uri.EscapeDataString(name)}");
+                if (!string.IsNullOrWhiteSpace(city)) queryParams.Add($"city={Uri.EscapeDataString(city)}");
+
+                string queryString = string.Join("&", queryParams);
+
+                // Send the filtered request
+                var organizations = await BackendService.GetFilteredOrganizationsAsync(queryString, cancellationTokenSource.Token);
+
+                // Update the DataGridView
+                dgvOrganization.DataSource = null;
+                dgvOrganization.DataSource = organizations;
+            }
+            catch (OperationCanceledException)
+            {
+                // Request was canceled, no action needed
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while filtering: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -473,6 +538,7 @@ namespace SmartFridge
                     {
                         try
                         {
+                            user.Password = null;
                             await BackendService.UpdateUserAsync(userId, user);
                             MessageBox.Show("User updated successfully.", "Success",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
