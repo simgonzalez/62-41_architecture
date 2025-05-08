@@ -1,5 +1,4 @@
 ﻿using SmartFridge.Models;
-using SmartFridge.Models.SmartFridge.Models;
 using SmartFridge.Services;
 using System;
 using System.Collections.Generic;
@@ -59,9 +58,14 @@ namespace SmartFridge.Forms
             FoodRequestItem = new FoodRequestItem
             {
                 FoodId = int.Parse(cmbFood.SelectedValue.ToString()),
-                FoodName = cmbFood.Text,
                 UnitId = int.Parse(cmbUnit.SelectedValue.ToString()),
-                UnitName = cmbUnit.Text,
+                Food = new Food
+                {
+                    Name = cmbFood.Text
+                },
+                Unit = new Unit{ 
+                    Name = cmbUnit.Text 
+                },
                 Quantity = quantity
             };
 

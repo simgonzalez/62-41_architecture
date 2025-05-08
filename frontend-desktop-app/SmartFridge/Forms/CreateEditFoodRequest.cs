@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SmartFridge.Models;
-using SmartFridge.Models.SmartFridge.Models;
 using SmartFridge.Services;
 
 namespace SmartFridge.Forms
@@ -64,18 +63,19 @@ namespace SmartFridge.Forms
             // Create a new binding source to bind only the relevant properties
             var displayItems = foodRequestItems.Select(item => new
             {
-                Food = item.FoodName,
+                Food = item.Food?.Name, 
                 Quantity = item.Quantity,
-                Unit = item.UnitName
+                Unit = item.Unit?.Name
             }).ToList();
 
             dgvRequestItem.DataSource = displayItems;
 
-            // Optionally, customize column headers
+            // Customize column headers
             dgvRequestItem.Columns["Food"].HeaderText = "Food";
             dgvRequestItem.Columns["Quantity"].HeaderText = "Quantity";
             dgvRequestItem.Columns["Unit"].HeaderText = "Unit";
         }
+
 
 
 

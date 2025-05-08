@@ -67,6 +67,12 @@ namespace SmartFridge
                 // Update the DataGridView
                 dgvOrganization.DataSource = null;
                 dgvOrganization.DataSource = organizations;
+                var descriptionColumn = dgvOrganization.Columns["Description"];
+                if (descriptionColumn != null)
+                {
+                    descriptionColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+
             }
             catch (OperationCanceledException)
             {

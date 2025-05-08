@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using SmartFridge.Models;
-using SmartFridge.Models.SmartFridge.Models;
 
 namespace SmartFridge.Services
 {

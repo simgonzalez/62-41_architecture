@@ -75,6 +75,49 @@ namespace SmartFridge.Forms
                 // Update the DataGridView
                 dgvFoodRequest.DataSource = null;
                 dgvFoodRequest.DataSource = foodRequests;
+
+                // Hide all columns by default
+                foreach (DataGridViewColumn column in dgvFoodRequest.Columns)
+                {
+                    column.Visible = false;
+                }
+
+                // Show only relevant columns
+                dgvFoodRequest.Columns["Id"].Visible = true;
+                dgvFoodRequest.Columns["Id"].HeaderText = "Food Request ID";
+
+                dgvFoodRequest.Columns["Name"].Visible = true;
+                dgvFoodRequest.Columns["Name"].HeaderText = "Name";
+
+                dgvFoodRequest.Columns["Description"].Visible = true;
+                dgvFoodRequest.Columns["Description"].HeaderText = "Description";
+
+                dgvFoodRequest.Columns["DeadlineDate"].Visible = true;
+                dgvFoodRequest.Columns["DeadlineDate"].HeaderText = "Deadline";
+
+                dgvFoodRequest.Columns["Status"].Visible = true;
+                dgvFoodRequest.Columns["Status"].HeaderText = "Status";
+
+                dgvFoodRequest.Columns["OrganizationName"].Visible = true;
+                dgvFoodRequest.Columns["OrganizationName"].HeaderText = "Organization";
+
+                dgvFoodRequest.Columns["ResponsibleUserName"].Visible = true;
+                dgvFoodRequest.Columns["ResponsibleUserName"].HeaderText = "Responsible User";
+
+                dgvFoodRequest.Columns["CreatedByUserName"].Visible = true;
+                dgvFoodRequest.Columns["CreatedByUserName"].HeaderText = "Created By";
+
+                // Optionally, set column display order
+                dgvFoodRequest.Columns["Id"].DisplayIndex = 0;
+                dgvFoodRequest.Columns["Name"].DisplayIndex = 1;
+                dgvFoodRequest.Columns["Description"].DisplayIndex = 2;
+                dgvFoodRequest.Columns["DeadlineDate"].DisplayIndex = 3;
+                dgvFoodRequest.Columns["Status"].DisplayIndex = 4;
+                dgvFoodRequest.Columns["OrganizationName"].DisplayIndex = 5;
+                dgvFoodRequest.Columns["ResponsibleUserName"].DisplayIndex = 6;
+                dgvFoodRequest.Columns["CreatedByUserName"].DisplayIndex = 7;
+
+                dgvFoodRequest.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (OperationCanceledException)
             {
@@ -194,17 +237,56 @@ namespace SmartFridge.Forms
                 dgvFoodRequest.DataSource = null;
                 dgvFoodRequest.DataSource = foodRequests;
 
-                // Optionally, customize column headers
+                // Hide all columns by default
+                foreach (DataGridViewColumn column in dgvFoodRequest.Columns)
+                {
+                    column.Visible = false;
+                }
+
+                // Show only relevant columns
+                dgvFoodRequest.Columns["Id"].Visible = true;
+                dgvFoodRequest.Columns["Id"].HeaderText = "Food Request ID";
+
+                dgvFoodRequest.Columns["Name"].Visible = true;
                 dgvFoodRequest.Columns["Name"].HeaderText = "Name";
+
+                dgvFoodRequest.Columns["Description"].Visible = true;
                 dgvFoodRequest.Columns["Description"].HeaderText = "Description";
+
+                dgvFoodRequest.Columns["DeadlineDate"].Visible = true;
                 dgvFoodRequest.Columns["DeadlineDate"].HeaderText = "Deadline";
+
+                dgvFoodRequest.Columns["Status"].Visible = true;
                 dgvFoodRequest.Columns["Status"].HeaderText = "Status";
+
+                dgvFoodRequest.Columns["OrganizationName"].Visible = true;
+                dgvFoodRequest.Columns["OrganizationName"].HeaderText = "Organization";
+
+                dgvFoodRequest.Columns["ResponsibleUserName"].Visible = true;
+                dgvFoodRequest.Columns["ResponsibleUserName"].HeaderText = "Responsible User";
+
+                dgvFoodRequest.Columns["CreatedByUserName"].Visible = true;
+                dgvFoodRequest.Columns["CreatedByUserName"].HeaderText = "Created By";
+
+                // Optionally, set column display order
+                dgvFoodRequest.Columns["Id"].DisplayIndex = 0;
+                dgvFoodRequest.Columns["Name"].DisplayIndex = 1;
+                dgvFoodRequest.Columns["Description"].DisplayIndex = 2;
+                dgvFoodRequest.Columns["DeadlineDate"].DisplayIndex = 3;
+                dgvFoodRequest.Columns["Status"].DisplayIndex = 4;
+                dgvFoodRequest.Columns["OrganizationName"].DisplayIndex = 5;
+                dgvFoodRequest.Columns["ResponsibleUserName"].DisplayIndex = 6;
+                dgvFoodRequest.Columns["CreatedByUserName"].DisplayIndex = 7;
+
+                // Optionally, auto-size columns for better readability
+                dgvFoodRequest.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred while loading food requests: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void OrganizationForm_Load(object sender, EventArgs e)
         {
@@ -227,7 +309,7 @@ namespace SmartFridge.Forms
                 // Bind the full User objects to the DataGridView
                 dgvMembers.DataSource = null;
                 dgvMembers.DataSource = users;
-
+                dgvMembers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 // Customize column headers
                 dgvMembers.Columns["Id"].HeaderText = "ID";
                 dgvMembers.Columns["Name"].HeaderText = "Name";

@@ -7,23 +7,28 @@ using System.Threading.Tasks;
 
 namespace SmartFridge.Models
 {
-    namespace SmartFridge.Models
-    {
-        public class FoodRequestItem
-        {
-            [JsonPropertyName("request_id")]
-            public int RequestId { get; set; }
-            [JsonPropertyName("food_id")]
-            public int FoodId { get; set; }
-            [JsonPropertyName("food_name")]
-            public string FoodName { get; set; }
-            
-            public double Quantity { get; set; }
-            [JsonPropertyName("unit_id")]
-            public int UnitId { get; set; }
-            [JsonPropertyName("unit_name")]
-            public string UnitName { get; set; } 
-        }
-    }
+   
+            public class FoodRequestItem
+            {
+                [JsonPropertyName("id")]
+                public int Id { get; set; }
+
+                [JsonPropertyName("request_id")]
+                public int RequestId { get; set; }
+
+                [JsonPropertyName("food_id")]
+                public int FoodId { get; set; }
+
+                public double Quantity { get; set; }
+
+                [JsonPropertyName("unit_id")]
+                public int UnitId { get; set; }
+
+                [JsonPropertyName("food")]
+                public Food Food { get; set; } // Nested Food object
+
+                [JsonPropertyName("unit")]
+                public Unit Unit { get; set; } // Nested Unit object
+            }
 
 }

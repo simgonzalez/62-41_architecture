@@ -67,6 +67,16 @@ namespace SmartFridge.Forms
                 MessageBox.Show("Please enter an address before saving.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            if (txtDescription.Text == null || txtDescription.Text == "")
+            {
+                MessageBox.Show("Please enter a description before saving.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (txtName.Text == null || txtName.Text == "")
+            {
+                MessageBox.Show("Please enter a name before saving.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var organization = new Organization
             {
