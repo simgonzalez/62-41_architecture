@@ -1,12 +1,15 @@
 import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
-import axios from "axios";
-
-const API_URL = "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+import ApiService from "./ApiService";
 
 export const fetchIngredients = async (): Promise<IngredientOpenMealDb[]> => {
   try {
-    const response = await axios.get(API_URL);
-    return response.data.meals;
+    const response = await ApiService.get("ingredients");
+    return response.meals.map((meal: any) => ({
+      idIngredient: meal.idIngredient,
+      strIngredient: meal.strIngredient,
+      strDescription: meal.strDescription,
+      strType: meal.strType,
+    }));
   } catch (error) {
     console.error("Error fetching ingredients:", error);
     throw error;
