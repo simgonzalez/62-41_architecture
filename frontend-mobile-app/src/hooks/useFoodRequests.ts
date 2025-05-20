@@ -54,8 +54,8 @@ const useFoodRequests = () => {
 
         return matchingItems.some((fridgeItem) => {
           return (
-            fridgeItem.quantity.unit === item.quantity.unit &&
-            fridgeItem.quantity.value >= item.quantity.value
+            fridgeItem.quantity.unit === item.quantity.code &&
+            fridgeItem.quantity.value >= item.quantity.name
           );
         });
       })

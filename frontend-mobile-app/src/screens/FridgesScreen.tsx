@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FridgesList from "@src/components/FridgesList";
 import { Fridge } from "@src/types/Fridge";
 import { useIsFocused } from "@react-navigation/native";
-import { addFridge, deleteFridge } from "@src/services/FridgeService";
+import { FridgeService } from "@src/services/FridgeService";
 import { View, StyleSheet } from "react-native";
 import { Text, useTheme, FAB } from "react-native-paper";
 import { useSnackbar } from "@src/contexts/SnackbarProvider";
@@ -21,12 +21,12 @@ const FridgesScreen = () => {
   };
 
   const handleDeleteFridge = async (fridge: Fridge) => {
-    const success = await deleteFridge(fridge.id);
+    const success = await FridgeService.delete(fridge.id);
     loadFridges();
 
     if (success) {
       showSnackbar("The fridge has been successfully deleted.", () => {
-        addFridge(fridge);
+        FridgeService.create(fridge);
       });
     } else {
       showSnackbar("There was an error deleting the fridge.");

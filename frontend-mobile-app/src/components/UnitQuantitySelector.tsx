@@ -14,11 +14,11 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   setQuantity,
 }) => {
   const { units } = useUnits();
-  const [localQuantity, setLocalQuantity] = useState(quantity.value.toString());
+  const [localQuantity, setLocalQuantity] = useState(quantity.name.toString());
   const [unitDialogVisible, setUnitDialogVisible] = useState(false);
 
   useEffect(() => {
-    setLocalQuantity(quantity.value.toString());
+    setLocalQuantity(quantity.name.toString());
   }, [quantity]);
 
   const handleQuantityChange = (text: string) => {
@@ -26,11 +26,11 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   };
 
   const handleQuantityBlur = () => {
-    setQuantity({ ...quantity, value: parseFloat(localQuantity) || 0 });
+    setQuantity({ ...quantity, name: parseFloat(localQuantity) || 0 });
   };
 
   const handleSelectUnit = (selectedUnit: string) => {
-    setQuantity({ ...quantity, unit: selectedUnit });
+    setQuantity({ ...quantity, code: selectedUnit });
     setUnitDialogVisible(false);
   };
 
@@ -50,7 +50,7 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
       >
         <TextInput
           label="Unit"
-          value={quantity.unit}
+          value={quantity.code}
           editable={false}
           style={[styles.input, styles.unitInput]}
           right={

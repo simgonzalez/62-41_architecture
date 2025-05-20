@@ -6,7 +6,7 @@ const useFridgeItems = (fridgeId: number) => {
   const [fridgeItems, setFridgeItems] = useState<FridgeItem[]>([]);
 
   const fetchFridgeItems = async () => {
-    const items = FridgeItemService.getByFridgeId(fridgeId);
+    const items = await FridgeItemService.getAllByFridgeId(fridgeId);
     if (items) {
       setFridgeItems(items);
     }

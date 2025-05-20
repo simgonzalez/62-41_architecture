@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   MD3DarkTheme,
   MD3LightTheme,
@@ -9,18 +9,10 @@ import LoginNavigation from "@navigations/LoginNavigation";
 import { useColorScheme } from "react-native";
 import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { FridgeItemsProvider } from "@contexts/FridgeItemsContext";
-import ApiService from "./services/ApiService";
 
 const App = () => {
   const colorScheme = useColorScheme();
   const { theme } = useMaterial3Theme();
-
-  useEffect(() => {
-    const initializeApi = async () => {
-      await ApiService.initialize();
-    };
-    initializeApi();
-  }, []);
 
   const paperTheme =
     colorScheme === "dark"

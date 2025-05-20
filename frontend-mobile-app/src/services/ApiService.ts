@@ -1,21 +1,62 @@
 import camelcaseKeys from 'camelcase-keys';
 import { snakeCase } from 'snake-case';
-import { NetworkInfo } from 'react-native-network-info';
 
-let baseUrl = '';
+let baseUrl = 'http://localhost:8000/api/';
 
-const initializeBaseUrl = async () => {
-  const ipAddress = await NetworkInfo.getIPAddress();
-  baseUrl = `http://${ipAddress}:8000/api/`;
-};
+let authToken: string | null = null;
 
 const ApiService = {
-  async initialize(): Promise<void> {
-    await initializeBaseUrl();
+  setToken(token: string) {
+    authToken = token;
+  },
+
+  async login(email: string, password: string): Promise<string> {
+    const response = await fetch(`${baseUrl}login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) {
+      throw new Error('Invalid credentials');
+    }
+    const json = await response.json();
+    // Adjust this if your API returns the token in a different property
+    return json.token || json.access_token;
+  },
+
+  async register(
+    email: string,
+    password: string,
+    passwordConfirmation: string,
+    firstName: string,
+    name: string
+  ): Promise<any> {
+    const response = await fetch(`${baseUrl}register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        first_name: firstName,
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Registration failed');
+    }
+    const json = await response.json();
+    return camelcaseKeys(json, { deep: true });
   },
 
   async get(endpoint: string): Promise<any> {
-    const response = await fetch(`${baseUrl}${endpoint}`);
+    const response = await fetch(`${baseUrl}${endpoint}`, {
+      headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
+    });
     return this.handleResponse(response);
   },
 
@@ -24,6 +65,7 @@ const ApiService = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       },
       body: JSON.stringify(this.toSnakeCase(data)),
     });
@@ -35,6 +77,7 @@ const ApiService = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       },
       body: JSON.stringify(this.toSnakeCase(data)),
     });
@@ -44,6 +87,7 @@ const ApiService = {
   async delete(endpoint: string): Promise<any> {
     const response = await fetch(`${baseUrl}${endpoint}`, {
       method: 'DELETE',
+      headers: authToken ? { Authorization: `Bearer ${authToken}` } : {},
     });
     return this.handleResponse(response);
   },

@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { TextInput, Button, Text, useTheme } from "react-native-paper";
+import { TextInput, Button, Text, useTheme, HelperText } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import ApiService from "@services/ApiService";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { colors } = useTheme();
 
-  const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    navigation.navigate("Main");
+  const handleLogin = async () => {
+    setError("");
+    try {
+      const token = await ApiService.login(email, password);
+      ApiService.setToken(token);
+      navigation.navigate("Main");
+    } catch (err) {
+      setError("Invalid email or password.");
+    }
   };
 
   const handleRegister = () => {
@@ -34,6 +40,9 @@ const LoginScreen = () => {
       >
         Your smart way to manage groceries
       </Text>
+      <HelperText type="error" visible={!!error} style={{ textAlign: "center" }}>
+        {error}
+      </HelperText>
       <TextInput
         label="Email"
         value={email}

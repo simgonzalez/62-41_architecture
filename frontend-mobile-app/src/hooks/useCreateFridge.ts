@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Fridge } from "@src/types/Fridge";
-import { addFridge } from "@src/services/FridgeService";
-import { useSnackbar } from "@src/contexts/SnackbarProvider";
+import { useSnackbar } from "@contexts/SnackbarProvider";
 import { FridgeLocation } from "@src/types/FridgeLocation";
+import { FridgeService } from "@services/FridgeService";
 
 const useCreateFridge = (
   onFridgeCreated: () => void,
@@ -23,7 +23,7 @@ const useCreateFridge = (
       location,
     };
 
-    const success = await addFridge(newFridge);
+    const success = await FridgeService.create(newFridge);
     if (success) {
       showSnackbar("The fridge has been successfully created.");
       onFridgeCreated();

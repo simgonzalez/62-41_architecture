@@ -1,7 +1,7 @@
 import axios from "axios";
 import { DehydratedMeal, HydratedMeal } from "@src/types/Meal";
 
-const BACKEND_API_URL = "http://your-backend-url/api";
+const BACKEND_API_URL = "http://localhost:8000/api";
 
 export const getIngredientImageUrl = (ingredientName: string) => {
   return `https://www.themealdb.com/images/ingredients/${ingredientName}.png`;
@@ -30,5 +30,15 @@ export const getMealById = async (
   } catch (error) {
     console.error("Error fetching meal by ID:", error);
     return null;
+  }
+};
+
+export const getRecommendedMeals = async (): Promise<HydratedMeal[]> => {
+  try {
+    const response = await axios.get(`${BACKEND_API_URL}/meals/recommend`);
+    return response.data.meals || [];
+  } catch (error) {
+    console.error("Error fetching recommended meals:", error);
+    return [];
   }
 };

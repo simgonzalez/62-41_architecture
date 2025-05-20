@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import {
   TextInput,
   Text,
@@ -7,12 +7,8 @@ import {
   Modal,
   Portal,
   Button,
-  Dialog,
-  List,
 } from "react-native-paper";
-import useLocations from "@src/hooks/useLocations";
 import useCreateFridge from "@hooks/useCreateFridge";
-import { FridgeLocation } from "@src/types/FridgeLocation";
 
 interface FridgeCreateModalProps {
   visible: boolean;
@@ -26,17 +22,11 @@ const AddFridgeModal: React.FC<FridgeCreateModalProps> = ({
   onFridgeCreated,
 }) => {
   const { colors } = useTheme();
-  const { locations, location, setLocation } = useLocations();
   const { name, setName, handleCreateFridge } = useCreateFridge(
     onFridgeCreated,
     onDismiss
   );
-  const [locationDialogVisible, setLocationDialogVisible] = useState(false);
-
-  const handleSelectLocation = (selectedLocation: FridgeLocation) => {
-    setLocation(selectedLocation);
-    setLocationDialogVisible(false);
-  };
+  const [location, setLocation] = useState("");
 
   return (
     <Portal>
@@ -71,26 +61,18 @@ const AddFridgeModal: React.FC<FridgeCreateModalProps> = ({
           >
             Location
           </Text>
-          <TouchableOpacity onPress={() => setLocationDialogVisible(true)}>
-            <TextInput
-              value={location?.name ?? ""}
-              placeholder="Select location"
-              style={styles.input}
-              editable={false}
-              right={
-                <TextInput.Icon
-                  icon="chevron-down"
-                  onPress={() => setLocationDialogVisible(true)}
-                />
-              }
-              theme={{
-                colors: {
-                  text: colors.onSurface,
-                  placeholder: colors.onSurface,
-                },
-              }}
-            />
-          </TouchableOpacity>
+          <TextInput
+            value={location}
+            onChangeText={setLocation}
+            placeholder="Enter location"
+            style={styles.input}
+            theme={{
+              colors: {
+                text: colors.onSurface,
+                placeholder: colors.onSurface,
+              },
+            }}
+          />
 
           <View style={styles.buttonContainer}>
             <Button
@@ -102,28 +84,6 @@ const AddFridgeModal: React.FC<FridgeCreateModalProps> = ({
           </View>
         </ScrollView>
       </Modal>
-
-      <Dialog
-        visible={locationDialogVisible}
-        onDismiss={() => setLocationDialogVisible(false)}
-        style={{ height: "80%" }}
-      >
-        <Dialog.Title>Select Location</Dialog.Title>
-        <Dialog.Content>
-          {locations.map((loc) => (
-            <List.Item
-              key={loc.id}
-              title={loc.name}
-              onPress={() => handleSelectLocation(loc)}
-            />
-          ))}
-        </Dialog.Content>
-        <Dialog.Actions>
-          <Button onPress={() => setLocationDialogVisible(false)}>
-            Cancel
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
     </Portal>
   );
 };

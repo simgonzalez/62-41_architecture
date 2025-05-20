@@ -83,7 +83,7 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
 
         if (matchingFridgeItem) {
           const newQuantity =
-            matchingFridgeItem.quantity.value - quantity.value;
+            matchingFridgeItem.quantity.name - quantity.name;
 
           if (newQuantity <= 0) {
             await FridgeItemService.delete(matchingFridgeItem.id);
@@ -152,7 +152,7 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
                   <Card.Content>
                     <Text variant="bodyLarge">{item.food.name}</Text>
                     <Text variant="bodyMedium" style={styles.requestedAmount}>
-                      Requested: {item.quantity.value} {item.quantity.unit}
+                      Requested: {item.quantity.name} {item.quantity.code}
                     </Text>
                     <Text variant="bodySmall" style={styles.label}>
                       Your contribution:

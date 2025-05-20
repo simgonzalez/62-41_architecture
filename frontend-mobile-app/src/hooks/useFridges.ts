@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Fridge } from "@src/types/Fridge";
-import { fetchFridges } from "@src/services/FridgeService";
+import { FridgeService } from "@src/services/FridgeService";
 
 const useFridges = () => {
   const [fridges, setFridges] = useState<Fridge[]>([]);
@@ -8,7 +8,7 @@ const useFridges = () => {
 
   const loadFridges = async () => {
     try {
-      const fetchedFridges = await fetchFridges();
+      const fetchedFridges = await FridgeService.getAll();
       setFridges(fetchedFridges);
       setError(null);
     } catch (err) {

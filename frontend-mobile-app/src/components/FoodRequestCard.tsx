@@ -34,7 +34,7 @@ const FoodRequestCard: React.FC<FoodRequestCardProps> = ({
         {request.items.map((item) => (
           <View key={item.id} style={styles.itemRow}>
             <Text>
-              • {item.food.name}: {item.quantity.value} {item.quantity.unit}
+              • {item.food.name}: {item.quantity.name} {item.quantity.code}
             </Text>
             {request.fulfillableItems.includes(item.id) && (
               <Chip icon="check" mode="outlined" style={{ marginLeft: 8 }}>
