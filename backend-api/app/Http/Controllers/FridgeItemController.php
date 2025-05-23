@@ -35,6 +35,41 @@ class FridgeItemController extends Controller
         }
     }
 
+    // Add this method to fetch items for a specific fridge
+    public function indexForFridge($fridge): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+            $fridgeItems = FridgeItem::with(['food', 'unit', 'fridge', 'user'])
+                ->where('fridge_id', $fridge)
+                ->whereHas('fridge', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->get();
+
+            return response()->json($fridgeItems);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching fridge items'], 500);
+        }
+    }
+
+    public function indexForUser(): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+            $fridgeItems = FridgeItem::with(['food', 'unit', 'fridge', 'user'])
+                ->whereHas('fridge', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->orderBy('expiration_date', 'asc')
+                ->get();
+
+            return response()->json($fridgeItems);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching fridge items'], 500);
+        }
+    }
+
     public function show(int $fridgeId, int $itemId): JsonResponse
     {
         try {
@@ -67,12 +102,20 @@ class FridgeItemController extends Controller
             return response()->json(['error' => 'You do not have permission to add items to this fridge'], 403);
         }
 
-        $data = $request->validate([
-            'food_id' => 'required|exists:foods,id',
-            'quantity' => 'required|numeric|min:0',
-            'unit_id' => 'required|exists:units,id',
-            'expiration_date' => 'nullable|date|after:today',
-        ]);
+        try {
+            $data = $request->validate([
+                'food_id' => 'required|exists:foods,id',
+                'quantity' => 'required|numeric|min:0',
+                'unit_id' => 'required|exists:units,id',
+                'expiration_date' => 'nullable|date|after:today',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed',
+                'details' => $e->errors(),
+                'input' => $request->all(),
+            ], 422);
+        }
 
         try {
             $data['fridge_id'] = $fridge;
@@ -81,8 +124,14 @@ class FridgeItemController extends Controller
             $fridgeItem = $this->fridgeItemService->create($data);
 
             return response()->json($fridgeItem, 201);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred while creating the fridge item'], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while creating the fridge item',
+                'details' => $e->getMessage(),
+                'input' => $request->all(),
+                'data' => $data ?? null,
+                'trace' => $e->getTraceAsString(),
+            ], 500);
         }
     }
 

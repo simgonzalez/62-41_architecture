@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { UnitService } from "@services/UnitService";
+import { UnitService, UnitApi } from "@services/UnitService";
 
 const useUnits = () => {
-  const [units, setUnits] = useState<string[]>([]);
+  const [units, setUnits] = useState<UnitApi[]>([]);
 
   useEffect(() => {
     const fetchUnits = async () => {

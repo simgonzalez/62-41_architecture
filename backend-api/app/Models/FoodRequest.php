@@ -41,4 +41,9 @@ class FoodRequest extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function items()
+    {
+        return $this->hasMany(FoodRequestItem::class, 'request_id');
+    }
 }

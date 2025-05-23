@@ -7,14 +7,25 @@ import { View, StyleSheet } from "react-native";
 import { Text, useTheme, FAB } from "react-native-paper";
 import { useSnackbar } from "@src/contexts/SnackbarProvider";
 import AddFridgeModal from "@src/components/AddFridgeModal";
-import useFridges from "@hooks/useFridges";
 
 const FridgesScreen = () => {
-  const { fridges, error, loadFridges } = useFridges();
+  const [fridges, setFridges] = useState<Fridge[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
   const { showSnackbar } = useSnackbar();
   const { colors } = useTheme();
+
+  const loadFridges = async () => {
+    try {
+      const data = await FridgeService.getAll();
+      setFridges(data);
+      setError(null);
+    } catch (e) {
+      setError("Failed to load fridges.");
+      setFridges([]);
+    }
+  };
 
   const handleCreateFridge = () => {
     setModalVisible(true);

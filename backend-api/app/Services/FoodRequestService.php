@@ -50,7 +50,7 @@ class FoodRequestService
             ->whereHas('organization.users', function ($query) use ($userId) {
                 $query->where('users.id', $userId);
             })
-            ->with(['organization', 'responsibleUser', 'createdByUser', 'status']) // Eager load relationships
+            ->with(['organization', 'responsibleUser', 'createdByUser', 'status', 'items.food', 'items.unit']) // Eager load relationships including items
             ->first();
     }
 }

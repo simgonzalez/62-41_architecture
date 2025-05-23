@@ -1,32 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
-import { Divider, Text, useTheme } from "react-native-paper";
+import { Divider, Text } from "react-native-paper";
 import MealRecommendations from "@components/MealRecommendations";
 import FridgeItemsList from "@components/FridgeItemsList";
-import useClosestExpiringItem from "@hooks/useClosestExpiringItem";
-import useAllFridgeItems from "@hooks/useAllFridgeItems";
-import useRefreshOnDirty from "@hooks/useRefreshOnDirty";
+import ApiService from "@services/ApiService";
 
 const HomeScreen = () => {
-  const { colors } = useTheme();
-  const { closestExpiringItem, fetchClosestExpiringItem } =
-    useClosestExpiringItem();
-  const { fridgeItems, fetchFridgeItems } = useAllFridgeItems();
-  useRefreshOnDirty([fetchFridgeItems, fetchClosestExpiringItem]);
+  const [fridgeItems, setFridgeItems] = useState<any[]>([]);
+  const [loadingFridgeItems, setLoadingFridgeItems] = useState(false);
+
+  useEffect(() => {
+    const fetchSortedFridgeItems = async () => {
+      setLoadingFridgeItems(true);
+      try {
+        const items = await ApiService.getUserFridgeItems();
+        setFridgeItems(items);
+      } catch (error) {
+        setFridgeItems([]);
+      } finally {
+        setLoadingFridgeItems(false);
+      }
+    };
+    fetchSortedFridgeItems();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.section}>
         <Text variant="titleLarge">Recommendations</Text>
-        {closestExpiringItem ? (
-          <MealRecommendations
-            ingredientName={closestExpiringItem.food.ingredientOpenMealDbName}
-          />
-        ) : (
-          <Text style={[styles.noRecommendations, { color: colors.error }]}>
-            No recommendations could be made, we are sorry about that.
-          </Text>
-        )}
+        <MealRecommendations />
       </View>
       <Divider style={styles.divider} />
       <View style={styles.section}>
@@ -34,7 +36,11 @@ const HomeScreen = () => {
         <ScrollView>
           <FridgeItemsList
             items={fridgeItems}
-            onItemsUpdate={fetchFridgeItems}
+            loading={loadingFridgeItems}
+            onItemsUpdate={async () => {
+              const items = await ApiService.getUserFridgeItems();
+              setFridgeItems(items);
+            }}
           />
         </ScrollView>
       </View>

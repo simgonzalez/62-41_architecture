@@ -10,16 +10,23 @@ import {
   Divider,
 } from "react-native-paper";
 import { RequestWithFulfillmentStatus } from "@hooks/useFoodRequests";
-import { FridgeItemService } from "@services/FridgeItemService";
+import ApiService from "@services/ApiService";
 import { FridgeItem } from "@src/types/FridgeItem";
 import UnitQuantitySelector from "@components/UnitQuantitySelector";
-import { Quantity } from "@src/types/Quantity";
+import { Unit } from "@src/types/Unit";
 import { useFridgeItemsContext } from "@contexts/FridgeItemsContext";
+import { RequestService } from "@src/services/RequestService";
 
 interface ContributeRequestModalProps {
   visible: boolean;
   request: RequestWithFulfillmentStatus | null;
   onClose: () => void;
+}
+
+// Define a new local type for contributions
+interface Contribution {
+  quantity: number;
+  unit: Unit;
 }
 
 const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
@@ -29,39 +36,57 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
 }) => {
   const theme = useTheme();
   const [availableItems, setAvailableItems] = useState<FridgeItem[]>([]);
-  const [contributions, setContributions] = useState<Map<number, Quantity>>(
+  // Update contributions state type:
+  const [contributions, setContributions] = useState<Map<number, Contribution>>(
     new Map()
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { markAsDirty } = useFridgeItemsContext();
 
   useEffect(() => {
+    const fetchFridgeItems = async () => {
+      try {
+        const items = await ApiService.getUserFridgeItems();
+        setAvailableItems(items);
+      } catch {
+        setAvailableItems([]);
+      }
+    };
+    fetchFridgeItems();
+  }, [request, visible]);
+
+  // Update initialization: preselect contribution using availableItems (if matching)
+  useEffect(() => {
     if (request && visible) {
-      const fridgeItems = FridgeItemService.getAll();
-
-      const matching = fridgeItems.filter((fridgeItem) =>
-        request.items.some(
-          (requestItem) =>
-            fridgeItem.food.ingredientOpenMealDbName.toLowerCase() ===
-            requestItem.food.ingredientOpenMealDbName.toLowerCase()
-        )
-      );
-
-      setAvailableItems(matching);
-
-      const initialContributions = new Map<number, Quantity>();
+      const initialContributions = new Map<number, Contribution>();
       request.items
         .filter((item) => request.fulfillableItems.includes(item.id))
         .forEach((item) => {
-          initialContributions.set(item.id, { ...item.quantity });
+          const matchingItem = availableItems.find(
+            (fridgeItem) =>
+              fridgeItem.food.ingredientOpenMealDbName.toLowerCase() ===
+              item.food.ingredientOpenMealDbName.toLowerCase()
+          );
+          if (matchingItem) {
+            initialContributions.set(item.id, {
+              quantity: matchingItem.quantity,
+              unit: { ...matchingItem.unit },
+            });
+          } else {
+            // fallback: use request item unit with 0 quantity
+            initialContributions.set(item.id, {
+              quantity: 0,
+              unit: { ...item.unit },
+            });
+          }
         });
-
       setContributions(initialContributions);
     }
-  }, [request, visible]);
+  }, [request, visible, availableItems]);
 
-  const handleQuantityChange = (itemId: number, quantity: Quantity) => {
-    setContributions(new Map(contributions.set(itemId, quantity)));
+  // Update quantity change handler to work with Contribution
+  const handleQuantityChange = (itemId: number, newContribution: Contribution) => {
+    setContributions(new Map(contributions.set(itemId, newContribution)));
   };
 
   const handleSubmit = async () => {
@@ -69,38 +94,29 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      const contributedItems = Array.from(contributions.entries());
+      // Prepare contributions for API
+      const contributedItems = Array.from(contributions.entries())
+        .filter(([_, c]) => c.quantity > 0)
+        .map(([itemId, c]) => {
+          const requestItem = request.items.find((item) => item.id === itemId);
+          if (!requestItem) return null;
+          return {
+            food_id: requestItem.food.id,
+            quantity: c.quantity,
+            unit_id: c.unit.id,
+          };
+        })
+        .filter((item): item is { food_id: number; quantity: number; unit_id: number } => item !== null);
 
-      for (const [itemId, quantity] of contributedItems) {
-        const requestItem = request.items.find((item) => item.id === itemId);
-        if (!requestItem) continue;
-
-        const matchingFridgeItem = availableItems.find(
-          (item) =>
-            item.food.ingredientOpenMealDbName.toLowerCase() ===
-            requestItem.food.ingredientOpenMealDbName.toLowerCase()
-        );
-
-        if (matchingFridgeItem) {
-          const newQuantity =
-            matchingFridgeItem.quantity.name - quantity.name;
-
-          if (newQuantity <= 0) {
-            await FridgeItemService.delete(matchingFridgeItem.id);
-          } else {
-            await FridgeItemService.update(matchingFridgeItem.id, {
-              ...matchingFridgeItem,
-              quantity: {
-                ...matchingFridgeItem.quantity,
-                value: newQuantity,
-              },
-            });
-          }
-        }
+      if (contributedItems.length === 0) {
+        Alert.alert("No Contribution", "Please select at least one item to contribute.");
+        setIsSubmitting(false);
+        return;
       }
 
+      // Call backend endpoint
+      await RequestService.contributeToRequest(request.id, contributedItems);
       markAsDirty();
-
       Alert.alert(
         "Contribution Successful",
         "Thank you for your contribution!",
@@ -130,9 +146,9 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
           <Text variant="titleLarge" style={styles.title}>
             Contribute to Request
           </Text>
-          <Text variant="titleMedium">{request.title}</Text>
+          <Text variant="titleMedium">{request.name}</Text>
           <Text variant="bodyMedium" style={styles.organization}>
-            {request.organization}
+            {request.organizationName}
           </Text>
 
           <Divider style={styles.divider} />
@@ -152,14 +168,20 @@ const ContributeRequestModal: React.FC<ContributeRequestModalProps> = ({
                   <Card.Content>
                     <Text variant="bodyLarge">{item.food.name}</Text>
                     <Text variant="bodyMedium" style={styles.requestedAmount}>
-                      Requested: {item.quantity.name} {item.quantity.code}
+                      Requested: {item.quantity} {item.unit.code}
                     </Text>
                     <Text variant="bodySmall" style={styles.label}>
                       Your contribution:
                     </Text>
                     <UnitQuantitySelector
-                      quantity={contribution}
-                      setQuantity={(q) => handleQuantityChange(item.id, q)}
+                      quantity={contribution.quantity}
+                      setQuantity={(q) =>
+                        handleQuantityChange(item.id, { ...contribution, quantity: q })
+                      }
+                      unit={contribution.unit}
+                      setUnit={(unit: Unit) =>
+                        handleQuantityChange(item.id, { ...contribution, unit })
+                      }
                     />
                   </Card.Content>
                 </Card>

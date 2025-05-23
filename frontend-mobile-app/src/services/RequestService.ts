@@ -54,4 +54,19 @@ export const RequestService = {
       return false;
     }
   },
+
+  contributeToRequest: async (
+    requestId: number,
+    contributions: Array<{ food_id: number; quantity: number; unit_id: number }>
+  ): Promise<any> => {
+    try {
+      return await ApiService.post("contribute", {
+        request_id: requestId,
+        contributions,
+      });
+    } catch (error) {
+      console.error("Error contributing to request:", error);
+      throw error;
+    }
+  },
 };

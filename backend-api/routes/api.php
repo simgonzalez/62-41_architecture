@@ -35,8 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/organizations/{id}/users/{user_id}', [OrganizationController::class, 'removeUser']);
         
         Route::apiResource('fridges', FridgeController::class);
+        Route::get('/fridges/{fridge}/items', [\App\Http\Controllers\FridgeItemController::class, 'indexForFridge']);
         Route::prefix('fridges/{fridge}')->group(function () {
-            Route::apiResource('items', FridgeItemController::class);
+            Route::apiResource('items', FridgeItemController::class)->except(['index']);
         });
         Route::apiResource('food-requests', FoodRequestController::class);
         Route::prefix('food-requests/{request}')->group(function () {
@@ -50,5 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/foods', [FoodController::class, 'index']);
 
         Route::get('/units', [UnitController::class, 'index']);
+        Route::get('/fridge-items/user', [FridgeItemController::class, 'indexForUser']);
+        Route::post('/contribute', [\App\Http\Controllers\ContributionController::class, 'contribute']);
     });
 });

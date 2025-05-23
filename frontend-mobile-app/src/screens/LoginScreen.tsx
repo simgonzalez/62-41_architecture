@@ -12,6 +12,10 @@ const LoginScreen = () => {
   const { colors } = useTheme();
 
   const handleLogin = async () => {
+    if (!email.trim() || !password) {
+      setError("Please provide both email and password.");
+      return;
+    }
     setError("");
     try {
       const token = await ApiService.login(email, password);

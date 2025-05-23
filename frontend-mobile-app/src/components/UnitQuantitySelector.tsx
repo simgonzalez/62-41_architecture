@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
+import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import { TextInput, Dialog, Portal, Button, List } from "react-native-paper";
 import useUnits from "@hooks/useUnits";
-import { Quantity } from "@src/types/Quantity";
+import { Unit } from "@src/types/Unit";
+import { UnitApi } from "@services/UnitService";
 
 interface UnitQuantitySelectorProps {
-  quantity: Quantity;
-  setQuantity: (quantity: Quantity) => void;
+  quantity: number;
+  setQuantity: (quantity: number) => void;
+  unit: Unit | null;
+  setUnit: (unit: Unit) => void;
 }
 
 const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   quantity,
   setQuantity,
+  unit,
+  setUnit,
 }) => {
   const { units } = useUnits();
-  const [localQuantity, setLocalQuantity] = useState(quantity.name.toString());
+  const [localQuantity, setLocalQuantity] = useState((quantity ?? 0).toString());
   const [unitDialogVisible, setUnitDialogVisible] = useState(false);
 
   useEffect(() => {
-    setLocalQuantity(quantity.name.toString());
+    setLocalQuantity(quantity.toString());
   }, [quantity]);
 
   const handleQuantityChange = (text: string) => {
@@ -26,11 +31,12 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
   };
 
   const handleQuantityBlur = () => {
-    setQuantity({ ...quantity, name: parseFloat(localQuantity) || 0 });
+    const num = parseFloat(localQuantity);
+    if (!isNaN(num)) setQuantity(num);
   };
 
-  const handleSelectUnit = (selectedUnit: string) => {
-    setQuantity({ ...quantity, code: selectedUnit });
+  const handleSelectUnit = (selectedUnit: UnitApi) => {
+    setUnit({ id: selectedUnit.id, name: selectedUnit.name, code: selectedUnit.code });
     setUnitDialogVisible(false);
   };
 
@@ -50,7 +56,7 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
       >
         <TextInput
           label="Unit"
-          value={quantity.code}
+          value={unit ? unit.code : ""}
           editable={false}
           style={[styles.input, styles.unitInput]}
           right={
@@ -68,15 +74,17 @@ const UnitQuantitySelector: React.FC<UnitQuantitySelectorProps> = ({
         >
           <Dialog.Title>Select Unit</Dialog.Title>
           <Dialog.Content>
-            <List.Section>
-              {units.map((unit) => (
-                <List.Item
-                  key={unit}
-                  title={unit}
-                  onPress={() => handleSelectUnit(unit)}
-                />
-              ))}
-            </List.Section>
+            <ScrollView style={{ maxHeight: 250 }}>
+              <List.Section>
+                {units.map((u) => (
+                  <List.Item
+                    key={u.id}
+                    title={`${u.name} (${u.code})`}
+                    onPress={() => handleSelectUnit(u)}
+                  />
+                ))}
+              </List.Section>
+            </ScrollView>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={() => setUnitDialogVisible(false)}>Cancel</Button>
@@ -98,12 +106,15 @@ const styles = StyleSheet.create({
   quantityInput: {
     flex: 2,
     marginRight: 10,
+    minWidth: 120,
   },
   unitInputContainer: {
     flex: 1,
+    minWidth: 120,
   },
   unitInput: {
     flex: 1,
+    minWidth: 120,
   },
 });
 

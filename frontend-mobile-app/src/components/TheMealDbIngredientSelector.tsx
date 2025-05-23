@@ -1,57 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { TextInput, Button, Dialog, Portal, List } from "react-native-paper";
-import { IngredientOpenMealDb } from "@src/types/IngredientOpenMealDb";
 import { Food } from "@src/types/Food";
-import useIngredients from "@hooks/useIngredients";
-import useIngredientSearch from "@hooks/useIngredientSearch";
+import ApiService from "@services/ApiService";
 
 interface TheMealDbIngredientSelectorProps {
-  onSelectIngredient: (ingredient: IngredientOpenMealDb) => void;
+  onSelectIngredient: (food: Food) => void;
   initialFood?: Food | null;
 }
 
 const TheMealDbIngredientSelector: React.FC<
   TheMealDbIngredientSelectorProps
 > = ({ onSelectIngredient, initialFood = null }) => {
-  const { ingredients, filteredIngredients, setFilteredIngredients } =
-    useIngredients();
-  const { searchQuery, handleSearch } = useIngredientSearch(
-    ingredients,
-    setFilteredIngredients
-  );
-  const [selectedIngredient, setSelectedIngredient] =
-    useState<IngredientOpenMealDb | null>(null);
+  const [foods, setFoods] = useState<Food[]>([]);
+  const [filteredFoods, setFilteredFoods] = useState<Food[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
 
   useEffect(() => {
-    if (initialFood && ingredients.length > 0) {
-      const matchingIngredient = ingredients.find(
-        (ingredient) =>
-          ingredient.strIngredient.toLowerCase() ===
-          initialFood.name?.toLowerCase()
-      );
+    ApiService.get("foods").then((data) => {
+      setFoods(data);
+      setFilteredFoods(data);
+    });
+  }, []);
 
-      if (matchingIngredient) {
-        setSelectedIngredient(matchingIngredient);
-        handleSearch(matchingIngredient.strIngredient);
+  useEffect(() => {
+    if (initialFood && foods.length > 0) {
+      const matchingFood = foods.find(
+        (food) => food.name.toLowerCase() === initialFood.name?.toLowerCase()
+      );
+      if (matchingFood) {
+        setSearchQuery(matchingFood.name);
+        setFilteredFoods([matchingFood]);
       } else {
-        handleSearch(initialFood.name);
+        setSearchQuery(initialFood.name);
       }
     }
-  }, [initialFood, ingredients]);
+  }, [initialFood, foods]);
 
-  const handleSelectIngredient = (ingredient: IngredientOpenMealDb) => {
-    onSelectIngredient(ingredient);
-    setSelectedIngredient(ingredient);
-    handleSearch(ingredient.strIngredient);
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    setFilteredFoods(
+      foods.filter((food) =>
+        food.name.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  };
+
+  const handleSelectFood = (food: Food) => {
+    onSelectIngredient(food);
+    setSearchQuery(food.name);
     setDialogVisible(false);
   };
 
   return (
     <View style={styles.container}>
       <TextInput
-        label="Select an ingredient"
+        label="Select a food"
         value={searchQuery}
         onChangeText={handleSearch}
         right={
@@ -66,15 +71,15 @@ const TheMealDbIngredientSelector: React.FC<
           visible={dialogVisible}
           onDismiss={() => setDialogVisible(false)}
         >
-          <Dialog.Title>Select Ingredient</Dialog.Title>
+          <Dialog.Title>Select Food</Dialog.Title>
           <Dialog.Content style={styles.dialogContent}>
             <ScrollView>
               <List.Section>
-                {filteredIngredients.map((ingredient) => (
+                {filteredFoods.map((food) => (
                   <List.Item
-                    key={ingredient.idIngredient}
-                    title={ingredient.strIngredient}
-                    onPress={() => handleSelectIngredient(ingredient)}
+                    key={food.id}
+                    title={food.name}
+                    onPress={() => handleSelectFood(food)}
                   />
                 ))}
               </List.Section>

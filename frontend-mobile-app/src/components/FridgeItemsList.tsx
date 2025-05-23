@@ -37,7 +37,7 @@ const FridgeItemsList: React.FC<FridgeItemsListProps> = ({
             <View>
               <Text>{item.fridge.name}</Text>
               <Text>
-                {item.quantity.name} {item.quantity.code}
+                {item.quantity} {item.unit.code}
               </Text>
               <Text style={getPerishableDateStyle(item.expirationDate)}>
                 Expires{" "}

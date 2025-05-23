@@ -1,7 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 import { snakeCase } from 'snake-case';
 
-let baseUrl = 'http://localhost:8000/api/';
+let baseUrl = 'http://192.168.178.22:8000/api/';
 
 let authToken: string | null = null;
 
@@ -22,7 +22,6 @@ const ApiService = {
       throw new Error('Invalid credentials');
     }
     const json = await response.json();
-    // Adjust this if your API returns the token in a different property
     return json.token || json.access_token;
   },
 
@@ -93,10 +92,23 @@ const ApiService = {
   },
 
   async handleResponse(response: Response): Promise<any> {
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    let json: any = null;
+    let text: string | null = null;
+    try {
+      text = await response.text();
+      json = text ? JSON.parse(text) : null;
+    } catch (e) {
+      // If response is not JSON, keep json as null
     }
-    const json = await response.json();
+    if (!response.ok) {
+      const error: any = new Error(`HTTP error! status: ${response.status}`);
+      if (json && typeof json === 'object') {
+        error.details = json;
+      } else if (text) {
+        error.details = { raw: text };
+      }
+      throw error;
+    }
     return camelcaseKeys(json, { deep: true });
   },
 
@@ -110,6 +122,11 @@ const ApiService = {
       }, {});
     }
     return data;
+  },
+
+  async getUserFridgeItems(): Promise<any> {
+    const response = await this.get(`fridge-items/user`);
+    return response;
   },
 };
 

@@ -14,17 +14,28 @@ const FoodRequestCard: React.FC<FoodRequestCardProps> = ({
   request,
   onContributePress,
 }) => {
-  const deadlineDate = parseISO(request.deadlineDateISO);
-  const timeRemaining = formatDistanceToNow(deadlineDate, {
-    addSuffix: true,
-  });
+  let timeRemaining = "No deadline";
+  if (request.deadlineDate) {
+    try {
+      // Remove microseconds and ensure 'Z' at the end for UTC
+      const isoString = request.deadlineDate.replace(/\.(\d{3,6})Z?$/, "Z");
+      const deadlineDate = new Date(isoString);
+      if (!isNaN(deadlineDate.getTime())) {
+        timeRemaining = formatDistanceToNow(deadlineDate, { addSuffix: true });
+      } else {
+        timeRemaining = "Invalid deadline";
+      }
+    } catch {
+      timeRemaining = "Invalid deadline";
+    }
+  }
 
   return (
     <Card
       style={[styles.card, { opacity: request.canFulfill ? 1 : 0.6 }]}
       mode="elevated"
     >
-      <Card.Title title={request.title} subtitle={request.organization} />
+      <Card.Title title={request.name} subtitle={request.organization_name} />
       <Card.Content>
         <Text variant="bodyMedium">{request.description}</Text>
         <Text variant="labelLarge" style={styles.sectionTitle}>
@@ -34,7 +45,7 @@ const FoodRequestCard: React.FC<FoodRequestCardProps> = ({
         {request.items.map((item) => (
           <View key={item.id} style={styles.itemRow}>
             <Text>
-              • {item.food.name}: {item.quantity.name} {item.quantity.code}
+              • {item.food.name}: {item.quantity} {item.unit.name}
             </Text>
             {request.fulfillableItems.includes(item.id) && (
               <Chip icon="check" mode="outlined" style={{ marginLeft: 8 }}>

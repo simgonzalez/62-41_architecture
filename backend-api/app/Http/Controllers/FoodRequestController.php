@@ -39,9 +39,7 @@ class FoodRequestController extends Controller
 
             if ($request->has('description')) {
                 $query->where('description', 'like', '%' . $request->input('description') . '%');
-            }
-
-            $foodRequests = $query->with(['organization', 'responsibleUser', 'createdByUser', 'status'])->get();
+            }            $foodRequests = $query->with(['organization', 'responsibleUser', 'createdByUser', 'status', 'items.food', 'items.unit'])->get();
 
             if ($foodRequests->isEmpty()) {
                 return response()->json(['error' => 'No food requests found'], 404);
@@ -60,6 +58,23 @@ class FoodRequestController extends Controller
                     'created_by_user_id' => $foodRequest->created_by_user_id,
                     'created_by_user_name' => $foodRequest->createdByUser->name ?? null,
                     'status' => $foodRequest->status->name ?? null,
+                    'items' => $foodRequest->items->map(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'food_id' => $item->food_id,
+                            'quantity' => $item->quantity,
+                            'unit_id' => $item->unit_id,
+                            'food' => [
+                                'id' => $item->food->id,
+                                'name' => $item->food->name,
+                                'ingredient_open_meal_db_name' => $item->food->ingredient_open_meal_db_name ?? null,
+                            ],
+                            'unit' => [
+                                'id' => $item->unit->id,
+                                'name' => $item->unit->name,
+                            ],
+                        ];
+                    }),
                 ];
             });
 
@@ -67,9 +82,7 @@ class FoodRequestController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred while fetching food requests', 'details' => $e->getMessage()], 500);
         }
-    }
-
-    public function show(int $id): JsonResponse
+    }    public function show(int $id): JsonResponse
     {
         try {
             $user = auth()->user();
@@ -79,7 +92,7 @@ class FoodRequestController extends Controller
                 return response()->json(['error' => 'Food request not found or access denied'], 404);
             }
 
-            // Transform the response to include additional names
+            // Transform the response to include additional names and items
             $response = [
                 'id' => $foodRequest->id,
                 'name' => $foodRequest->name,
@@ -92,6 +105,23 @@ class FoodRequestController extends Controller
                 'created_by_user_id' => $foodRequest->created_by_user_id,
                 'created_by_user_name' => $foodRequest->createdByUser->name, // Include created by user name
                 'status' => $foodRequest->status->name, // Include status name
+                'items' => $foodRequest->items->map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'food_id' => $item->food_id,
+                        'quantity' => $item->quantity,
+                        'unit_id' => $item->unit_id,
+                        'food' => [
+                            'id' => $item->food->id,
+                            'name' => $item->food->name,
+                            'ingredient_open_meal_db_name' => $item->food->ingredient_open_meal_db_name ?? null,
+                        ],
+                        'unit' => [
+                            'id' => $item->unit->id,
+                            'name' => $item->unit->name,
+                        ],
+                    ];
+                }),
             ];
 
             return response()->json($response);

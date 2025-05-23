@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Fridge } from "@src/types/Fridge";
 import { useSnackbar } from "@contexts/SnackbarProvider";
-import { FridgeLocation } from "@src/types/FridgeLocation";
 import { FridgeService } from "@services/FridgeService";
 
 const useCreateFridge = (
@@ -11,25 +9,24 @@ const useCreateFridge = (
   const [name, setName] = useState("");
   const { showSnackbar } = useSnackbar();
 
-  const handleCreateFridge = async (location: FridgeLocation | null) => {
-    if (!location) {
-      showSnackbar("Please select a location.");
+  const handleCreateFridge = async (locationName: string) => {
+    if (!locationName || locationName.trim() === "") {
+      showSnackbar("Please enter a location.");
       return;
     }
 
-    const newFridge: Fridge = {
-      id: Math.random(),
+    const fridgePayload = {
       name,
-      location,
-    };
+      location: { name: locationName },
+    } as any;
 
-    const success = await FridgeService.create(newFridge);
-    if (success) {
+    try {
+      await FridgeService.create(fridgePayload);
       showSnackbar("The fridge has been successfully created.");
       onFridgeCreated();
       onDismiss();
-    } else {
-      showSnackbar("Error creating fridge");
+    } catch (e: any) {
+      showSnackbar("Error creating fridge: " + (e?.message ?? ""));
     }
   };
 

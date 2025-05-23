@@ -31,13 +31,14 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
     const [fridge, setFridge] = useState<Fridge | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const { newItemFood, setNewItemFood, handleSelectIngredient } =
-      useIngredientSelection(fridgeItem?.food);
+    const { newItemFood, setNewItemFood } = useIngredientSelection(fridgeItem?.food);
     const { markAsDirty } = useFridgeItemsContext();
 
     const {
       newItemQuantity,
       setNewItemQuantity,
+      newItemUnit,
+      setNewItemUnit,
       newItemExpirationDate,
       setNewItemExpirationDate,
       handleSaveItem,
@@ -46,18 +47,27 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
     useEffect(() => {
       const loadFridge = async () => {
         if (fridgeItem) {
+          // Editing existing item
           const fridgeData = await FridgeService.getById(fridgeItem.fridge.id);
           setFridge(fridgeData);
           setNewItemFood(fridgeItem.food);
           setNewItemQuantity(fridgeItem.quantity);
+          setNewItemUnit(fridgeItem.unit);
           setNewItemExpirationDate(new Date(fridgeItem.expirationDate));
+        } else {
+          // Creating new item: set type-safe defaults
+          setFridge(null);
+          setNewItemFood(null); // Food | null
+          setNewItemQuantity(0);
+          setNewItemUnit(null); // Unit | null
+          setNewItemExpirationDate(new Date());
         }
       };
       loadFridge();
-    }, [fridgeItem]);
+    }, [fridgeItem, visible]);
 
     const onSave = async () => {
-      if (!newItemFood) return;
+      if (!newItemFood || !newItemUnit) return;
 
       setIsSubmitting(true);
       try {
@@ -67,18 +77,69 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
             fridge: fridgeItem.fridge,
             food: newItemFood,
             quantity: newItemQuantity,
-            expirationDate: newItemExpirationDate.toISOString(),
+            unit: newItemUnit,
+            expirationDate: newItemExpirationDate.toISOString().slice(0, 10),
           };
 
-          FridgeItemService.update(updatedItem.id, updatedItem);
+          // Debug log for update payload
+          console.log("FridgeItemService.update payload:", {
+            fridgeId: updatedItem.fridge.id,
+            itemId: updatedItem.id,
+            payload: {
+              food_id: updatedItem.food.id, // <-- ensure this is a valid id
+              quantity: updatedItem.quantity,
+              unit_id: updatedItem.unit.id, // <-- use id, not name
+              expiration_date: updatedItem.expirationDate, // already YYYY-MM-DD
+            },
+          });
+
+          if (!updatedItem.food.id) {
+            Alert.alert("Error", "Selected food is missing an id. Please select a valid food from the list.");
+            setIsSubmitting(false);
+            return;
+          }
+          if (!updatedItem.unit.id) {
+            Alert.alert("Error", "Selected unit is missing an id. Please select a valid unit.");
+            setIsSubmitting(false);
+            return;
+          }
+
+          await FridgeItemService.update(
+            updatedItem.fridge.id,
+            updatedItem.id,
+            {
+              food_id: updatedItem.food.id,
+              quantity: updatedItem.quantity,
+              unit_id: updatedItem.unit.id, // <-- use id
+              expiration_date: updatedItem.expirationDate,
+            }
+          );
         } else {
-          await handleSaveItem(newItemFood);
+          // Debug log for create payload
+          console.log("handleSaveItem payload:", {
+            food: newItemFood,
+            quantity: newItemQuantity,
+            unit: newItemUnit,
+            expirationDate: newItemExpirationDate.toISOString().slice(0, 10),
+          });
+          await handleSaveItem(
+            newItemFood,
+            newItemQuantity,
+            newItemUnit,
+            // Pass only the date part as a string
+            newItemExpirationDate.toISOString().slice(0, 10)
+          );
         }
 
         markAsDirty();
         onModalClose();
       } catch (error) {
-        console.error("Error saving item:", error);
+        if (error && typeof error === "object" && "details" in error) {
+          console.error("Error saving item:", error, (error as any)["details"]);
+        } else {
+          console.error("Error saving item:", error);
+        }
+        Alert.alert("Error", "Could not save item. Please try again.");
       } finally {
         setIsSubmitting(false);
       }
@@ -97,15 +158,17 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
           },
           {
             text: "Delete",
-            onPress: async () => {
-              try {
-                await FridgeItemService.delete(fridgeItem.id);
-                markAsDirty();
-                onModalClose();
-              } catch (error) {
-                console.error("Error deleting item:", error);
-                Alert.alert("Error", "Could not delete item");
-              }
+            onPress: () => {
+              (async () => {
+                try {
+                  await FridgeItemService.delete(fridgeItem.fridge.id, fridgeItem.id);
+                  markAsDirty();
+                  onModalClose();
+                } catch (error) {
+                  console.error("Error deleting item:", error);
+                  Alert.alert("Error", "Could not delete item");
+                }
+              })();
             },
             style: "destructive",
           },
@@ -135,11 +198,15 @@ const AddEditFridgeItemModal: React.FC<AddEditFridgeItemModalProps> =
             />
             <TheMealDbIngredientSelector
               initialFood={newItemFood}
-              onSelectIngredient={handleSelectIngredient}
+              onSelectIngredient={(food) => {
+                setNewItemFood(food);
+              }}
             />
             <UnitQuantitySelector
               quantity={newItemQuantity}
               setQuantity={setNewItemQuantity}
+              unit={newItemUnit}
+              setUnit={setNewItemUnit}
             />
             <DatePickerInput
               locale="fr-FR"
